@@ -1,7 +1,7 @@
 import React from 'react';
 import AssetCard from '../components/Cards/AssetCard';
 
-const Dashboard = ({ onNavigate, onAssetClick }) => {
+const Dashboard = ({ onNavigate, onAssetClick, onProfileClick }) => {
     return (
         <div style={{ padding: '0 20px', maxWidth: '100%', overflowX: 'hidden' }}>
             {/* Top Bar: Identity - Integrated nicely below HUD */}
@@ -12,7 +12,7 @@ const Dashboard = ({ onNavigate, onAssetClick }) => {
                 alignItems: 'center',
                 justifyContent: 'space-between'
             }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }} onClick={onProfileClick}>
                     {/* Avatar Placeholder */}
                     <div style={{
                         width: '48px',

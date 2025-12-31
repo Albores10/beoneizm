@@ -7,15 +7,18 @@ import Governance from './pages/Governance'
 import Logistics from './pages/Logistics'
 import Operation from './pages/Operation'
 import Transparency from './pages/Transparency'
+import Wallet from './pages/Wallet'
 import ModeSelector from './components/UI/ModeSelector'
 import CityOSFrame from './components/Layout/CityOSFrame'
 import AssetDetail from './pages/AssetDetail'
+import ProfileModal from './components/UI/ProfileModal'
 
 // Simple Router/State for Prototype
 function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [mode, setMode] = useState('anime');
   const [selectedAsset, setSelectedAsset] = useState(null);
+  const [showProfile, setShowProfile] = useState(false);
 
   useEffect(() => {
     document.body.className = mode === 'classic' ? 'mode-classic' : '';
@@ -31,9 +34,10 @@ function App() {
         return <Dashboard
           onNavigate={setActiveTab}
           onAssetClick={(asset) => setSelectedAsset(asset)}
+          onProfileClick={() => setShowProfile(true)}
         />;
       case 'map': return <Map />;
-      case 'wallet': return <Housing />;
+      case 'wallet': return <Wallet />;
       case 'governance': return <Governance />;
       case 'market': return <Operation />;
       case 'logistics': return <Logistics />;
@@ -72,12 +76,16 @@ function App() {
           </div>
         </CityOSFrame>
 
-        {/* Global Overlay for Details */}
+        {/* Global Overlays */}
         {selectedAsset && (
           <AssetDetail
             assetId={selectedAsset.id}
             onClose={() => setSelectedAsset(null)}
           />
+        )}
+
+        {showProfile && (
+          <ProfileModal onClose={() => setShowProfile(false)} />
         )}
 
       </div>

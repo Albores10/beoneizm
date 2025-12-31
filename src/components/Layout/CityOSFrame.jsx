@@ -80,7 +80,9 @@ const CityOSFrame = ({ children, mode }) => {
             )}
 
             {/* Main Content Area Passthrough */}
-            <div style={{ flex: 1, pointerEvents: 'none' }}></div>
+            <div style={{ flex: 1, position: 'relative', pointerEvents: 'auto' }}>
+                {children}
+            </div>
         </div>
     );
 };

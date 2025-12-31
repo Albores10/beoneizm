@@ -102,7 +102,49 @@ body.mode-classic .glow-text {
     text-shadow: none;
 }
 
-body.mode-classic button {
-    box-shadow: none !important;
-    transform: none !important;
+transform: none !important;
+}
+
+/* Emergency Mode (Red Alert) */
+body.mode-emergency {
+    background: #1a0505;
+    /* Dark Red/Black */
+    --color-primary: #ef4444;
+    /* Red */
+    --color-secondary: #f87171;
+    --color-glass-border: 1px solid rgba(239, 68, 68, 0.4);
+    --color-glass-bg: rgba(20, 0, 0, 0.8);
+    --color-text-light: #fee2e2;
+}
+
+body.mode-emergency .glass-panel {
+    border: 1px solid rgba(255, 0, 0, 0.5);
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
+    animation: pulse-red 2s infinite;
+}
+
+@keyframes pulse-red {
+    0% {
+        box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4);
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px rgba(220, 38, 38, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(220, 38, 38, 0);
+    }
+}
+
+body.mode-emergency button {
+    background: rgba(220, 38, 38, 0.2) !important;
+    border-color: #ef4444 !important;
+    color: white !important;
+}
+
+body.mode-emergency .ticker-alert {
+    background: #ef4444;
+    color: white;
+    font-weight: bold;
 }

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { useEmergency } from '../../context/EmergencyContext'; // Import Context
 
 const CityOSFrame = ({ children, mode }) => {
+    const { isEmergency, toggleEmergency } = useEmergency(); // Use Context
     const [time, setTime] = useState(new Date());
 
     useEffect(() => {
@@ -13,8 +15,9 @@ const CityOSFrame = ({ children, mode }) => {
     };
 
     const isClassic = mode === 'classic';
-    const borderColor = isClassic ? '#1a1a1a' : '#00F0FF';
-    const textColor = isClassic ? '#1a1a1a' : '#00F0FF';
+    // Dynamic Colors based on Emergency
+    const borderColor = isEmergency ? '#ef4444' : (isClassic ? '#1a1a1a' : '#00F0FF');
+    const textColor = isEmergency ? '#fee2e2' : (isClassic ? '#1a1a1a' : '#00F0FF');
 
     return (
         <div style={{
@@ -23,7 +26,7 @@ const CityOSFrame = ({ children, mode }) => {
             left: 0,
             width: '100%',
             height: '100%',
-            pointerEvents: 'none', // Allow clicks to pass through frame content
+            pointerEvents: 'none',
             zIndex: 999,
             display: 'flex',
             flexDirection: 'column'
@@ -34,17 +37,25 @@ const CityOSFrame = ({ children, mode }) => {
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
-                background: isClassic ? 'rgba(255,255,255,0.8)' : 'linear-gradient(180deg, rgba(0,0,0,0.8) 0%, transparent 100%)',
-                borderBottom: isClassic ? '1px solid #ddd' : 'none',
-                pointerEvents: 'auto'
+                background: isEmergency ? 'rgba(20, 0, 0, 0.9)' : (isClassic ? 'rgba(255,255,255,0.8)' : 'linear-gradient(180deg, rgba(0,0,0,0.8) 0%, transparent 100%)'),
+                borderBottom: isEmergency ? '2px solid #ef4444' : (isClassic ? '1px solid #ddd' : 'none'),
+                pointerEvents: 'auto',
+                transition: 'all 0.3s ease'
             }}>
                 {/* Left: System Status */}
                 <div style={{ display: 'flex', gap: '16px', fontSize: '12px', fontWeight: 'bold', color: textColor, opacity: 0.8 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                        <span style={{ width: '8px', height: '8px', background: '#00ff00', borderRadius: '50%', boxShadow: '0 0 5px #00ff00' }}></span>
-                        ONLINE
+                        <span style={{
+                            width: '8px',
+                            height: '8px',
+                            background: isEmergency ? '#ef4444' : '#00ff00',
+                            borderRadius: '50%',
+                            boxShadow: isEmergency ? '0 0 10px red' : '0 0 5px #00ff00',
+                            animation: isEmergency ? 'pulse 0.5s infinite' : 'none'
+                        }}></span>
+                        {isEmergency ? 'RED ALERT' : 'ONLINE'}
                     </div>
-                    <div>NET: 5G++</div>
+                    <div>{isEmergency ? 'ERR: CRITICAL' : 'NET: 5G++'}</div>
                 </div>
 
                 {/* Center: System Title */}
@@ -52,23 +63,41 @@ const CityOSFrame = ({ children, mode }) => {
                     fontSize: '14px',
                     letterSpacing: '2px',
                     fontWeight: 'bold',
-                    color: isClassic ? '#333' : 'white',
-                    textShadow: isClassic ? 'none' : '0 0 10px rgba(255,255,255,0.5)'
+                    color: isEmergency ? '#ef4444' : (isClassic ? '#333' : 'white'),
+                    textShadow: isEmergency ? '0 0 10px red' : (isClassic ? 'none' : '0 0 10px rgba(255,255,255,0.5)')
                 }}>
                     BEONE CITY OS <span style={{ fontSize: '10px', opacity: 0.7 }}>v2.0</span>
                 </div>
 
-                {/* Right: Environment */}
-                <div style={{ display: 'flex', gap: '16px', fontSize: '12px', fontWeight: 'bold', color: textColor, opacity: 0.8 }}>
-                    <div>☀️ 24°C</div>
-                    <div>{formatTime(time)}</div>
+                {/* Right: Environment & SOS */}
+                <div style={{ display: 'flex', items: 'center', gap: '16px' }}>
+                    <button
+                        onClick={toggleEmergency}
+                        style={{
+                            background: isEmergency ? 'white' : 'rgba(239, 68, 68, 0.2)',
+                            color: isEmergency ? '#ef4444' : '#ef4444',
+                            border: '1px solid #ef4444',
+                            padding: '4px 8px',
+                            borderRadius: '4px',
+                            fontWeight: 'bold',
+                            fontSize: '10px',
+                            cursor: 'pointer',
+                            animation: isEmergency ? 'pulse 1s infinite' : 'none'
+                        }}
+                    >
+                        {isEmergency ? 'DE-ESCALATE' : 'SOS'}
+                    </button>
+                    <div style={{ display: 'flex', gap: '16px', fontSize: '12px', fontWeight: 'bold', color: textColor, opacity: 0.8, alignItems: 'center' }}>
+                        <div>{isEmergency ? '🔥 45°C' : '☀️ 24°C'}</div>
+                        <div>{formatTime(time)}</div>
+                    </div>
                 </div>
             </div>
 
-            {/* System Notification Ticker (New) */}
+            {/* System Notification Ticker */}
             <div style={{
-                background: isClassic ? '#f0f0f0' : 'rgba(0, 240, 255, 0.1)',
-                borderBottom: isClassic ? '1px solid #ddd' : '1px solid rgba(0, 240, 255, 0.2)',
+                background: isEmergency ? '#7f1d1d' : (isClassic ? '#f0f0f0' : 'rgba(0, 240, 255, 0.1)'),
+                borderBottom: isEmergency ? '1px solid #ef4444' : (isClassic ? '1px solid #ddd' : '1px solid rgba(0, 240, 255, 0.2)'),
                 height: '24px',
                 display: 'flex',
                 alignItems: 'center',
@@ -80,29 +109,22 @@ const CityOSFrame = ({ children, mode }) => {
                     whiteSpace: 'nowrap',
                     animation: 'ticker 20s linear infinite',
                     fontSize: '10px',
-                    color: isClassic ? '#555' : '#00F0FF',
+                    fontWeight: isEmergency ? 'bold' : 'normal',
+                    color: isEmergency ? 'white' : (isClassic ? '#555' : '#00F0FF'),
                     paddingLeft: '100%'
                 }}>
-                    ⚡ SİSTEM: GÜNEŞ ENERJİSİ ÜRETİMİ %12 ARTTI • 💧 SU TASARRUFU HEDEFİNE ULAŞILDI • 📢 BEONE MECLİS YENİ OYLAMA: "PARK PROJESİ" • 🚀 E-VTOL AĞI OPTİMİZE EDİLDİ
+                    {isEmergency
+                        ? "🚨 ACİL DURUM: İZMİR GENELİNDE DEPREM RİSKİ ALGILANDI • LÜTFEN GÜVENLİ BÖLGELERE GİDİNİZ • SAHİL ŞERİDİNDEN UZAKLAŞIN • ACİL EKİPLER YOLDA"
+                        : "⚡ SİSTEM: GÜNEŞ ENERJİSİ ÜRETİMİ %12 ARTTI • 💧 SU TASARRUFU HEDEFİNE ULAŞILDI • 📢 BEONE MECLİS YENİ OYLAMA: 'PARK PROJESİ'"}
                 </div>
-                <style>{`
-                    @keyframes ticker {
-                        0% { transform: translateX(0); }
-                        100% { transform: translateX(-100%); }
-                    }
-                `}</style>
             </div>
 
             {/* Decorative Corners (Tech Frame) */}
             {!isClassic && (
                 <>
-                    {/* Top Left Corner */}
                     <div style={{ position: 'absolute', top: '50px', left: '20px', width: '20px', height: '20px', borderTop: `2px solid ${borderColor}`, borderLeft: `2px solid ${borderColor}` }}></div>
-                    {/* Top Right Corner */}
                     <div style={{ position: 'absolute', top: '50px', right: '20px', width: '20px', height: '20px', borderTop: `2px solid ${borderColor}`, borderRight: `2px solid ${borderColor}` }}></div>
-                    {/* Bottom Left Corner (above nav) */}
                     <div style={{ position: 'absolute', bottom: '100px', left: '20px', width: '20px', height: '20px', borderBottom: `2px solid ${borderColor}`, borderLeft: `2px solid ${borderColor}` }}></div>
-                    {/* Bottom Right Corner (above nav) */}
                     <div style={{ position: 'absolute', bottom: '100px', right: '20px', width: '20px', height: '20px', borderBottom: `2px solid ${borderColor}`, borderRight: `2px solid ${borderColor}` }}></div>
                 </>
             )}
@@ -111,6 +133,20 @@ const CityOSFrame = ({ children, mode }) => {
             <div style={{ flex: 1, position: 'relative', pointerEvents: 'auto' }}>
                 {children}
             </div>
+
+            {/* Global Emergency Overlay (Red tint) */}
+            {isEmergency && (
+                <div style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    background: 'radial-gradient(circle, transparent 50%, rgba(255,0,0,0.3) 100%)',
+                    pointerEvents: 'none',
+                    zIndex: 0
+                }}></div>
+            )}
         </div>
     );
 };

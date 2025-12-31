@@ -9,26 +9,36 @@ import Operation from './pages/Operation'
 import Transparency from './pages/Transparency'
 import ModeSelector from './components/UI/ModeSelector'
 import CityOSFrame from './components/Layout/CityOSFrame'
+import AssetDetail from './pages/AssetDetail'
 
 // Simple Router/State for Prototype
 function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [mode, setMode] = useState('anime');
+  const [selectedAsset, setSelectedAsset] = useState(null);
 
   useEffect(() => {
     document.body.className = mode === 'classic' ? 'mode-classic' : '';
   }, [mode]);
 
+  const toggleMode = (newMode) => {
+    setMode(newMode);
+  };
+
   const renderContent = () => {
     switch (activeTab) {
-      case 'dashboard': return <Dashboard onNavigate={setActiveTab} />;
+      case 'dashboard':
+        return <Dashboard
+          onNavigate={setActiveTab}
+          onAssetClick={(asset) => setSelectedAsset(asset)}
+        />;
       case 'map': return <Map />;
       case 'wallet': return <Housing />;
       case 'governance': return <Governance />;
       case 'market': return <Operation />;
       case 'logistics': return <Logistics />;
       case 'transparency': return <Transparency />;
-      default: return <Dashboard />;
+      default: return <Dashboard onNavigate={setActiveTab} />;
     }
   }
 
@@ -36,7 +46,7 @@ function App() {
     <>
       <div style={{ flex: 1, position: 'relative', height: '100vh', overflow: 'hidden' }}>
         <CityOSFrame mode={mode}>
-          <ModeSelector mode={mode} setMode={setMode} />
+          <ModeSelector currentMode={mode} onToggle={toggleMode} />
 
           {/* Background City Image or Effect - Conditional */}
           {mode === 'anime' && (
@@ -61,6 +71,15 @@ function App() {
             {renderContent()}
           </div>
         </CityOSFrame>
+
+        {/* Global Overlay for Details */}
+        {selectedAsset && (
+          <AssetDetail
+            assetId={selectedAsset.id}
+            onClose={() => setSelectedAsset(null)}
+          />
+        )}
+
       </div>
       <BottomNav activeTab={activeTab} onTabChange={setActiveTab} />
     </>

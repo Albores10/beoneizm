@@ -65,6 +65,34 @@ const CityOSFrame = ({ children, mode }) => {
                 </div>
             </div>
 
+            {/* System Notification Ticker (New) */}
+            <div style={{
+                background: isClassic ? '#f0f0f0' : 'rgba(0, 240, 255, 0.1)',
+                borderBottom: isClassic ? '1px solid #ddd' : '1px solid rgba(0, 240, 255, 0.2)',
+                height: '24px',
+                display: 'flex',
+                alignItems: 'center',
+                overflow: 'hidden',
+                position: 'relative',
+                pointerEvents: 'none'
+            }}>
+                <div style={{
+                    whiteSpace: 'nowrap',
+                    animation: 'ticker 20s linear infinite',
+                    fontSize: '10px',
+                    color: isClassic ? '#555' : '#00F0FF',
+                    paddingLeft: '100%'
+                }}>
+                    ⚡ SİSTEM: GÜNEŞ ENERJİSİ ÜRETİMİ %12 ARTTI • 💧 SU TASARRUFU HEDEFİNE ULAŞILDI • 📢 BEONE MECLİS YENİ OYLAMA: "PARK PROJESİ" • 🚀 E-VTOL AĞI OPTİMİZE EDİLDİ
+                </div>
+                <style>{`
+                    @keyframes ticker {
+                        0% { transform: translateX(0); }
+                        100% { transform: translateX(-100%); }
+                    }
+                `}</style>
+            </div>
+
             {/* Decorative Corners (Tech Frame) */}
             {!isClassic && (
                 <>

@@ -1,7 +1,7 @@
 import React from 'react';
 import AssetCard from '../components/Cards/AssetCard';
 
-const Dashboard = ({ onNavigate }) => {
+const Dashboard = ({ onNavigate, onAssetClick }) => {
     return (
         <div style={{ padding: '0 20px', maxWidth: '100%', overflowX: 'hidden' }}>
             {/* Top Bar: Identity - Integrated nicely below HUD */}
@@ -80,7 +80,7 @@ const Dashboard = ({ onNavigate }) => {
                         value="127 Tuğla"
                         subtext="Evin %0.2'sine sahipsin"
                         icon={<span style={{ fontSize: '24px' }}>🏠</span>}
-                        onClick={() => { }}
+                        onClick={() => onAssetClick && onAssetClick({ id: 1, title: 'Kira Kumbarası' })}
                     />
                     <AssetCard
                         title="Güneş Paneli"

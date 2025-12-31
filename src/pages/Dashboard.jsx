@@ -1,137 +1,90 @@
 import React from 'react';
-import AssetCard from '../components/Cards/AssetCard';
 
 const Dashboard = ({ onNavigate, onAssetClick, onProfileClick }) => {
     return (
-        <div style={{ padding: '0 20px', maxWidth: '100%', overflowX: 'hidden' }}>
-            {/* Top Bar: Identity - Integrated nicely below HUD */}
-            <div className="glass-panel" style={{
-                padding: '16px',
-                marginBottom: '24px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between'
-            }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }} onClick={onProfileClick}>
-                    {/* Avatar Placeholder */}
-                    <div style={{
-                        width: '48px',
-                        height: '48px',
-                        borderRadius: '50%',
-                        background: 'linear-gradient(135deg, #FF9966, #FF5E62)',
-                        border: '2px solid white',
-                        boxShadow: '0 0 10px rgba(0,0,0,0.3)'
-                    }}></div>
+        <div style={{ padding: '20px', paddingBottom: '100px' }}>
+
+            {/* Header */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+                <div>
+                    <div style={{ fontSize: '14px', color: 'rgba(255,255,255,0.7)' }}>SİSTEM ÇEVRİMİÇİ</div>
+                    <h1 style={{ margin: 0, fontSize: '24px' }}>Hoşgeldin, <span onClick={onProfileClick} style={{ color: '#00F0FF', cursor: 'pointer', textDecoration: 'underline' }}>Şafak</span></h1>
+                </div>
+                <div onClick={onProfileClick} style={{
+                    width: '48px', height: '48px', borderRadius: '12px',
+                    background: 'url(https://placehold.co/100) center/cover',
+                    border: '2px solid #00F0FF',
+                    cursor: 'pointer',
+                    boxShadow: '0 0 15px rgba(0, 240, 255, 0.3)'
+                }}></div>
+            </div>
+
+            {/* Live Status Widgets */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', marginBottom: '24px' }}>
+                <LiveWidget icon="❤️" label="SAĞLIK" value="%98" color="#f87171" />
+                <LiveWidget icon="⚡" label="ENERJİ" value="%84" color="#FFD700" />
+                <LiveWidget icon="🛡️" label="GÜVENLİK" value="A+" color="#4ade80" />
+            </div>
+
+            {/* Main Feature Cards */}
+            <h2 style={{ fontSize: '18px', marginBottom: '16px' }}>Hızlı Erişim</h2>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '24px' }}>
+                <BigCard title="Cüzdan" value="₺ 14,250" icon="💳" color="#007AFF" onClick={() => onNavigate('wallet')} />
+                <BigCard title="Yönetim" value="3 Oylama" icon="⚖️" color="#a855f7" onClick={() => onNavigate('governance')} />
+                <BigCard title="Harita" value="Keşfet" icon="🗺️" color="#39FF14" onClick={() => onNavigate('map')} />
+                <BigCard title="Konut" value="Yatırım" icon="🏠" color="#FACC15" onClick={() => onNavigate('housing')} />
+            </div>
+
+            {/* Dynamic City Feed */}
+            <h2 style={{ fontSize: '18px', marginBottom: '16px' }}>Şehir Özeti</h2>
+            <div className="glass-panel" style={{ padding: '16px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+                    <div style={{ fontSize: '24px' }}>☀️</div>
                     <div>
-                        <div style={{ fontSize: '16px', fontWeight: 'bold' }}>Mahalle Hamisi</div>
-                        <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.7)', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                            <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#4ade80' }}></span>
-                            BeOne ID: #8821
-                        </div>
+                        <div style={{ fontWeight: 'bold' }}>İzmir - Alsancak</div>
+                        <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>32°C • UV İndeksi: Yüksek</div>
                     </div>
                 </div>
-                <div style={{
-                    background: 'rgba(0, 122, 255, 0.2)',
-                    padding: '8px 12px',
-                    borderRadius: '8px',
-                    border: '1px solid rgba(0, 122, 255, 0.3)',
-                    textAlign: 'right'
-                }}>
-                    <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.7)' }}>ŞEHİR HİSSESİ (IZM)</div>
-                    <div style={{ fontSize: '14px', fontWeight: 'bold', color: 'var(--color-primary)' }}>%0.005</div>
+                <div style={{ height: '1px', background: 'rgba(255,255,255,0.1)', marginBottom: '16px' }}></div>
+                <div style={{ fontSize: '14px', lineHeight: '1.5' }}>
+                    <p>📢 <b>Belediye Duyurusu:</b> Metro hatlarında gece seferleri 02:00'ye kadar uzatıldı.</p>
+                    <p style={{ marginTop: '8px' }}>🚀 <b>Proje:</b> "Yeşil Körfez" temizlik dronları göreve başladı.</p>
                 </div>
             </div>
 
-            {/* Greeting */}
-            <div style={{ marginBottom: '24px' }}>
-                <h1 style={{ fontSize: '28px', margin: '0 0 8px 0', fontWeight: '300' }}>
-                    Merhaba, <span style={{ fontWeight: '700' }}>Şafak</span>
-                </h1>
-                <p style={{ margin: 0, color: 'rgba(255,255,255,0.6)' }}>
-                    Bugün İzmir'de güneşli bir gün. Enerji üretimi %12 arttı.
-                </p>
-            </div>
-
-            {/* Asset Cards Scroller */}
-            <div style={{ marginBottom: '32px' }}>
-                <div style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'baseline',
-                    marginBottom: '16px'
-                }}>
-                    <h2 style={{ fontSize: '18px', margin: 0 }}>Varlıklarım</h2>
-                    <span style={{ fontSize: '12px', color: 'var(--color-primary)' }}>Tümünü Gör</span>
-                </div>
-
-                <div style={{
-                    display: 'flex',
-                    overflowX: 'auto',
-                    paddingBottom: '20px',
-                    marginLeft: '-20px',
-                    paddingLeft: '20px',
-                    paddingRight: '20px',
-                    scrollbarWidth: 'none' /* Firefox */,
-                    '-ms-overflow-style': 'none'  /* IE 10+ */
-                }}>
-                    <AssetCard
-                        type="gold"
-                        title="Kira Kumbarası"
-                        value="127 Tuğla"
-                        subtext="Evin %0.2'sine sahipsin"
-                        icon={<span style={{ fontSize: '24px' }}>🏠</span>}
-                        onClick={() => onAssetClick && onAssetClick({ id: 1, title: 'Kira Kumbarası' })}
-                    />
-                    <AssetCard
-                        title="Güneş Paneli"
-                        value="5 Panel"
-                        subtext="Anlık Üretim: 2.4 kWh"
-                        icon={<span style={{ fontSize: '24px' }}>☀️</span>}
-                        onClick={() => { }}
-                    />
-                    <AssetCard
-                        title="Su Tasarrufu"
-                        value="350 L"
-                        subtext="Konut Fonuna +35 TL"
-                        icon={<span style={{ fontSize: '24px' }}>💧</span>}
-                        onClick={() => { }}
-                    />
-                </div>
-            </div>
-
-            {/* Quick Actions / Stats */}
-            <div className="glass-panel" style={{ padding: '20px' }}>
-                <h2 style={{ fontSize: '18px', margin: '0 0 16px 0' }}>Sistem Durumu</h2>
-                <div style={{ display: 'flex', justifyContent: 'space-between', gap: '16px' }}>
-                    <div style={{ flex: 1, textAlign: 'center' }}>
-                        <div style={{ fontSize: '24px', fontWeight: 'bold' }}>14.2</div>
-                        <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)' }}>IZM Token</div>
-                    </div>
-                    <div style={{ width: '1px', background: 'rgba(255,255,255,0.1)' }}></div>
-                    <div style={{ flex: 1, textAlign: 'center' }}>
-                        <div style={{ fontSize: '24px', fontWeight: 'bold', color: 'var(--color-success)' }}>+24%</div>
-                        <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)' }}>Haftalık Gelir</div>
-                    </div>
-                </div>
-            </div>
-
-            {/* Shortcuts */}
-            <div style={{ padding: '0 20px 20px 20px', display: 'flex', gap: '10px' }}>
-                <button
-                    onClick={() => onNavigate('logistics')}
-                    style={{ flex: 1, padding: '12px', background: 'rgba(5, 10, 24, 0.8)', border: '1px solid #00F0FF', color: '#00F0FF', borderRadius: '12px', cursor: 'pointer', fontWeight: 'bold' }}
-                >
-                    ✈️ Sky Control
-                </button>
-                <button
-                    onClick={() => onNavigate('transparency')}
-                    style={{ flex: 1, padding: '12px', background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.3)', color: 'white', borderRadius: '12px', cursor: 'pointer', fontWeight: 'bold' }}
-                >
-                    🔍 Şeffaflık
-                </button>
-            </div>
         </div>
     );
 };
+
+const LiveWidget = ({ icon, label, value, color }) => (
+    <div className="glass-panel" style={{ padding: '12px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ fontSize: '20px', marginBottom: '4px' }}>{icon}</div>
+        <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.6)' }}>{label}</div>
+        <div style={{ fontSize: '16px', fontWeight: 'bold', color: color }}>{value}</div>
+        {/* Pulse Dot */}
+        <div style={{
+            position: 'absolute', top: '8px', right: '8px', width: '6px', height: '6px',
+            background: color, borderRadius: '50%',
+            boxShadow: `0 0 8px ${color}`,
+            animation: 'pulse 2s infinite'
+        }}></div>
+    </div>
+);
+
+const BigCard = ({ title, value, icon, color, onClick }) => (
+    <div onClick={onClick} className="glass-panel" style={{
+        padding: '20px', cursor: 'pointer', transition: 'transform 0.2s',
+        display: 'flex', flexDirection: 'column', gap: '8px'
+    }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
+            <div style={{ fontSize: '24px', background: 'rgba(255,255,255,0.1)', width: '40px', height: '40px', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{icon}</div>
+            <div style={{ fontSize: '20px', color: 'rgba(255,255,255,0.2)' }}>↗</div>
+        </div>
+        <div>
+            <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>{title}</div>
+            <div style={{ fontSize: '18px', fontWeight: 'bold', color: color }}>{value}</div>
+        </div>
+    </div>
+);
 
 export default Dashboard;

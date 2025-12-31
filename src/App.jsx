@@ -12,6 +12,8 @@ import ModeSelector from './components/UI/ModeSelector'
 import CityOSFrame from './components/Layout/CityOSFrame'
 import AssetDetail from './pages/AssetDetail'
 import ProfileModal from './components/UI/ProfileModal'
+import { ToastProvider } from './components/UI/ToastManager' // New
+import AIAssistant from './components/UI/AIAssistant' // New
 
 // Simple Router/State for Prototype
 function App() {
@@ -47,7 +49,7 @@ function App() {
   }
 
   return (
-    <>
+    <ToastProvider>
       <div style={{ flex: 1, position: 'relative', height: '100vh', overflow: 'hidden' }}>
         <CityOSFrame mode={mode}>
           <ModeSelector currentMode={mode} onToggle={toggleMode} />
@@ -88,9 +90,12 @@ function App() {
           <ProfileModal onClose={() => setShowProfile(false)} />
         )}
 
+        {/* Intelegent Agent */}
+        <AIAssistant />
+
       </div>
       <BottomNav activeTab={activeTab} onTabChange={setActiveTab} />
-    </>
+    </ToastProvider>
   )
 }
 

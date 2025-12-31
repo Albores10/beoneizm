@@ -16,7 +16,7 @@ const Housing = () => {
     };
 
     return (
-        <div style={{ padding: '20px 20px 100px 20px', height: '100%', overflow: 'hidden', position: 'relative' }}>
+        <div style={{ padding: '0 20px', height: '100%', overflow: 'hidden', position: 'relative' }}>
             {/* Header */}
             <div className="glass-panel" style={{ padding: '16px', marginBottom: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>

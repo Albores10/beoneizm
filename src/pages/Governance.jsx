@@ -4,7 +4,7 @@ const Governance = () => {
     const [voted, setVoted] = useState(false);
 
     return (
-        <div style={{ padding: '20px 20px 100px 20px' }}>
+        <div style={{ padding: '0 20px' }}>
             {/* Header */}
             <div style={{ textAlign: 'center', marginBottom: '32px' }}>
                 <h2 style={{ fontSize: '24px', marginBottom: '8px' }}>BeOne Meclis</h2>

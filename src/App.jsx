@@ -8,6 +8,7 @@ import Logistics from './pages/Logistics'
 import Operation from './pages/Operation'
 import Transparency from './pages/Transparency'
 import ModeSelector from './components/UI/ModeSelector'
+import CityOSFrame from './components/Layout/CityOSFrame'
 
 // Simple Router/State for Prototype
 function App() {
@@ -33,23 +34,33 @@ function App() {
 
   return (
     <>
-      <div style={{ flex: 1, position: 'relative' }}>
-        <ModeSelector mode={mode} setMode={setMode} />
+      <div style={{ flex: 1, position: 'relative', height: '100vh', overflow: 'hidden' }}>
+        <CityOSFrame mode={mode}>
+          <ModeSelector mode={mode} setMode={setMode} />
 
-        {/* Background City Image or Effect - Conditional */}
-        {mode === 'anime' && (
+          {/* Background City Image or Effect - Conditional */}
+          {mode === 'anime' && (
+            <div style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              zIndex: -1,
+              background: 'radial-gradient(circle at 50% 10%, #1a2a4a 0%, #0a192f 100%)'
+            }} />
+          )}
+
           <div style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            width: '100%',
+            paddingTop: '60px',
+            paddingBottom: '80px',
             height: '100%',
-            zIndex: -1,
-            background: 'radial-gradient(circle at 50% 10%, #1a2a4a 0%, #0a192f 100%)'
-          }} />
-        )}
-
-        {renderContent()}
+            overflowY: 'auto',
+            scrollbarWidth: 'none' // Hide scrollbar for cleaner look
+          }}>
+            {renderContent()}
+          </div>
+        </CityOSFrame>
       </div>
       <BottomNav activeTab={activeTab} onTabChange={setActiveTab} />
     </>

@@ -3,8 +3,8 @@ import AssetCard from '../components/Cards/AssetCard';
 
 const Dashboard = ({ onNavigate }) => {
     return (
-        <div style={{ padding: '20px 20px 100px 20px', maxWidth: '100%', overflowX: 'hidden' }}>
-            {/* Top Bar: Identity */}
+        <div style={{ padding: '0 20px', maxWidth: '100%', overflowX: 'hidden' }}>
+            {/* Top Bar: Identity - Integrated nicely below HUD */}
             <div className="glass-panel" style={{
                 padding: '16px',
                 marginBottom: '24px',

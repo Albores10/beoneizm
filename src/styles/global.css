@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Outfit:wght@400;600;700&display=swap');
+@import './variables.css';
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Outfit', var(--font-family-sans);
+    /* Using Outfit for more modern anime/tech feel */
+    background: var(--color-dark-bg);
+    color: var(--color-text-light);
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+#root {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Base Utility Classes */
+.glass-panel {
+    background: var(--color-glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    border-radius: var(--radius-lg);
+}
+
+.text-gradient-gold {
+    background: linear-gradient(135deg, #FFF7CC 0%, var(--color-secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+}
+
+.glow-text {
+    text-shadow: 0 0 10px rgba(0, 122, 255, 0.5);
+}
+
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.full-screen {
+    width: 100vw;
+    height: 100vh;
+}
+
+/* Animations */
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+.animate-float {
+    animation: float 6s ease-in-out infinite;
+}
+
+/* Classic Mode Overrides */
+body.mode-classic {
+    background: #f0f2f5;
+    color: #1a1a1a;
+    font-family: 'Inter', sans-serif;
+}
+
+body.mode-classic .glass-panel {
+    background: #ffffff;
+    backdrop-filter: none;
+    border: 1px solid #e1e4e8;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+}
+
+body.mode-classic .text-gradient-gold {
+    background: none;
+    -webkit-text-fill-color: #d97706;
+    /* Solid Gold/Amber */
+    color: #d97706;
+    text-shadow: none;
+}
+
+body.mode-classic .glow-text {
+    text-shadow: none;
+}
+
+body.mode-classic button {
+    box-shadow: none !important;
+    transform: none !important;
+}

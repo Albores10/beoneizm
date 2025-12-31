@@ -1,84 +1,90 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 const Transparency = () => {
-    const transactions = [
-        { id: '0x82...1A', desc: 'Urla Güneş Tarlası Panel Alımı', amount: '500.000 TL', verified: true },
-        { id: '0x34...B2', desc: 'BeOneSu Otomat Bakımı #12', amount: '2.500 TL', verified: true },
-        { id: '0x91...C4', desc: 'Konut Fonu Kâr Payı Dağıtımı', amount: '125.000 TL', verified: true },
-        { id: '0x11...F9', desc: 'Buca Pazar Yeri Lojistik', amount: '12.400 TL', verified: true },
-    ];
+    const [txs, setTxs] = useState([
+        { id: 1, hash: '0x3a...1f9a', amount: '12,500 ₺', type: 'Kira Geliri', time: '10:42' },
+        { id: 2, hash: '0x8b...2c4d', amount: '450 ₺', type: 'Su Faturası', time: '09:15' },
+        { id: 3, hash: '0x1c...9e3f', amount: '2,500 IZM', type: 'Meclis Ödülü', time: 'Dün' },
+    ]);
+
+    // Live Data Stream Simulation
+    useEffect(() => {
+        const interval = setInterval(() => {
+            const newTx = {
+                id: Date.now(),
+                hash: '0x' + Math.random().toString(16).substr(2, 8),
+                amount: Math.floor(Math.random() * 1000) + ' ₺',
+                type: Math.random() > 0.5 ? 'Vergi Ödemesi' : 'Park Geliri',
+                time: new Date().toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' })
+            };
+            setTxs(prev => [newTx, ...prev].slice(0, 8)); // Keep last 8
+        }, 3000);
+        return () => clearInterval(interval);
+    }, []);
 
     return (
-        <div style={{ padding: '20px 20px 100px 20px' }}>
-            <h2 style={{ marginBottom: '20px' }}>Şeffaflık Defteri</h2>
+        <div style={{ padding: '0 20px', paddingBottom: '100px' }}>
+            <h1 style={{ fontSize: '24px', marginBottom: '16px' }}>Şeffaflık <span style={{ color: '#a855f7' }}>Ağı</span></h1>
 
-            {/* Glass Ledger Container */}
-            <div style={{
-                background: 'rgba(255, 255, 255, 0.05)',
-                backdropFilter: 'blur(10px)',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                borderRadius: '16px',
-                padding: '20px',
-                boxShadow: '0 0 30px rgba(0, 122, 255, 0.1)',
-                minHeight: '400px',
-                fontFamily: 'monospace'
-            }}>
+            {/* Stats */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '24px' }}>
+                <div className="glass-panel" style={{ padding: '16px', textAlign: 'center' }}>
+                    <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>TOPLAM HACİM</div>
+                    <div style={{ fontSize: '20px', fontWeight: 'bold', color: '#a855f7' }}>₺ 42.5M</div>
+                </div>
+                <div className="glass-panel" style={{ padding: '16px', textAlign: 'center' }}>
+                    <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>BLOK YÜKSEKLİĞİ</div>
+                    <div style={{ fontSize: '20px', fontWeight: 'bold', fontFamily: 'monospace' }}>#8,192,442</div>
+                </div>
+            </div>
+
+            {/* Matrix Rain / Live Feed */}
+            <div className="glass-panel" style={{ padding: '0', overflow: 'hidden' }}>
                 <div style={{
-                    textAlign: 'center',
-                    marginBottom: '24px',
-                    borderBottom: '1px solid rgba(255,255,255,0.1)',
-                    paddingBottom: '12px'
+                    background: 'rgba(168, 85, 247, 0.1)',
+                    padding: '12px',
+                    borderBottom: '1px solid rgba(168, 85, 247, 0.2)',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center'
                 }}>
-                    <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)' }}>TOPLAM İŞLEM HACMİ</div>
-                    <div style={{ fontSize: '24px', fontWeight: 'bold', color: 'var(--color-secondary)' }}>₺ 42,592,100</div>
+                    <span style={{ fontWeight: 'bold', color: '#a855f7' }}>CANLI BLOK ZİNCİRİ AKIŞI</span>
+                    <span style={{ width: '8px', height: '8px', background: '#a855f7', borderRadius: '50%', boxShadow: '0 0 10px #a855f7', animation: 'blink 1s infinite' }}></span>
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                    {transactions.map((tx, i) => (
-                        <div key={i} style={{
-                            padding: '12px',
-                            background: 'rgba(0, 122, 255, 0.05)',
-                            borderLeft: '2px solid var(--color-primary)',
-                            fontSize: '13px',
-                            cursor: 'pointer',
-                            transition: 'background 0.2s'
-                        }}
-                        // hover effect via css in real app
-                        >
-                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
-                                <span style={{ color: 'var(--color-primary)' }}>{tx.id}</span>
-                                <span style={{ fontWeight: 'bold' }}>{tx.amount}</span>
+                <div style={{ padding: '0 16px' }}>
+                    {txs.map((tx, index) => (
+                        <div key={tx.id} style={{
+                            padding: '16px 0',
+                            borderBottom: '1px solid rgba(255,255,255,0.05)',
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            animation: index === 0 ? 'slideInNew 0.5s ease' : 'none',
+                            opacity: 1 - (index * 0.1) // Fade out older items
+                        }}>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                                <div style={{ fontFamily: 'monospace', color: '#a855f7', fontSize: '12px' }}>{tx.hash}</div>
+                                <div style={{ fontSize: '14px' }}>{tx.type}</div>
                             </div>
-                            <div style={{ color: 'rgba(255,255,255,0.8)', marginBottom: '4px' }}>{tx.desc}</div>
-                            <div style={{
-                                fontSize: '10px',
-                                color: '#4ade80',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '4px'
-                            }}>
-                                {tx.verified && '✓ BLOKZİNCİR ÜZERİNDE DOĞRULANDI'}
+                            <div style={{ textAlign: 'right' }}>
+                                <div style={{ fontWeight: 'bold' }}>{tx.amount}</div>
+                                <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)' }}>{tx.time}</div>
                             </div>
                         </div>
                     ))}
                 </div>
-
-                {/* Matrix Code Effect Decoration */}
-                <div style={{
-                    position: 'absolute',
-                    top: 0, right: 10, bottom: 0,
-                    width: '20px',
-                    opacity: 0.2,
-                    overflow: 'hidden',
-                    fontSize: '10px',
-                    lineHeight: '10px',
-                    color: '#4ade80',
-                    writingMode: 'vertical-rl',
-                    textAlign: 'center'
-                }}>
-                    10101010010101110101001
-                </div>
             </div>
+            <style>{`
+                @keyframes blink {
+                    0%, 100% { opacity: 1; }
+                    50% { opacity: 0.3; }
+                }
+                @keyframes slideInNew {
+                    from { transform: translateX(-20px); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+            `}</style>
         </div>
     );
 };

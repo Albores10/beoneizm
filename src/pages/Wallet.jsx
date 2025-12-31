@@ -1,83 +1,128 @@
 import React, { useState } from 'react';
+import { useToast } from '../components/UI/ToastManager';
 
 const Wallet = () => {
-    const [balance, setBalance] = useState(14250.50);
+    const { addToast } = useToast();
+    const [balance, setBalance] = useState(14500);
+    const [showSendModal, setShowSendModal] = useState(false);
+    const [sendAmount, setSendAmount] = useState('');
 
-    const transactions = [
-        { id: 1, type: 'in', title: 'Kira Geliri (A Blok)', amount: '+ 1,250.00', date: 'Bugün, 09:41' },
-        { id: 2, type: 'out', title: 'Su Faturası Ödeme', amount: '- 45.00', date: 'Dün, 14:20' },
-        { id: 3, type: 'in', title: 'Geri Dönüşüm Ödülü', amount: '+ 12.50', date: '29 Ara, 18:30' },
-        { id: 4, type: 'in', title: 'Staking Getirisi', amount: '+ 0.45', date: '28 Ara, 00:00' },
-    ];
+    const handleSend = () => {
+        const val = parseInt(sendAmount);
+        if (!val || val <= 0) {
+            addToast("Geçersiz miktar", "error");
+            return;
+        }
+        if (val > balance) {
+            addToast("Yetersiz Bakiye", "error");
+            return;
+        }
+
+        setBalance(prev => prev - val);
+        setShowSendModal(false);
+        setSendAmount('');
+        addToast(`${val} IZM Gönderildi!`, "success");
+    };
 
     return (
-        <div style={{ padding: '0 20px 20px 20px' }}>
-            {/* Header */}
-            <div className="glass-panel" style={{ padding: '24px', marginBottom: '24px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
-                <div style={{ fontSize: '14px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>TOPLAM VARLIK DEĞERİ</div>
-                <div style={{ fontSize: '36px', fontWeight: 'bold', textShadow: '0 0 20px rgba(0, 122, 255, 0.5)' }}>
-                    ₺ {balance.toLocaleString('tr-TR', { minimumFractionDigits: 2 })}
+        <div style={{ padding: '0 20px', paddingBottom: '100px' }}>
+            <h1 style={{ fontSize: '24px', marginBottom: '16px' }}>Cüzdan</h1>
+
+            {/* Card Visual */}
+            <div style={{
+                background: 'linear-gradient(135deg, #007AFF, #00C6FF)',
+                borderRadius: '20px',
+                padding: '24px',
+                marginBottom: '24px',
+                boxShadow: '0 10px 30px rgba(0, 122, 255, 0.4)',
+                position: 'relative',
+                overflow: 'hidden'
+            }}>
+                <div style={{ position: 'relative', zIndex: 1 }}>
+                    <div style={{ fontSize: '14px', color: 'rgba(255,255,255,0.8)', marginBottom: '4px' }}>TOPLAM VARLIK</div>
+                    <div style={{ fontSize: '32px', fontWeight: 'bold', marginBottom: '24px' }}>₺ {balance.toLocaleString()}</div>
+
+                    <div style={{ display: 'flex', gap: '16px' }}>
+                        <button
+                            onClick={() => setShowSendModal(true)}
+                            style={{ flex: 1, padding: '10px', background: 'rgba(255,255,255,0.2)', border: 'none', borderRadius: '12px', color: 'white', fontWeight: 'bold', cursor: 'pointer' }}
+                        >
+                            ↑ Gönder
+                        </button>
+                        <button onClick={() => addToast("Yükleme özelliği yakında!", "info")} style={{ flex: 1, padding: '10px', background: 'rgba(255,255,255,0.2)', border: 'none', borderRadius: '12px', color: 'white', fontWeight: 'bold', cursor: 'pointer' }}>
+                            ↓ Yükle
+                        </button>
+                    </div>
                 </div>
-                <div style={{ color: '#4ade80', fontSize: '14px', marginTop: '4px' }}>+ %4.2 (Son 24s)</div>
+                {/* Decoration */}
+                <div style={{ position: 'absolute', top: '-20px', right: '-20px', width: '150px', height: '150px', background: 'rgba(255,255,255,0.1)', borderRadius: '50%' }}></div>
+            </div>
 
-                {/* Decorative Chart Line */}
+            {/* Simple Coin Stats */}
+            <div style={{ display: 'flex', gap: '12px', marginBottom: '24px' }}>
+                <div className="glass-panel" style={{ flex: 1, padding: '16px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: '#FFD700', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'black', fontWeight: 'bold' }}>I</div>
+                    <div>
+                        <div style={{ fontWeight: 'bold' }}>IZM Coin</div>
+                        <div style={{ fontSize: '12px', color: '#4ade80' }}>$1.24 (+5%)</div>
+                    </div>
+                </div>
+                {/* More tokens... */}
+            </div>
+
+            {/* Transaction History */}
+            <h3 style={{ fontSize: '18px', marginBottom: '12px' }}>Son İşlemler</h3>
+            <div className="glass-panel" style={{ padding: '0' }}>
+                <TxItem title="Market Alışverişi" amount="- 345 ₺" date="Bugün" icon="🛒" />
+                <TxItem title="Kira Geliri (Ege Apt)" amount="+ 12,500 ₺" date="Dün" icon="🏠" isIncome />
+                <TxItem title="BeOne Meclis Ödülü" amount="+ 50 IZM" date="2 gün önce" icon="🎁" isIncome />
+                <TxItem title="Ulaşım (Metro)" amount="- 15 ₺" date="2 gün önce" icon="🚇" />
+            </div>
+
+            {/* Send Modal Overlay */}
+            {showSendModal && (
                 <div style={{
-                    position: 'absolute',
-                    bottom: 0,
+                    position: 'fixed',
+                    top: 0,
                     left: 0,
-                    right: 0,
-                    height: '40px',
-                    background: 'linear-gradient(90deg, transparent 0%, rgba(0, 122, 255, 0.2) 50%, transparent 100%)',
-                    clipPath: 'polygon(0% 100%, 0% 60%, 20% 70%, 40% 40%, 60% 60%, 80% 20%, 100% 50%, 100% 100%)'
-                }}></div>
-            </div>
-
-            {/* Actions */}
-            <div style={{ display: 'flex', gap: '16px', marginBottom: '32px' }}>
-                <button style={{
-                    flex: 1, padding: '16px', borderRadius: '16px', border: 'none',
-                    background: 'linear-gradient(135deg, #007AFF 0%, #00C6FF 100%)',
-                    color: 'white', fontWeight: 'bold', fontSize: '16px',
-                    boxShadow: '0 4px 15px rgba(0, 122, 255, 0.3)', cursor: 'pointer'
+                    width: '100%',
+                    height: '100%',
+                    background: 'rgba(0,0,0,0.8)',
+                    zIndex: 2000,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '20px'
                 }}>
-                    GÖNDER
-                </button>
-                <button style={{
-                    flex: 1, padding: '16px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.2)',
-                    background: 'rgba(255,255,255,0.05)',
-                    color: 'white', fontWeight: 'bold', fontSize: '16px', cursor: 'pointer'
-                }}>
-                    AL
-                </button>
-            </div>
-
-            {/* Transactions */}
-            <h3 style={{ fontSize: '18px', marginBottom: '16px' }}>Son İşlemler</h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                {transactions.map(tx => (
-                    <div key={tx.id} className="glass-panel" style={{ padding: '16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                            <div style={{
-                                width: '40px', height: '40px', borderRadius: '12px',
-                                background: tx.type === 'in' ? 'rgba(74, 222, 128, 0.2)' : 'rgba(248, 113, 113, 0.2)',
-                                color: tx.type === 'in' ? '#4ade80' : '#f87171',
-                                display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px'
-                            }}>
-                                {tx.type === 'in' ? '↓' : '↑'}
-                            </div>
-                            <div>
-                                <div style={{ fontWeight: 'bold', fontSize: '14px' }}>{tx.title}</div>
-                                <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)' }}>{tx.date}</div>
-                            </div>
-                        </div>
-                        <div style={{ fontWeight: 'bold', color: tx.type === 'in' ? '#4ade80' : 'white' }}>
-                            {tx.amount}
+                    <div className="glass-panel" style={{ width: '100%', maxWidth: '320px', padding: '24px', background: '#0a192f' }}>
+                        <h2 style={{ marginTop: 0 }}>Para Gönder</h2>
+                        <input
+                            type="number"
+                            placeholder="Miktar (IZM)"
+                            value={sendAmount}
+                            onChange={(e) => setSendAmount(e.target.value)}
+                            style={{ width: '100%', padding: '12px', marginBottom: '16px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.3)', background: 'transparent', color: 'white' }}
+                        />
+                        <div style={{ display: 'flex', gap: '12px' }}>
+                            <button onClick={() => setShowSendModal(false)} style={{ flex: 1, padding: '12px', background: 'transparent', border: '1px solid #666', color: '#ccc', borderRadius: '8px', cursor: 'pointer' }}>İptal</button>
+                            <button onClick={handleSend} style={{ flex: 1, padding: '12px', background: '#007AFF', border: 'none', color: 'white', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold' }}>Gönder</button>
                         </div>
                     </div>
-                ))}
-            </div>
+                </div>
+            )}
         </div>
     );
 };
+
+const TxItem = ({ title, amount, date, icon, isIncome }) => (
+    <div style={{ padding: '16px', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', gap: '16px' }}>
+        <div style={{ fontSize: '20px' }}>{icon}</div>
+        <div style={{ flex: 1 }}>
+            <div style={{ fontWeight: 'bold', fontSize: '14px' }}>{title}</div>
+            <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)' }}>{date}</div>
+        </div>
+        <div style={{ fontWeight: 'bold', color: isIncome ? '#4ade80' : 'white' }}>{amount}</div>
+    </div>
+);
 
 export default Wallet;

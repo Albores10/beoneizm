@@ -1,182 +1,109 @@
 import React, { useState } from 'react';
+import { useToast } from '../components/UI/ToastManager';
 
 const Housing = () => {
-    const [animating, setAnimating] = useState(false);
-    const [bricks, setBricks] = useState(127);
+    const { addToast } = useToast();
+    const [bricks, setBricks] = useState(12);
+    const [isAnimating, setIsAnimating] = useState(false);
 
     const handlePayRent = () => {
-        if (animating) return;
-        setAnimating(true);
+        if (isAnimating) return;
+        setIsAnimating(true);
 
-        // Simulate animation duration
+        // Simulate API call / Animation delay
         setTimeout(() => {
-            setBricks(prev => prev + 5);
-            setAnimating(false);
-        }, 2000); // 2 seconds animation
+            setBricks(b => b + 1);
+            setIsAnimating(false);
+            addToast("Kira Ödendi! (1 Tuğla Eklendi)", "success");
+            addToast("+50 XP / +10 IZM Coin", "info");
+        }, 1500);
     };
 
     return (
-        <div style={{ padding: '0 20px', height: '100%', overflow: 'hidden', position: 'relative' }}>
-            {/* Header */}
-            <div className="glass-panel" style={{ padding: '16px', marginBottom: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div>
-                    <h2 style={{ margin: 0, fontSize: '18px' }}>BeOne Konut</h2>
-                    <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>Barınma Modülü</div>
-                </div>
-                <div style={{ textAlign: 'right' }}>
-                    <div style={{ fontSize: '24px', fontWeight: 'bold', color: 'var(--color-secondary)' }}>{bricks}</div>
-                    <div style={{ fontSize: '10px' }}>TUĞLA</div>
-                </div>
-            </div>
+        <div style={{ padding: '0 20px', paddingBottom: '100px' }}>
+            <h1 style={{ fontSize: '24px', marginBottom: '8px' }}>BeOne <span style={{ color: '#FFD700' }}>Konut</span></h1>
 
-            {/* Story/Visual Area */}
-            <div style={{
-                height: '400px',
-                position: 'relative',
-                display: 'flex',
-                alignItems: 'flex-end',
-                justifyContent: 'center',
-                marginBottom: '20px'
-            }}>
-                {/* House Illustration (CSS Shapes) */}
-                <div style={{
-                    width: '200px',
-                    height: '240px',
-                    background: 'linear-gradient(to bottom, #2c3e50, #000000)',
-                    position: 'relative',
-                    borderRadius: '8px',
-                    border: '2px solid rgba(255,255,255,0.1)',
-                    zIndex: 1
-                }}>
-                    {/* Roof */}
-                    <div style={{
-                        position: 'absolute',
-                        top: '-60px',
-                        left: '-10px',
-                        width: '0',
-                        height: '0',
-                        borderLeft: '110px solid transparent',
-                        borderRight: '110px solid transparent',
-                        borderBottom: '60px solid #2c3e50',
-                    }}></div>
+            {/* Gamification Panel */}
+            <div className="glass-panel" style={{ padding: '24px', textAlign: 'center', marginBottom: '24px', position: 'relative', overflow: 'hidden' }}>
+                <div style={{ fontSize: '14px', color: 'rgba(255,255,255,0.7)', marginBottom: '12px' }}>EV SAHİPLİĞİ YOLCULUĞUN</div>
 
-                    {/* Windows */}
-                    <div style={{ display: 'flex', gap: '20px', padding: '20px', flexWrap: 'wrap', justifyContent: 'center' }}>
-                        <div style={{ width: '40px', height: '40px', background: 'rgba(255, 255, 100, 0.4)', borderRadius: '4px', boxShadow: '0 0 15px rgba(255,255,100,0.2)' }}></div>
-                        <div style={{ width: '40px', height: '40px', background: 'rgba(255, 255, 100, 0.1)', borderRadius: '4px' }}></div>
-                        <div style={{ width: '40px', height: '40px', background: 'rgba(255, 255, 100, 0.6)', borderRadius: '4px', boxShadow: '0 0 20px rgba(255,255,100,0.3)' }}></div>
-                        <div style={{ width: '40px', height: '40px', background: 'rgba(255, 255, 100, 0.2)', borderRadius: '4px' }}></div>
-                    </div>
-
-                    {/* Bricks Overlay (Progress) */}
-                    <div style={{
-                        position: 'absolute',
-                        bottom: 0,
-                        left: 0,
-                        width: '100%',
-                        height: `${(bricks / 1000) * 100}%`, // Example progress
-                        background: 'linear-gradient(to top, var(--color-secondary), transparent)',
-                        opacity: 0.3,
-                        transition: 'height 1s ease'
-                    }}></div>
+                {/* Brick Grid */}
+                <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap', justifyContent: 'center', marginBottom: '24px', minHeight: '60px' }}>
+                    {Array.from({ length: 20 }).map((_, i) => (
+                        <div key={i} style={{
+                            width: '30px',
+                            height: '15px',
+                            background: i < bricks ? '#FFD700' : 'rgba(255,255,255,0.1)',
+                            borderRadius: '2px',
+                            border: i < bricks ? '1px solid #B8860B' : '1px solid rgba(255,255,255,0.2)',
+                            transition: 'all 0.5s ease',
+                            transform: (i === bricks - 1 && isAnimating) ? 'scale(1.5)' : 'scale(1)',
+                            boxShadow: i < bricks ? '0 0 10px rgba(255, 215, 0, 0.5)' : 'none'
+                        }}></div>
+                    ))}
                 </div>
 
-                {/* Animation Elements */}
-                {animating && (
-                    <>
-                        {/* Money Flying Up */}
-                        <div
-                            style={{
-                                position: 'absolute',
-                                bottom: '20px',
-                                left: '50%',
-                                transform: 'translateX(-50%)',
-                                fontSize: '32px',
-                                animation: 'flyUp 1s ease forwards'
-                            }}
-                        >
-                            💸
-                        </div>
-                        {/* Gold Brick Formation */}
-                        <div
-                            style={{
-                                position: 'absolute',
-                                top: '50%',
-                                left: '50%',
-                                transform: 'translate(-50%, -50%)',
-                                fontSize: '32px',
-                                opacity: 0,
-                                animation: 'formBrick 1s ease 1s forwards'
-                            }}
-                        >
-                            🧱
-                        </div>
+                <div style={{ fontSize: '32px', fontWeight: 'bold', marginBottom: '4px' }}>%{(bricks / 100 * 10).toFixed(1)}</div>
+                <div style={{ fontSize: '12px', color: '#4ade80' }}>HİSSE SAHİBİ (Hedef: %1)</div>
 
-                        <style>
-                            {`
-                  @keyframes flyUp {
-                    0% { bottom: 20px; opacity: 1; transform: translateX(-50%) scale(1); }
-                    80% { bottom: 60%; opacity: 0; transform: translateX(-50%) scale(0.5); }
-                    100% { bottom: 70%; opacity: 0; }
-                  }
-                  @keyframes formBrick {
-                    0% { opacity: 0; transform: translate(-50%, -50%) scale(2); }
-                    50% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-                    100% { opacity: 0; transform: translate(100px, 50px) scale(0.5); } /* Move to house */
-                  }
-                `}
-                        </style>
-                    </>
-                )}
-
-                {/* Feedback Message */}
-                {animating && (
+                {/* Coin Animation Container */}
+                {isAnimating && (
                     <div style={{
                         position: 'absolute',
-                        top: '20%',
+                        top: '50%',
                         left: '50%',
-                        transform: 'translateX(-50%)',
-                        background: 'rgba(0,0,0,0.8)',
-                        padding: '10px 20px',
-                        borderRadius: '20px',
-                        border: '1px solid var(--color-secondary)',
-                        color: 'var(--color-secondary)',
-                        fontWeight: 'bold',
-                        whiteSpace: 'nowrap',
-                        zIndex: 10,
-                        animation: 'fadeInOut 2s ease'
+                        transform: 'translate(-50%, -50%)',
+                        fontSize: '40px',
+                        animation: 'flyUp 1s ease-out forwards',
+                        pointerEvents: 'none',
+                        zIndex: 10
                     }}>
-                        +5 TUĞLA KAZANILDI!
+                        🧱
                     </div>
                 )}
             </div>
 
-            {/* Pay Button */}
-            <div style={{ textAlign: 'center' }}>
+            {/* Action Card */}
+            <div className="glass-panel" style={{ padding: '20px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '16px' }}>
+                    <div>
+                        <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>SONRAKİ ÖDEME</div>
+                        <div style={{ fontSize: '18px', fontWeight: 'bold' }}>1 Kasım 2024</div>
+                    </div>
+                    <div style={{ textAlign: 'right' }}>
+                        <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>TUTAR</div>
+                        <div style={{ fontSize: '18px', fontWeight: 'bold' }}>₺ 12,500</div>
+                    </div>
+                </div>
+
                 <button
                     onClick={handlePayRent}
-                    disabled={animating}
                     style={{
-                        background: 'linear-gradient(90deg, var(--color-primary), #00C6FF)',
+                        width: '100%',
+                        padding: '16px',
+                        background: isAnimating ? 'rgba(255, 215, 0, 0.3)' : 'linear-gradient(90deg, #FFD700, #FFA500)',
                         border: 'none',
-                        padding: '16px 40px',
-                        borderRadius: '30px',
-                        color: 'white',
-                        fontSize: '18px',
+                        borderRadius: '12px',
+                        color: isAnimating ? 'white' : 'black',
                         fontWeight: 'bold',
-                        boxShadow: '0 10px 25px rgba(0, 122, 255, 0.5)',
-                        cursor: animating ? 'default' : 'pointer',
-                        transform: animating ? 'scale(0.95)' : 'scale(1)',
+                        fontSize: '16px',
+                        cursor: isAnimating ? 'default' : 'pointer',
+                        transform: isAnimating ? 'scale(0.98)' : 'scale(1)',
                         transition: 'all 0.2s',
-                        opacity: animating ? 0.8 : 1
+                        boxShadow: isAnimating ? 'none' : '0 4px 15px rgba(255, 215, 0, 0.3)'
                     }}
                 >
-                    {animating ? 'İşleniyor...' : 'Kira Öde (₺12.500)'}
+                    {isAnimating ? 'ÖDENİYOR...' : 'KİRA ÖDE & TUĞLA KAZAN'}
                 </button>
-                <div style={{ marginTop: '12px', fontSize: '13px', color: 'rgba(255,255,255,0.5)' }}>
-                    Ödemenin %20'si sana iade edilir.
-                </div>
             </div>
+
+            <style>{`
+                @keyframes flyUp {
+                    0% { opacity: 1; transform: translate(-50%, 20px) scale(0.5); }
+                    50% { transform: translate(-50%, -100px) scale(1.2); }
+                    100% { opacity: 0; transform: translate(-50%, -150px) scale(1); }
+                }
+            `}</style>
         </div>
     );
 };

@@ -1,123 +1,116 @@
 import React, { useState } from 'react';
+import { useToast } from '../components/UI/ToastManager';
 
 const Operation = () => {
-    const [scanning, setScanning] = useState(true);
+    const { addToast } = useToast();
+    const [scanned, setScanned] = useState(false);
+
+    const handleBuy = (item) => {
+        addToast(`${item} Satın Alındı!`, "success");
+        addToast("-75 IZM Coin", "error"); // Red toast for spending
+    };
+
+    const handleScan = () => {
+        addToast("QR Tarayıcı Başlatılıyor...", "info");
+        setTimeout(() => {
+            setScanned(true);
+            addToast("Ürün Bulundu: Organik İzmir Domatesi", "success");
+        }, 1500);
+    };
 
     return (
-        <div style={{ padding: '20px 20px 100px 20px', height: '100%' }}>
-            <h2 style={{ marginBottom: '20px' }}>Operasyon: Su & Gıda</h2>
+        <div style={{ padding: '0 20px', paddingBottom: '100px' }}>
+            <h1 style={{ fontSize: '24px', marginBottom: '16px' }}>BeOne <span style={{ color: '#4ade80' }}>Pazar</span></h1>
 
             {/* QR Scanner Mock */}
-            <div className="glass-panel" style={{
-                height: '300px',
-                position: 'relative',
-                overflow: 'hidden',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginBottom: '24px',
-                background: '#000'
-            }}>
-                {scanning ? (
+            <div className="glass-panel" style={{ padding: '30px', textAlign: 'center', marginBottom: '24px', border: '1px dashed rgba(255,255,255,0.3)' }}>
+                {scanned ? (
+                    <div style={{ animation: 'popIn 0.3s ease' }}>
+                        <div style={{ fontSize: '40px', marginBottom: '10px' }}>🍅</div>
+                        <h3>Organik Domates</h3>
+                        <p style={{ color: '#4ade80', fontWeight: 'bold' }}>₺ 35.00 / kg</p>
+                        <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>Üretici: Menemen Koop.</div>
+                    </div>
+                ) : (
                     <>
-                        <div style={{
-                            width: '200px',
-                            height: '200px',
-                            border: '2px solid var(--color-primary)',
-                            borderRadius: '20px',
-                            position: 'relative'
-                        }}>
-                            {/* Scan Line */}
-                            <div style={{
-                                position: 'absolute',
-                                top: 0,
-                                left: 0,
-                                width: '100%',
-                                height: '2px',
-                                background: 'var(--color-primary)',
-                                boxShadow: '0 0 10px var(--color-primary)',
-                                animation: 'scan 2s linear infinite'
-                            }}></div>
-                        </div>
-                        <p style={{ marginTop: '16px', color: 'rgba(255,255,255,0.7)', fontSize: '12px' }}>
-                            BeOneSu otomatına barkodu okutun
-                        </p>
-                        <style>{`
-                 @keyframes scan {
-                   0% { top: 0; opacity: 1; }
-                   50% { top: 100%; opacity: 1; }
-                   51% { top: 0; opacity: 0; }
-                   100% { top: 0; opacity: 0; }
-                 }
-               `}</style>
-
-                        {/* Simulating "Scan Found" for demo */}
+                        <div style={{ fontSize: '40px', marginBottom: '10px', opacity: 0.5 }}>📷</div>
+                        <p style={{ marginBottom: '16px' }}>Fiyat şeffaflığı için ürün barkodu okutun.</p>
                         <button
-                            onClick={() => setScanning(false)}
-                            style={{
-                                position: 'absolute',
-                                bottom: '20px',
-                                background: 'rgba(255,255,255,0.2)',
-                                border: '1px solid white',
-                                color: 'white',
-                                padding: '8px 16px',
-                                borderRadius: '20px',
-                                cursor: 'pointer'
-                            }}
+                            onClick={handleScan}
+                            style={{ padding: '8px 24px', background: 'white', color: 'black', border: 'none', borderRadius: '20px', fontWeight: 'bold', cursor: 'pointer' }}
                         >
-                            (Simüle Et: Barkod Bulundu)
+                            TARAYICIYI AÇ
                         </button>
                     </>
-                ) : (
-                    <div style={{ width: '100%', height: '100%', background: 'url("https://placehold.co/400x300/222/FFF?text=Product+Photo") center/cover', position: 'relative' }}>
-                        <div style={{
-                            position: 'absolute', bottom: 0, left: 0, width: '100%', background: 'rgba(0,0,0,0.8)', padding: '16px'
-                        }}>
-                            <h3 style={{ margin: 0 }}>Taze Domates (1kg)</h3>
-                            <div style={{ color: '#4ade80' }}>Menemen Ovası</div>
-                        </div>
-                    </div>
                 )}
             </div>
 
-            {/* Price Breakdown */}
-            {!scanning && (
-                <div className="glass-panel" style={{ padding: '20px' }}>
-                    <h3 style={{ fontSize: '16px', marginTop: 0 }}>Fiyat Şeffaflığı</h3>
-
-                    {/* Bar */}
-                    <div style={{ display: 'flex', height: '24px', borderRadius: '4px', overflow: 'hidden', marginBottom: '16px' }}>
-                        <div style={{ width: '80%', background: '#4ade80', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', color: 'black', fontWeight: 'bold' }}>
-                            TARLA (5.0₺)
-                        </div>
-                        <div style={{ width: '20%', background: '#FACC15', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', color: 'black', fontWeight: 'bold' }}>
-                            LOJ (1.0₺)
-                        </div>
-                        {/* No Red Part (Middleman) */}
-                    </div>
-
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <div>
-                            <div style={{ fontSize: '12px', textDecoration: 'line-through', color: 'rgba(255,255,255,0.5)' }}>Market: 12.00 ₺</div>
-                            <div style={{ fontSize: '24px', fontWeight: 'bold', color: 'var(--color-primary)' }}>6.00 ₺</div>
-                        </div>
-                        <button style={{
-                            background: 'var(--color-primary)',
-                            color: 'white',
-                            border: 'none',
-                            padding: '12px 24px',
-                            borderRadius: '12px',
-                            fontWeight: 'bold',
-                            cursor: 'pointer'
-                        }}>
-                            HEMEN AL
-                        </button>
-                    </div>
-                </div>
-            )}
+            {/* Marketplace Grid */}
+            <h2 style={{ fontSize: '18px', marginBottom: '12px' }}>Yerel Ürünler (Kooperatif)</h2>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                <ProductCard
+                    emoji="🫒"
+                    title="Sızma Zeytinyağı"
+                    price="250 ₺"
+                    origin="Tire"
+                    onBuy={() => handleBuy("Zeytinyağı")}
+                />
+                <ProductCard
+                    emoji="🥛"
+                    title="Günlük Süt"
+                    price="45 ₺"
+                    origin="Ödemiş"
+                    onBuy={() => handleBuy("Süt")}
+                />
+                <ProductCard
+                    emoji="🥖"
+                    title="Köy Ekmeği"
+                    price="20 ₺"
+                    origin="Seferihisar"
+                    onBuy={() => handleBuy("Ekmek")}
+                />
+                <ProductCard
+                    emoji="🍯"
+                    title="Çam Balı"
+                    price="300 ₺"
+                    origin="Bergama"
+                    onBuy={() => handleBuy("Bal")}
+                />
+            </div>
+            <style>{`
+                @keyframes popIn {
+                    from { transform: scale(0.8); opacity: 0; }
+                    to { transform: scale(1); opacity: 1; }
+                }
+            `}</style>
         </div>
     );
 };
+
+const ProductCard = ({ emoji, title, price, origin, onBuy }) => (
+    <div className="glass-panel" style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        <div style={{ fontSize: '32px' }}>{emoji}</div>
+        <div style={{ fontWeight: 'bold', fontSize: '14px' }}>{title}</div>
+        <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>📍 {origin}</div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto' }}>
+            <div style={{ color: '#4ade80', fontWeight: 'bold' }}>{price}</div>
+            <button
+                onClick={onBuy}
+                style={{
+                    padding: '6px 12px',
+                    background: 'rgba(74, 222, 128, 0.2)',
+                    color: '#4ade80',
+                    border: 'none',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    fontSize: '12px',
+                    fontWeight: 'bold'
+                }}
+            >
+                AL
+            </button>
+        </div>
+    </div>
+);
 
 export default Operation;

@@ -24,8 +24,31 @@ import TutorialOverlay from './components/UI/TutorialOverlay'
 import ErrorBoundary from './components/UI/ErrorBoundary'
 
 const AppContent = () => {
-  // ... existing state ...
-  // ... existing hooks ...
+  const [userAuthenticated, setUserAuthenticated] = useState(false);
+  const [showTutorial, setShowTutorial] = useState(false);
+  const [activeTab, setActiveTab] = useState('dashboard');
+  const [mode, setMode] = useState('anime');
+  const [selectedAsset, setSelectedAsset] = useState(null);
+  const [showProfile, setShowProfile] = useState(false);
+
+  // Hook for Emergency Context
+  const { isEmergency } = useEmergency();
+
+  const handleLogin = () => {
+    setUserAuthenticated(true);
+    setTimeout(() => setShowTutorial(true), 1000);
+  };
+
+  useEffect(() => {
+    document.body.className = '';
+    if (isEmergency) {
+      document.body.classList.add('mode-emergency');
+    } else if (mode === 'classic') {
+      document.body.classList.add('mode-classic');
+    }
+  }, [mode, isEmergency]);
+
+  const toggleMode = (newMode) => setMode(newMode);
 
   // Content Renderer with Suspense
   const renderContent = () => {
@@ -52,7 +75,7 @@ const AppContent = () => {
     );
   };
 
-  if (!isLoggedIn) {
+  if (!userAuthenticated) {
     return <LoginScreen onLogin={handleLogin} />;
   }
 

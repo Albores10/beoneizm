@@ -1,193 +1,218 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useToast } from '../components/UI/ToastManager';
 import { CyberIcon } from '../components/UI/CyberIcons';
+import SystemModule from '../components/UI/SystemModule';
 
 const Operation = () => {
     const { addToast } = useToast();
-    const [selectedAsset, setSelectedAsset] = useState('water');
-    const [activeTab, setActiveTab] = useState('market'); // market, limit
+    const [scanning, setScanning] = useState(false);
+    const [activeService, setActiveService] = useState(null);
 
-    // Mock Market Data
-    const [marketData, setMarketData] = useState([
-        { id: 'water', name: 'BeOne Su', symbol: 'H2O', price: 4.25, change: 1.2, trend: 'up' },
-        { id: 'energy', name: 'Solar Enerji', symbol: 'SUN', price: 1.80, change: -0.5, trend: 'down' },
-        { id: 'food', name: 'Org. Gıda', symbol: 'FOOD', price: 45.00, change: 2.4, trend: 'up' },
-        { id: 'fiber', name: 'Fiber Ağ', symbol: 'NET', price: 12.50, change: 0.0, trend: 'flat' }
-    ]);
+    const handleScan = () => {
+        setScanning(true);
+        addToast("QR Tarayıcı Başlatılıyor...", "info");
 
-    // Simulate Live Price Ticker
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setMarketData(prev => prev.map(item => ({
-                ...item,
-                price: item.price + (Math.random() - 0.5) * (item.price * 0.01)
-            })));
-        }, 3000);
-        return () => clearInterval(interval);
-    }, []);
+        // Simulation of scanning process
+        setTimeout(() => {
+            setScanning(false);
+            const services = ['water', 'food', 'clothing'];
+            const randomService = services[Math.floor(Math.random() * services.length)];
+            setActiveService(randomService);
 
-    const selectedItem = marketData.find(m => m.id === selectedAsset);
+            if (randomService === 'water') addToast("Bağlanıldı: BeOne Akıllı Çeşme #24", "success");
+            if (randomService === 'food') addToast("Bağlanıldı: Menemen Gıda Noktası", "success");
+            if (randomService === 'clothing') addToast("Bağlanıldı: Askıda Kıyafet Ünitesi", "success");
+        }, 2000);
+    };
 
-    const handleTrade = (type) => {
-        addToast(`Emir Gönderildi: ${type} ${selectedItem.symbol}`, "success");
+    const handleDispense = () => {
+        addToast("İşlem Başlatıldı... Lütfen Bekleyiniz.", "warning");
+        setTimeout(() => {
+            addToast("İşlem Tamamlandı. Teşekkürler!", "success");
+            setActiveService(null);
+        }, 2500);
     };
 
     return (
-        <div style={{ padding: '20px', paddingBottom: '100px', color: 'white' }}>
+        <div style={{ padding: '0 20px', paddingBottom: '120px' }}>
             {/* Header */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                <div>
-                    <h1 style={{ fontSize: '24px', margin: 0, letterSpacing: '2px' }}>EMTİA BORSASI</h1>
-                    <div style={{ fontSize: '10px', color: '#00F0FF', opacity: 0.8 }}>DİJİTAL VARLIK ALIM/SATIM TERMİNALİ</div>
-                </div>
-                <div style={{ textAlign: 'right' }}>
-                    <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>PİYASA DURUMU</div>
-                    <div style={{ fontSize: '14px', color: '#4ade80', fontWeight: 'bold' }}>AÇIK ●</div>
-                </div>
+            <div style={{ marginBottom: '24px' }}>
+                <h1 style={{ fontSize: '28px', margin: 0, fontWeight: '300' }}>BeOne <span style={{ fontWeight: '700', color: '#FF0055' }}>Operasyon</span></h1>
+                <p style={{ margin: '4px 0 0 0', color: 'rgba(255,255,255,0.6)', fontSize: '12px' }}>
+                    Akıllı Şehir Hizmet Noktaları Ağı
+                </p>
             </div>
 
-            {/* Live Ticker Tape */}
-            <div style={{
-                background: 'rgba(0, 240, 255, 0.05)',
-                borderTop: '1px solid rgba(0, 240, 255, 0.2)',
-                borderBottom: '1px solid rgba(0, 240, 255, 0.2)',
-                padding: '8px 0',
-                marginBottom: '20px',
-                overflow: 'hidden',
-                whiteSpace: 'nowrap',
-                position: 'relative'
+            {/* SCANNER HERO SECTION */}
+            <div className="glass-panel" style={{
+                padding: '40px 20px',
+                textAlign: 'center',
+                marginBottom: '24px',
+                background: 'radial-gradient(circle, rgba(255, 0, 85, 0.1) 0%, rgba(2, 6, 23, 0.8) 70%)',
+                border: '1px solid #FF0055',
+                position: 'relative',
+                overflow: 'hidden'
             }}>
-                <div style={{ display: 'inline-block', animation: 'ticker 20s linear infinite' }}>
-                    {marketData.map(item => (
-                        <span key={item.id} style={{ marginRight: '30px', fontSize: '12px', fontFamily: 'monospace' }}>
-                            <span style={{ color: '#00F0FF', fontWeight: 'bold' }}>{item.symbol}</span>
-                            <span style={{ margin: '0 8px' }}>{item.price.toFixed(2)} ₺</span>
-                            <span style={{ color: item.change >= 0 ? '#4ade80' : '#ef4444' }}>
-                                {item.change >= 0 ? '▲' : '▼'} %{Math.abs(item.change)}
-                            </span>
-                        </span>
-                    ))}
-                    {marketData.map(item => (
-                        <span key={`${item.id}-dup`} style={{ marginRight: '30px', fontSize: '12px', fontFamily: 'monospace' }}>
-                            <span style={{ color: '#00F0FF', fontWeight: 'bold' }}>{item.symbol}</span>
-                            <span style={{ margin: '0 8px' }}>{item.price.toFixed(2)} ₺</span>
-                            <span style={{ color: item.change >= 0 ? '#4ade80' : '#ef4444' }}>
-                                {item.change >= 0 ? '▲' : '▼'} %{Math.abs(item.change)}
-                            </span>
-                        </span>
-                    ))}
-                </div>
-            </div>
-
-            {/* Main Terminal Grid */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '20px' }}>
-
-                {/* 1. CHART AREA (Mock) */}
-                <div className="glass-panel" style={{ padding: '20px', border: '1px solid rgba(0,240,255,0.2)', position: 'relative', overflow: 'hidden' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
-                        <div>
-                            <span style={{ fontSize: '20px', fontWeight: 'bold', color: '#00F0FF' }}>{selectedItem.symbol}</span>
-                            <span style={{ fontSize: '12px', marginLeft: '10px', color: 'rgba(255,255,255,0.6)' }}>/ TRY</span>
-                        </div>
-                        <div style={{ fontSize: '24px', fontWeight: 'bold', color: selectedItem.change >= 0 ? '#4ade80' : '#ef4444' }}>
-                            {selectedItem.price.toFixed(2)} ₺
-                        </div>
-                    </div>
-
-                    {/* Mock Graph Visual */}
+                {/* Simulated Scanner Laser */}
+                {scanning && (
                     <div style={{
-                        height: '150px',
-                        background: 'linear-gradient(180deg, rgba(0,240,255,0.1) 0%, rgba(0,0,0,0) 100%)',
-                        position: 'relative',
-                        borderBottom: '1px solid rgba(0,240,255,0.3)',
-                        clipPath: 'polygon(0 80%, 10% 75%, 20% 85%, 30% 60%, 40% 65%, 50% 40%, 60% 50%, 70% 30%, 80% 35%, 90% 10%, 100% 20%, 100% 100%, 0% 100%)'
+                        position: 'absolute', top: 0, left: 0, width: '100%', height: '4px',
+                        background: '#FF0055', boxShadow: '0 0 15px #FF0055',
+                        animation: 'scanDown 1.5s linear infinite'
+                    }}></div>
+                )}
+
+                <div style={{ marginBottom: '20px' }}>
+                    <div style={{
+                        width: '80px', height: '80px', margin: '0 auto',
+                        border: '2px dashed rgba(255,255,255,0.3)', borderRadius: '12px',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center'
                     }}>
-                        {/* Grid lines */}
-                        <div style={{ position: 'absolute', top: '25%', left: 0, width: '100%', height: '1px', background: 'rgba(255,255,255,0.1)' }}></div>
-                        <div style={{ position: 'absolute', top: '50%', left: 0, width: '100%', height: '1px', background: 'rgba(255,255,255,0.1)' }}></div>
-                        <div style={{ position: 'absolute', top: '75%', left: 0, width: '100%', height: '1px', background: 'rgba(255,255,255,0.1)' }}></div>
-                    </div>
-                    <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.4)', marginTop: '4px', display: 'flex', justifyContent: 'space-between' }}>
-                        <span>09:00</span><span>12:00</span><span>15:00</span><span>18:00</span>
+                        <CyberIcon name="qr" size={40} color={scanning ? "#FF0055" : "white"} />
                     </div>
                 </div>
 
-                {/* 2. ORDER ENTRY & ASSET LIST */}
-                <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '16px' }}>
+                <h2 style={{ fontSize: '18px', marginBottom: '8px' }}>Hizmet Noktası Bağlantısı</h2>
+                <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)', marginBottom: '24px', maxWidth: '240px', margin: '0 auto 24px auto' }}>
+                    Gıda, Su veya Giyim otomatlarını kullanmak için üzerindeki karekodu okutun.
+                </p>
 
-                    {/* Order Entry */}
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                        <div style={{ display: 'flex', background: 'rgba(255,255,255,0.1)', borderRadius: '8px', padding: '4px' }}>
-                            <button
-                                onClick={() => setActiveTab('market')}
-                                style={{ flex: 1, padding: '8px', background: activeTab === 'market' ? 'rgba(255,255,255,0.1)' : 'transparent', border: 'none', color: 'white', fontSize: '12px', cursor: 'pointer', borderRadius: '4px' }}
-                            >Piyasa</button>
-                            <button
-                                onClick={() => setActiveTab('limit')}
-                                style={{ flex: 1, padding: '8px', background: activeTab === 'limit' ? 'rgba(255,255,255,0.1)' : 'transparent', border: 'none', color: 'white', fontSize: '12px', cursor: 'pointer', borderRadius: '4px' }}
-                            >Limit</button>
-                        </div>
-
-                        <div className="glass-panel" style={{ padding: '16px' }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                                <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>Kullanılabilir</span>
-                                <span style={{ fontSize: '12px', fontWeight: 'bold' }}>1,240.50 IZM</span>
-                            </div>
-                            <div style={{ background: 'rgba(0,0,0,0.3)', padding: '12px', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', marginBottom: '16px' }}>
-                                <span style={{ color: 'rgba(255,255,255,0.6)' }}>Miktar</span>
-                                <input type="number" placeholder="0.00" style={{ background: 'transparent', border: 'none', color: 'white', textAlign: 'right', outline: 'none', width: '80px' }} />
-                            </div>
-
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-                                <button
-                                    onClick={() => handleTrade('AL')}
-                                    style={{ background: '#4ade80', color: '#00250f', border: 'none', padding: '12px', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', transition: 'transform 0.1s' }}
-                                >
-                                    AL
-                                </button>
-                                <button
-                                    onClick={() => handleTrade('SAT')}
-                                    style={{ background: '#ef4444', color: '#3f0c0c', border: 'none', padding: '12px', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', transition: 'transform 0.1s' }}
-                                >
-                                    SAT
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Market List */}
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                        {marketData.map(item => (
-                            <div
-                                key={item.id}
-                                onClick={() => setSelectedAsset(item.id)}
-                                style={{
-                                    padding: '12px',
-                                    background: selectedAsset === item.id ? 'rgba(0, 240, 255, 0.15)' : 'rgba(255,255,255,0.05)',
-                                    border: selectedAsset === item.id ? '1px solid #00F0FF' : '1px solid transparent',
-                                    borderRadius: '8px',
-                                    cursor: 'pointer',
-                                    transition: 'all 0.2s'
-                                }}
-                            >
-                                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', marginBottom: '4px' }}>
-                                    <span style={{ fontWeight: 'bold', color: 'white' }}>{item.symbol}</span>
-                                    <span style={{ color: item.change >= 0 ? '#4ade80' : '#ef4444' }}>{item.change}%</span>
-                                </div>
-                                <div style={{ fontSize: '14px', color: 'rgba(255,255,255,0.8)' }}>{item.price.toFixed(2)}</div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
+                <button
+                    onClick={handleScan}
+                    disabled={scanning || activeService}
+                    style={{
+                        background: scanning ? 'transparent' : '#FF0055',
+                        color: 'white', border: scanning ? '1px solid #FF0055' : 'none',
+                        padding: '14px 32px', borderRadius: '12px', fontWeight: 'bold', fontSize: '14px',
+                        cursor: scanning ? 'default' : 'pointer', transition: 'all 0.2s',
+                        boxShadow: scanning ? 'none' : '0 0 20px rgba(255, 0, 85, 0.4)'
+                    }}
+                >
+                    {scanning ? 'TARANIYOR...' : 'KAMERAYI AÇ'}
+                </button>
             </div>
+
+            {/* ACTIVE SERVICE PANEL (Shows after scan) */}
+            {activeService && (
+                <div style={{ animation: 'slideUp 0.3s ease', marginBottom: '24px' }}>
+                    <div style={{
+                        background: 'linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))',
+                        border: '1px solid #4ade80', borderRadius: '16px', padding: '20px'
+                    }}>
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                <div style={{ fontSize: '24px' }}>
+                                    {activeService === 'water' && '💧'}
+                                    {activeService === 'food' && '🍎'}
+                                    {activeService === 'clothing' && '👕'}
+                                </div>
+                                <div>
+                                    <div style={{ fontWeight: 'bold', fontSize: '16px' }}>
+                                        {activeService === 'water' && 'Akıllı Çeşme'}
+                                        {activeService === 'food' && 'Gıda Ünitesi'}
+                                        {activeService === 'clothing' && 'Giyim Bankası'}
+                                    </div>
+                                    <div style={{ fontSize: '10px', color: '#4ade80' }}>● CİHAZ AKTİF</div>
+                                </div>
+                            </div>
+                            <div style={{
+                                background: '#4ade80', color: 'black', fontSize: '10px', fontWeight: 'bold',
+                                padding: '4px 8px', borderRadius: '4px'
+                            }}>
+                                BAĞLANDI
+                            </div>
+                        </div>
+
+                        {/* Action Area */}
+                        <div style={{ background: 'rgba(0,0,0,0.3)', borderRadius: '12px', padding: '16px', marginBottom: '16px' }}>
+                            {activeService === 'water' && (
+                                <>
+                                    <div style={{ fontSize: '12px', marginBottom: '8px', color: 'rgba(255,255,255,0.7)' }}>SU KALİTESİ: <span style={{ color: 'white' }}>PH 7.4</span></div>
+                                    <div style={{ fontSize: '12px', marginBottom: '0', color: 'rgba(255,255,255,0.7)' }}>FİLTRE DURUMU: <span style={{ color: '#4ade80' }}>%98</span></div>
+                                </>
+                            )}
+                            {activeService === 'food' && (
+                                <>
+                                    <div style={{ fontSize: '12px', marginBottom: '8px', color: 'rgba(255,255,255,0.7)' }}>STOK: <span style={{ color: 'white' }}>YETERLİ</span></div>
+                                    <div style={{ fontSize: '12px', marginBottom: '0', color: 'rgba(255,255,255,0.7)' }}>TAZELİK: <span style={{ color: '#4ade80' }}>%100</span></div>
+                                </>
+                            )}
+                            {activeService === 'clothing' && (
+                                <>
+                                    <div style={{ fontSize: '12px', marginBottom: '8px', color: 'rgba(255,255,255,0.7)' }}>BEDEN SEÇENEKLERİ: <span style={{ color: 'white' }}>S - M - L</span></div>
+                                    <div style={{ fontSize: '12px', marginBottom: '0', color: 'rgba(255,255,255,0.7)' }}>DURUM: <span style={{ color: '#4ade80' }}>TEMİZLENDİ</span></div>
+                                </>
+                            )}
+                        </div>
+
+                        <button
+                            onClick={handleDispense}
+                            style={{
+                                width: '100%', padding: '14px', borderRadius: '12px', border: 'none',
+                                background: 'white', color: 'black', fontWeight: 'bold', cursor: 'pointer'
+                            }}
+                        >
+                            {activeService === 'water' ? 'SU DOLDUR (5L)' : (activeService === 'food' ? 'PAKETİ AL' : 'GİYSİ SEÇİMİ')}
+                        </button>
+                    </div>
+                </div>
+            )}
+
+            {/* Service Status List */}
+            <h3 style={{ fontSize: '14px', color: 'rgba(255,255,255,0.6)', marginLeft: '4px', marginBottom: '12px' }}>YAKINDAKİ NOKTALAR</h3>
+            <div style={{ display: 'grid', gap: '12px' }}>
+                <ServiceCard
+                    icon="💧"
+                    title="Park İçi Çeşme"
+                    status="Aktif"
+                    distance="45m"
+                    color="#00F0FF"
+                />
+                <ServiceCard
+                    icon="🍎"
+                    title="Belediye Gıda Bankası"
+                    status="Orta Doluluk"
+                    distance="120m"
+                    color="#FACC15"
+                />
+                <ServiceCard
+                    icon="👕"
+                    title="Kıyafet Kumbarası"
+                    status="Dolmak Üzere"
+                    distance="350m"
+                    color="#a855f7"
+                />
+            </div>
+
             <style>{`
-                @keyframes ticker {
-                    0% { transform: translateX(0); }
-                    100% { transform: translateX(-50%); }
+                @keyframes scanDown {
+                    0% { top: 0; opacity: 0.5; }
+                    50% { opacity: 1; }
+                    100% { top: 100%; opacity: 0; }
+                }
+                @keyframes slideUp {
+                    from { transform: translateY(20px); opacity: 0; }
+                    to { transform: translateY(0); opacity: 1; }
                 }
             `}</style>
         </div>
     );
 };
+
+const ServiceCard = ({ icon, title, status, distance, color }) => (
+    <div className="glass-panel" style={{
+        padding: '16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        borderLeft: `3px solid ${color}`
+    }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <div style={{ fontSize: '20px' }}>{icon}</div>
+            <div>
+                <div style={{ fontWeight: 'bold', fontSize: '14px' }}>{title}</div>
+                <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.5)' }}>{status}</div>
+            </div>
+        </div>
+        <div style={{ fontSize: '12px', fontWeight: 'bold', color: color }}>{distance}</div>
+    </div>
+);
 
 export default Operation;

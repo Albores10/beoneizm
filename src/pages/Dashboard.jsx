@@ -111,31 +111,13 @@ const Dashboard = ({ onNavigate, onAssetClick, onProfileClick }) => {
                     color="#39FF14"
                     onNavigate={onNavigate}
                     subItems={[
-                        { label: 'Parklar', link: 'map', emoji: '🌳', status: 'Bakımda' },
-                        { label: 'Hava', emoji: '🍃', status: 'Temiz' },
-                        { label: 'Atık', emoji: '♻️', status: 'İşleniyor' },
-                        { label: 'Tarım', emoji: '🌱', status: 'Mevsimsel' }
+                        { label: 'Varlıklarım', link: 'wallet', emoji: '💳', status: 'Güvenli' },
+                        { label: 'Meclis', link: 'governance', emoji: '🗳️', status: '3 Aktif' },
+                        { label: 'Raporlar', link: 'resources', emoji: '📊', status: 'Aylık' },
+                        { label: 'Ayarlar', link: 'profile', emoji: '⚙️', status: 'Sistem' }
                     ]}
                 />
 
-            </div>
-
-            {/* SECONDARY MODULES (Wallet & Governance) */}
-            <div style={{ marginTop: '24px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                <div onClick={() => onNavigate('wallet')} style={{
-                    background: 'rgba(255,255,255,0.05)', borderRadius: '12px', padding: '16px',
-                    display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', cursor: 'pointer', border: '1px solid rgba(255,255,255,0.1)'
-                }}>
-                    <CyberIcon name="wallet" size={24} color="#00F0FF" />
-                    <div style={{ fontSize: '12px', color: 'white' }}>VARLIKLARIM</div>
-                </div>
-                <div onClick={() => onNavigate('governance')} style={{
-                    background: 'rgba(255,255,255,0.05)', borderRadius: '12px', padding: '16px',
-                    display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', cursor: 'pointer', border: '1px solid rgba(255,255,255,0.1)'
-                }}>
-                    <CyberIcon name="governance" size={24} color="#a855f7" />
-                    <div style={{ fontSize: '12px', color: 'white' }}>MECLİS</div>
-                </div>
             </div>
 
             <style>{`

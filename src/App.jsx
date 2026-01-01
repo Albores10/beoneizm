@@ -90,7 +90,18 @@ const AppContent = () => {
             }} />
           )}
 
-          <div style={{ paddingTop: '60px', paddingBottom: '80px', height: '100%', overflowY: 'auto', scrollbarWidth: 'none' }}>
+          <div style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            overflowY: 'scroll',
+            WebkitOverflowScrolling: 'touch',
+            paddingTop: '60px',
+            paddingBottom: '120px',
+            scrollbarWidth: 'none'
+          }}>
             {renderContent()}
           </div>
         </CityOSFrame>

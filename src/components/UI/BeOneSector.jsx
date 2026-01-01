@@ -4,7 +4,7 @@ import { CyberIcon } from './CyberIcons';
 const BeOneSector = ({ letter, title, items = [], color, icon, onNavigate }) => {
     const [isActive, setIsActive] = useState(false);
 
-    // Simplified list handling: Direct usage of items
+    // Simplified list handling
     const displayItems = items;
     const hasItems = displayItems && displayItems.length > 0;
 
@@ -14,7 +14,8 @@ const BeOneSector = ({ letter, title, items = [], color, icon, onNavigate }) => 
             marginBottom: '10px',
             borderLeft: `4px solid ${color}`,
             background: isActive ? 'linear-gradient(90deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0) 100%)' : 'rgba(0,0,0,0.2)',
-            transition: 'all 0.3s ease'
+            transition: 'all 0.3s ease',
+            position: 'relative'
         }}>
             {/* Sector Header */}
             <div
@@ -66,22 +67,20 @@ const BeOneSector = ({ letter, title, items = [], color, icon, onNavigate }) => 
                                 borderRadius: '8px',
                                 border: '1px solid rgba(255,255,255,0.1)',
                                 cursor: 'pointer',
-                                textAlign: 'center',
-                                transition: 'background 0.2s',
-                                display: 'flex',
-                                flexDirection: 'column',
-                                alignItems: 'center',
-                                gap: '8px'
+                                display: 'flex', alignItems: 'center', gap: '8px'
                             }}
                             onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}
                             onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.05)'}
                         >
                             <div style={{ fontSize: '20px' }}>{item.emoji || '🔹'}</div>
-                            {/* Or use CyberIcon if passed */}
-                            <div style={{ fontSize: '11px', color: 'white', fontWeight: 'bold' }}>{item.label}</div>
-                            {item.status && (
-                                <div style={{ fontSize: '9px', color: color }}>{item.status}</div>
-                            )}
+                            <div style={{ flex: 1 }}>
+                                <div style={{ fontSize: '11px', fontWeight: 'bold', color: 'white' }}>{item.label}</div>
+                                {item.value ? (
+                                    <div style={{ fontSize: '9px', color: color }}>{item.value}</div>
+                                ) : (
+                                    <div style={{ fontSize: '9px', color: color }}>{item.status}</div>
+                                )}
+                            </div>
                         </div>
                     ))}
 
@@ -92,20 +91,18 @@ const BeOneSector = ({ letter, title, items = [], color, icon, onNavigate }) => 
                         </div>
                     )}
                 </div>
-            </div>
+            )}
 
-            {/* Decorative Corner */ }
-    {
-        isActive && (
-            <div style={{
-                position: 'absolute', bottom: 0, right: 0,
-                width: '10px', height: '10px',
-                borderBottom: `2px solid ${color}`,
-                borderRight: `2px solid ${color}`
-            }}></div>
-        )
-    }
-        </div >
+            {/* Decorative Corner */}
+            {isActive && (
+                <div style={{
+                    position: 'absolute', bottom: 0, right: 0,
+                    width: '10px', height: '10px',
+                    borderBottom: `2px solid ${color}`,
+                    borderRight: `2px solid ${color}`
+                }}></div>
+            )}
+        </div>
     );
 };
 

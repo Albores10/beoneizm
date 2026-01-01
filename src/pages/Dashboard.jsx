@@ -109,14 +109,14 @@ const Dashboard = ({ onNavigate, onAssetClick, onProfileClick }) => {
 
                 {/* E - EKOSİSTEM */}
                 <BeOneSector
-                    letter="E"
                     title="EKOSİSTEM"
-                    color="#39FF14"
-                    onNavigate={onNavigate}
-                    subItems={[
-                        { label: 'Varlıklarım', link: 'wallet', emoji: '💳', status: 'Güvenli' },
-                        { label: 'Meclis', link: 'governance', emoji: '🗳️', status: '3 Aktif' },
-                        { label: 'Raporlar', link: 'resources', emoji: '📊', status: 'Aylık' }
+                    icon="hive"
+                    color="#a855f7"
+                    items={[
+                        { label: 'Yönetişim', value: 'AKTİF', icon: 'gavel', action: () => navigate('/governance') },
+                        { label: 'Şeffaflık', value: 'AÇIK', icon: 'visible', action: () => navigate('/transparency') },
+                        { label: 'Operasyon', value: 'NORMAL', icon: 'pulse', action: () => navigate('/operation') },
+                        { label: 'Profil', value: 'KİMLİK', icon: 'user', action: () => onProfileClick() }
                     ]}
                 />
 

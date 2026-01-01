@@ -21,52 +21,34 @@ import { EmergencyProvider, useEmergency } from './context/EmergencyContext'
 import LoginScreen from './pages/LoginScreen'
 import TutorialOverlay from './components/UI/TutorialOverlay'
 
+import ErrorBoundary from './components/UI/ErrorBoundary'
+
 const AppContent = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [showTutorial, setShowTutorial] = useState(false);
-  const [activeTab, setActiveTab] = useState('dashboard');
-  const [mode, setMode] = useState('anime');
-  const [selectedAsset, setSelectedAsset] = useState(null);
-  const [showProfile, setShowProfile] = useState(false);
-
-  const { isEmergency } = useEmergency();
-
-  const handleLogin = () => {
-    setIsLoggedIn(true);
-    setTimeout(() => setShowTutorial(true), 1000);
-  };
-
-  useEffect(() => {
-    document.body.className = '';
-    if (isEmergency) {
-      document.body.classList.add('mode-emergency');
-    } else if (mode === 'classic') {
-      document.body.classList.add('mode-classic');
-    }
-  }, [mode, isEmergency]);
-
-  const toggleMode = (newMode) => setMode(newMode);
+  // ... existing state ...
+  // ... existing hooks ...
 
   // Content Renderer with Suspense
   const renderContent = () => {
     return (
-      <Suspense fallback={
-        <div style={{
-          height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center',
-          color: '#00F0FF', fontFamily: 'monospace', letterSpacing: '2px'
-        }}>
-          YÜKLENİYOR...
-        </div>
-      }>
-        {activeTab === 'dashboard' && <Dashboard onNavigate={setActiveTab} onAssetClick={setSelectedAsset} onProfileClick={() => setShowProfile(true)} />}
-        {activeTab === 'map' && <Map />}
-        {activeTab === 'housing' && <Housing />}
-        {activeTab === 'wallet' && <Wallet />}
-        {activeTab === 'governance' && <Governance />}
-        {activeTab === 'market' && <Operation />}
-        {activeTab === 'logistics' && <Logistics />}
-        {activeTab === 'transparency' && <Transparency />}
-      </Suspense>
+      <ErrorBoundary>
+        <Suspense fallback={
+          <div style={{
+            height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center',
+            color: '#00F0FF', fontFamily: 'monospace', letterSpacing: '2px'
+          }}>
+            YÜKLENİYOR...
+          </div>
+        }>
+          {activeTab === 'dashboard' && <Dashboard onNavigate={setActiveTab} onAssetClick={setSelectedAsset} onProfileClick={() => setShowProfile(true)} />}
+          {activeTab === 'map' && <Map />}
+          {activeTab === 'housing' && <Housing />}
+          {activeTab === 'wallet' && <Wallet />}
+          {activeTab === 'governance' && <Governance />}
+          {activeTab === 'market' && <Operation />}
+          {activeTab === 'logistics' && <Logistics />}
+          {activeTab === 'transparency' && <Transparency />}
+        </Suspense>
+      </ErrorBoundary>
     );
   };
 

@@ -72,10 +72,10 @@ const Dashboard = ({ onNavigate, onAssetClick, onProfileClick }) => {
                     color="#00F0FF"
                     onNavigate={onNavigate}
                     items={[
-                        { label: 'Şebeke', emoji: '⚡', status: 'Normal' },
-                        { label: 'Güneş', emoji: '☀️', status: '%112 Verim' },
-                        { label: 'Rüzgar', emoji: '💨', status: 'Aktif' },
-                        { label: 'Tüketim', emoji: '📉', status: 'Düşük' }
+                        { label: 'Şebeke', link: 'transparency', emoji: '⚡', status: 'Normal' },
+                        { label: 'Güneş', link: 'transparency', emoji: '☀️', status: '%112 Verim' },
+                        { label: 'Rüzgar', link: 'transparency', emoji: '💨', status: 'Aktif' },
+                        { label: 'Tüketim', link: 'transparency', emoji: '📉', status: 'Düşük' }
                     ]}
                 />
 
@@ -89,7 +89,7 @@ const Dashboard = ({ onNavigate, onAssetClick, onProfileClick }) => {
                         { label: 'Gıda', link: 'operation', emoji: '🍎', status: 'Yeterli' },
                         { label: 'Su', link: 'operation', emoji: '💧', status: 'Kritik' },
                         { label: 'Giyim', link: 'operation', emoji: '👕', status: 'Stokta' },
-                        { label: 'Güvenlik', emoji: '🛡️', status: 'Yüksek' }
+                        { label: 'Güvenlik', link: 'map', emoji: '🛡️', status: 'Yüksek' }
                     ]}
                 />
 

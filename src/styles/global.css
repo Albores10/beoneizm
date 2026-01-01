@@ -102,8 +102,7 @@ body.mode-classic .glow-text {
     text-shadow: none;
 }
 
-transform: none !important;
-}
+
 
 /* Emergency Mode (Red Alert) */
 body.mode-emergency {

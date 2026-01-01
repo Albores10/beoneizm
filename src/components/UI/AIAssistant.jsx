@@ -57,7 +57,7 @@ const AIAssistant = ({ isOpen: externalIsOpen, onClose }) => {
                     onClick={() => setInternalIsOpen(true)}
                     style={{
                         position: 'fixed',
-                        bottom: '100px',
+                        bottom: '120px', // Raised to clear BottomNav
                         right: '25px',
                         width: '60px',
                         height: '60px',
@@ -80,7 +80,7 @@ const AIAssistant = ({ isOpen: externalIsOpen, onClose }) => {
             {isOpen && (
                 <div style={{
                     position: 'fixed',
-                    bottom: '100px',
+                    bottom: '120px', // Raised to clear BottomNav
                     right: '20px',
                     width: '340px',
                     height: '500px',

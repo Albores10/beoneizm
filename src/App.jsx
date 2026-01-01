@@ -95,7 +95,7 @@ const AppContent = () => {
         }} />}
 
         <CityOSFrame mode={mode}>
-          <ModeSelector currentMode={mode} onToggle={toggleMode} />
+
 
           {mode === 'anime' && !isEmergency && (
             <div style={{
@@ -109,7 +109,7 @@ const AppContent = () => {
         </CityOSFrame>
 
         {selectedAsset && <AssetDetail assetId={selectedAsset.id} onClose={() => setSelectedAsset(null)} />}
-        {showProfile && <ProfileModal onClose={() => setShowProfile(false)} />}
+        {showProfile && <ProfileModal onClose={() => setShowProfile(false)} currentMode={mode} onToggleMode={toggleMode} />}
         {showResources && <ResourcesModal onClose={() => setShowResources(false)} />}
 
         <AIAssistant isOpen={activeTab === 'quick_action'} onClose={() => setActiveTab('dashboard')} />

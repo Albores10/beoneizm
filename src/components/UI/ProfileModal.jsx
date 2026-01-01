@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ProfileModal = ({ onClose }) => {
+const ProfileModal = ({ onClose, currentMode, onToggleMode }) => {
     return (
         <div style={{
             position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
@@ -70,6 +70,27 @@ const ProfileModal = ({ onClose }) => {
                     <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
                         <span style={{ color: 'rgba(255,255,255,0.6)' }}>Rol</span>
                         <span style={{ fontWeight: 'bold', color: '#FFD700' }}>Sistem Mimarı</span>
+                    </div>
+                </div>
+
+                {/* System Settings: Visual Mode */}
+                <div style={{ marginTop: '16px', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '16px' }}>
+                    <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>GÖRSEL MOD</div>
+                    <div style={{ display: 'flex', background: 'rgba(0,0,0,0.3)', borderRadius: '8px', padding: '4px' }}>
+                        <button onClick={() => onToggleMode('anime')} style={{
+                            flex: 1, padding: '8px', border: 'none', borderRadius: '6px', cursor: 'pointer',
+                            background: currentMode === 'anime' ? 'var(--color-primary)' : 'transparent',
+                            color: currentMode === 'anime' ? 'black' : 'rgba(255,255,255,0.6)', fontWeight: 'bold', fontSize: '12px', transition: 'all 0.2s'
+                        }}>
+                            ✨ ANIME
+                        </button>
+                        <button onClick={() => onToggleMode('classic')} style={{
+                            flex: 1, padding: '8px', border: 'none', borderRadius: '6px', cursor: 'pointer',
+                            background: currentMode === 'classic' ? 'white' : 'transparent',
+                            color: currentMode === 'classic' ? 'black' : 'rgba(255,255,255,0.6)', fontWeight: 'bold', fontSize: '12px', transition: 'all 0.2s'
+                        }}>
+                            👓 FOCUS
+                        </button>
                     </div>
                 </div>
 

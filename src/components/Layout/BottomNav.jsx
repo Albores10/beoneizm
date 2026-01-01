@@ -57,18 +57,23 @@ const BottomNav = ({ activeTab, onTabChange }) => {
                     </svg>
                 }
             />
-            <div style={{
-                width: '56px',
-                height: '56px',
-                borderRadius: '50%',
-                background: 'linear-gradient(135deg, var(--color-primary), #00C6FF)',
-                marginTop: '-30px',
-                boxShadow: '0 4px 15px rgba(0, 122, 255, 0.4)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                border: '3px solid rgba(255,255,255,0.2)'
-            }}>
+            <div
+                onClick={() => onTabChange('quick_action')}
+                style={{
+                    width: '56px',
+                    height: '56px',
+                    borderRadius: '50%',
+                    background: 'linear-gradient(135deg, var(--color-primary), #00C6FF)',
+                    marginTop: '-30px',
+                    boxShadow: '0 4px 15px rgba(0, 122, 255, 0.4)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '3px solid rgba(255,255,255,0.2)',
+                    cursor: 'pointer',
+                    transition: 'transform 0.2s',
+                    zIndex: 1002
+                }}>
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <line x1="12" y1="5" x2="12" y2="19"></line>
                     <line x1="5" y1="12" x2="19" y2="12"></line>

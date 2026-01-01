@@ -1,7 +1,21 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-const AIAssistant = () => {
-    const [isOpen, setIsOpen] = useState(false);
+const AIAssistant = ({ isOpen: externalIsOpen, onClose }) => {
+    const [internalIsOpen, setInternalIsOpen] = useState(false);
+
+    // Sync external state if provided
+    useEffect(() => {
+        if (externalIsOpen !== undefined) {
+            setInternalIsOpen(externalIsOpen);
+        }
+    }, [externalIsOpen]);
+
+    const handleClose = () => {
+        setInternalIsOpen(false);
+        if (onClose) onClose();
+    };
+
+    const isOpen = internalIsOpen;
     const [messages, setMessages] = useState([
         { id: 1, text: "SİSTEM HAZIR. PİLOT, NASIL YARDIMCI OLABİLİRİM?", sender: 'bot' }
     ]);
@@ -40,7 +54,7 @@ const AIAssistant = () => {
             {/* Holographic Orb Button */}
             {!isOpen && (
                 <button
-                    onClick={() => setIsOpen(true)}
+                    onClick={() => setInternalIsOpen(true)}
                     style={{
                         position: 'fixed',
                         bottom: '100px',
@@ -93,7 +107,7 @@ const AIAssistant = () => {
                             <div style={{ width: '8px', height: '8px', background: 'var(--color-primary)', borderRadius: '50%', boxShadow: '0 0 10px var(--color-primary)' }}></div>
                             <span style={{ fontFamily: 'monospace', fontWeight: 'bold', letterSpacing: '2px', color: 'var(--color-primary)' }}>AI_LINK_V2.0</span>
                         </div>
-                        <button onClick={() => setIsOpen(false)} style={{ background: 'none', border: 'none', color: 'var(--color-primary)', fontSize: '24px', cursor: 'pointer' }}>×</button>
+                        <button onClick={handleClose} style={{ background: 'none', border: 'none', color: 'var(--color-primary)', fontSize: '24px', cursor: 'pointer' }}>×</button>
                     </div>
 
                     {/* Messages */}

@@ -102,7 +102,7 @@ const AppContent = () => {
         {selectedAsset && <AssetDetail assetId={selectedAsset.id} onClose={() => setSelectedAsset(null)} />}
         {showProfile && <ProfileModal onClose={() => setShowProfile(false)} />}
 
-        <AIAssistant />
+        <AIAssistant isOpen={activeTab === 'quick_action'} onClose={() => setActiveTab('dashboard')} />
       </div>
 
       <BottomNav activeTab={activeTab} onTabChange={setActiveTab} />

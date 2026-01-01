@@ -12,22 +12,26 @@ const TutorialOverlay = ({ onComplete }) => {
         {
             title: "Canlı Veriler",
             text: "Şehrin sağlık, enerji ve güvenlik durumunu buradan anlık takip edebilirsin. Göstergeler sürekli güncellenir.",
-            highlight: { top: '100px', left: '20px', width: '90%', height: '100px' }
+            // Corrected: Point to Top Right Status Grid in Dashboard
+            highlight: { top: '80px', right: '20px', width: '140px', height: '60px' }
         },
         {
             title: "Dijital Kimlik",
             text: "Profiline buradan ulaşabilirsin. Seviye atla, rozet kazan ve şehrin yönetiminde söz sahibi ol.",
-            highlight: { top: '20px', right: '20px', width: '60px', height: '60px', borderRadius: '50%' }
+            // Corrected: Point to Profile Avatar in Dashboard Header (approx)
+            highlight: { top: '80px', left: '20px', width: '60px', height: '60px', borderRadius: '50%' }
         },
         {
             title: "Varlık Yönetimi",
             text: "Konut fonlarından, güneş tarlalarına kadar 'Tuğla' alarak şehre yatırım yapabilirsin.",
-            highlight: { bottom: '100px', left: '0', width: '100%', height: '150px' }
+            // Corrected: Point to Wallet Module (approx 200px down)
+            highlight: { top: '160px', left: '16px', right: '16px', width: 'auto', height: '100px' }
         },
         {
             title: "Acil Durum (SOS)",
             text: "Herhangi bir afet durumunda arayüz 'Kırmızı Alarm' moduna geçer. Güvenli bölgeleri haritada bulabilirsin.",
-            highlight: { top: '20px', right: '100px', width: '50px', height: '50px' }
+            // Corrected: Point to Top Right SOS button in CityOSFrame
+            highlight: { top: '10px', right: '10px', width: '200px', height: '50px' }
         }
     ];
 
@@ -41,6 +45,15 @@ const TutorialOverlay = ({ onComplete }) => {
         }
     };
 
+    const handleSkip = () => {
+        // Automatically check "Don't show again" if skipped? 
+        // Or just close. Let's assume skip implies "I know this", so we save it.
+        const dontShow = document.getElementById('dontShow')?.checked;
+        onComplete(true); // Force true for skip? No, let's respect the checkbox OR force it. 
+        // User asked for "Skip", usually means "Close now". 
+        // Using "true" ensures it doesn't annoy them again if they skipped it.
+    };
+
     return (
         <div style={{
             position: 'fixed',
@@ -51,6 +64,27 @@ const TutorialOverlay = ({ onComplete }) => {
             zIndex: 9000,
             pointerEvents: 'auto'
         }}>
+            {/* Skip Button */}
+            <button
+                onClick={() => onComplete(true)}
+                style={{
+                    position: 'absolute',
+                    top: '20px',
+                    right: '20px',
+                    background: 'rgba(0,0,0,0.5)',
+                    color: 'rgba(255,255,255,0.7)',
+                    border: '1px solid rgba(255,255,255,0.3)',
+                    padding: '8px 16px',
+                    borderRadius: '20px',
+                    cursor: 'pointer',
+                    zIndex: 9002,
+                    fontSize: '12px',
+                    fontWeight: 'bold',
+                    pointerEvents: 'auto'
+                }}>
+                EĞİTİMİ ATLA ⏭
+            </button>
+
             {/* Dark Mask with Cutout simulation aka 'Spotlight' */}
             <div style={{
                 position: 'absolute', width: '100%', height: '100%', background: 'rgba(0,0,0,0.7)',
@@ -58,12 +92,12 @@ const TutorialOverlay = ({ onComplete }) => {
                     ? `polygon(
                         0% 0%, 
                         0% 100%, 
-                        ${currentStep.highlight.left} 100%, 
-                        ${currentStep.highlight.left} ${currentStep.highlight.top}, 
-                        calc(${currentStep.highlight.left} + ${currentStep.highlight.width}) ${currentStep.highlight.top}, 
-                        calc(${currentStep.highlight.left} + ${currentStep.highlight.width}) calc(${currentStep.highlight.top} + ${currentStep.highlight.height}), 
-                        ${currentStep.highlight.left} calc(${currentStep.highlight.top} + ${currentStep.highlight.height}), 
-                        ${currentStep.highlight.left} 100%, 
+                        ${currentStep.highlight.left || '0px'} 100%, 
+                        ${currentStep.highlight.left || '0px'} ${currentStep.highlight.top}, 
+                        calc(${currentStep.highlight.left || '0px'} + ${currentStep.highlight.width}) ${currentStep.highlight.top}, 
+                        calc(${currentStep.highlight.left || '0px'} + ${currentStep.highlight.width}) calc(${currentStep.highlight.top} + ${currentStep.highlight.height}), 
+                        ${currentStep.highlight.left || '0px'} calc(${currentStep.highlight.top} + ${currentStep.highlight.height}), 
+                        ${currentStep.highlight.left || '0px'} 100%, 
                         100% 100%, 
                         100% 0%
                       )`

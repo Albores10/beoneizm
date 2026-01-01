@@ -129,8 +129,19 @@ const CityOSFrame = ({ children, mode }) => {
                 </>
             )}
 
-            {/* Main Content Area Passthrough */}
-            <div style={{ flex: 1, position: 'relative', pointerEvents: 'auto' }}>
+            {/* Main Content Area - SCROLL CONTAINER */}
+            <div style={{
+                flex: 1,
+                position: 'relative',
+                pointerEvents: 'auto',
+                overflowY: 'auto',
+                overflowX: 'hidden',
+                WebkitOverflowScrolling: 'touch',
+                paddingTop: '20px',
+                paddingBottom: '120px', // Space for BottomNav
+                width: '100%',
+                scrollbarWidth: 'none' // Optional: Hide scrollbar
+            }}>
                 {children}
             </div>
 

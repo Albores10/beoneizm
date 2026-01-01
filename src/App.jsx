@@ -90,20 +90,8 @@ const AppContent = () => {
             }} />
           )}
 
-          <div style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            overflowY: 'scroll',
-            WebkitOverflowScrolling: 'touch',
-            paddingTop: '60px',
-            paddingBottom: '120px',
-            scrollbarWidth: 'none'
-          }}>
-            {renderContent()}
-          </div>
+          {/* Content is now scrolled by CityOSFrame */}
+          {renderContent()}
         </CityOSFrame>
 
         {selectedAsset && <AssetDetail assetId={selectedAsset.id} onClose={() => setSelectedAsset(null)} />}

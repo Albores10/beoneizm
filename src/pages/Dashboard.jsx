@@ -115,7 +115,6 @@ const Dashboard = ({ onNavigate, onAssetClick, onProfileClick }) => {
                     items={[
                         { label: 'Yönetişim', value: 'AKTİF', icon: 'gavel', action: () => navigate('/governance') },
                         { label: 'Şeffaflık', value: 'AÇIK', icon: 'visible', action: () => navigate('/transparency') },
-                        { label: 'Operasyon', value: 'NORMAL', icon: 'pulse', action: () => navigate('/operation') },
                         { label: 'Raporlar', value: 'AYLIK', icon: 'graph', action: () => navigate('/transparency') },
                         { label: 'Profil', value: 'KİMLİK', icon: 'user', action: () => onProfileClick() }
                     ]}

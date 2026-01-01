@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { CyberIcon } from './CyberIcons';
 
-const BeOneSector = ({ letter, title, subItems = [], items = [], color, icon, onNavigate }) => {
+const BeOneSector = ({ letter, title, subItems, items, color, icon, onNavigate }) => {
     const [isActive, setIsActive] = useState(false);
 
-    // Unified list handling: Support both 'subItems' (legacy) and 'items' (new)
-    const displayItems = subItems || items || [];
+    // Unified list handling: Fix empty array truthy bug
+    // If subItems exists and has length, use it. Otherwise try items. Finally default to [].
+    const displayItems = (subItems && subItems.length > 0) ? subItems : (items || []);
     const hasItems = displayItems.length > 0;
 
     return (

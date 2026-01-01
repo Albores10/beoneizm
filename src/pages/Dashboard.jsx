@@ -2,10 +2,13 @@ import React from 'react';
 import SystemModule from '../components/UI/SystemModule';
 import BeOneSector from '../components/UI/BeOneSector';
 import { CyberIcon } from '../components/UI/CyberIcons';
+import { useUser } from '../context/UserContext';
 
 const Dashboard = ({ onNavigate, onAssetClick, onProfileClick }) => {
+    const { user } = useUser();
     return (
         <div style={{ padding: '20px', paddingBottom: '140px' }}>
+
 
             {/* HIGH-FIDELITY HUD HEADER */}
             <div style={{
@@ -19,7 +22,7 @@ const Dashboard = ({ onNavigate, onAssetClick, onProfileClick }) => {
                         {/* Profile Avatar with Hex Frame */}
                         <div onClick={onProfileClick} style={{
                             width: '56px', height: '56px',
-                            background: 'url(https://placehold.co/100) center/cover',
+                            background: `url(${user.avatar}) center/cover`,
                             clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)',
                             border: '2px solid var(--color-primary)',
                             boxShadow: '0 0 15px rgba(0, 240, 255, 0.3)',

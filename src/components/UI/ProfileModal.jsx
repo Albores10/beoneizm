@@ -1,6 +1,25 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import { useUser } from '../../context/UserContext';
+import { useToast } from './ToastManager';
+import { CyberIcon } from './CyberIcons';
 
 const ProfileModal = ({ onClose, currentMode, onToggleMode }) => {
+    const { user, updateAvatar } = useUser();
+    const { addToast } = useToast();
+    const fileInputRef = useRef(null);
+
+    const handleFileChange = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                updateAvatar(reader.result);
+                addToast("Profil fotoğrafı güncellendi!", "success");
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
     return (
         <div style={{
             position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
@@ -28,48 +47,65 @@ const ProfileModal = ({ onClose, currentMode, onToggleMode }) => {
 
                 {/* Holographic Header */}
                 <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px', borderBottom: '1px solid rgba(0, 240, 255, 0.3)', paddingBottom: '16px' }}>
-                    <div style={{
-                        width: '80px', height: '80px',
-                        borderRadius: '12px',
-                        border: '2px solid var(--color-primary)',
-                        background: 'url(https://placehold.co/100) center/cover', // User can add real image later
-                        position: 'relative',
-                        overflow: 'hidden'
-                    }}>
-                        {/* Placeholder for User Image Upload */}
-                        <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.5)', color: 'white', fontSize: '10px', opacity: 0, transition: 'opacity 0.2s', cursor: 'pointer', ':hover': { opacity: 1 } }}>
-                            Resim Ekle
+
+                    {/* AVATAR UPLOAD SECTION */}
+                    <div
+                        onClick={() => fileInputRef.current.click()}
+                        style={{
+                            width: '80px', height: '80px',
+                            borderRadius: '12px',
+                            border: '2px solid var(--color-primary)',
+                            background: `url(${user.avatar}) center/cover`,
+                            position: 'relative',
+                            overflow: 'hidden',
+                            cursor: 'pointer',
+                            boxShadow: '0 0 15px rgba(0,240,255,0.3)'
+                        }}
+                    >
+                        <input
+                            type="file"
+                            ref={fileInputRef}
+                            style={{ display: 'none' }}
+                            accept="image/*"
+                            onChange={handleFileChange}
+                        />
+                        <div style={{
+                            position: 'absolute', inset: 0,
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            background: 'rgba(0,0,0,0.6)', color: '#00F0FF',
+                            fontSize: '10px', fontWeight: 'bold',
+                            opacity: 0, transition: 'opacity 0.2s',
+                            ':hover': { opacity: 1 }
+                        }} className="avatar-hover-overlay">
+                            DEĞİŞTİR
                         </div>
-                        <div style={{ position: 'absolute', bottom: '-5px', right: '-5px', background: 'var(--color-primary)', color: 'black', fontSize: '10px', fontWeight: 'bold', padding: '2px 4px' }}>LVL 12</div>
+                        <div style={{ position: 'absolute', bottom: '-5px', right: '-5px', background: 'var(--color-primary)', color: 'black', fontSize: '10px', fontWeight: 'bold', padding: '2px 4px' }}>LVL {user.level}</div>
                     </div>
+
                     <div>
                         <div style={{ fontSize: '10px', color: 'var(--color-primary)', letterSpacing: '1px' }}>BEONE CITIZEN ID</div>
-                        <h2 style={{ margin: '4px 0', fontSize: '24px', color: 'white', textShadow: '0 0 10px rgba(0, 240, 255, 0.5)' }}>ŞAFAK BİROL</h2>
-                        <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>ID: #8821-X992-IZM</div>
+                        <h2 style={{ margin: '4px 0', fontSize: '24px', color: 'white', textShadow: '0 0 10px rgba(0, 240, 255, 0.5)' }}>{user.name}</h2>
+                        <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>ID: {user.citizenId}</div>
                     </div>
                 </div>
 
-                {/* Stats Grid - Updated Terminology */}
+                {/* Stats Grid */}
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '24px' }}>
-                    <StatBox label="İZMİR DENEYİM PUANI" value="9,450 / 10K" color="#FFD700" />
-                    <StatBox label="IZM TOKEN" value="1,240" color="#00F0FF" />
-                    <StatBox label="ÇEVRECİLİK PUANI" value="840 / 1000" color="#4ade80" />
-                    <StatBox label="PROAKTİFLİK PUANI" value="920 / 1000" color="#a855f7" />
+                    <StatBox label="İZMİR DENEYİM" value={user.stats.xp} color="#FFD700" />
+                    <StatBox label="IZM TOKEN" value={user.stats.tokens} color="#00F0FF" />
+                    <StatBox label="ÇEVRECİLİK" value={user.stats.eco} color="#4ade80" />
+                    <StatBox label="PROAKTİFLİK" value={user.stats.proactive} color="#a855f7" />
                 </div>
 
                 {/* Bio Data */}
                 <div style={{ background: 'rgba(255,255,255,0.03)', padding: '12px', borderRadius: '8px', marginBottom: '20px' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '12px' }}>
-                        <span style={{ color: 'rgba(255,255,255,0.6)' }}>Kan Grubu</span>
-                        <span style={{ fontWeight: 'bold', color: 'white' }}>A Rh+</span>
-                    </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '12px' }}>
-                        <span style={{ color: 'rgba(255,255,255,0.6)' }}>İkamet</span>
-                        <span style={{ fontWeight: 'bold', color: 'white', textAlign: 'right', maxWidth: '60%' }}>Apt. No: 12, Kültür Mah., Konak, İzmir</span>
+                        <span style={{ color: 'rgba(255,255,255,0.6)' }}>Ünvan</span>
+                        <span style={{ fontWeight: 'bold', color: '#FFD700' }}>{user.title}</span>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                        <span style={{ color: 'rgba(255,255,255,0.6)' }}>Rol</span>
-                        <span style={{ fontWeight: 'bold', color: '#FFD700' }}>Sistem Mimarı</span>
+                        <span style={{ color: 'rgba(255,255,255,0.6)' }}>Yetki Seviyesi</span>
+                        <span style={{ fontWeight: 'bold', color: 'white' }}>Yüksek (Level {user.level})</span>
                     </div>
                 </div>
 
@@ -94,21 +130,6 @@ const ProfileModal = ({ onClose, currentMode, onToggleMode }) => {
                     </div>
                 </div>
 
-                {/* Wallet Address */}
-                <div style={{
-                    marginTop: '16px',
-                    padding: '8px',
-                    background: 'rgba(0,0,0,0.5)',
-                    borderRadius: '8px',
-                    textAlign: 'center',
-                    fontFamily: 'monospace',
-                    fontSize: '10px',
-                    color: 'var(--color-text-dim)',
-                    border: '1px dashed rgba(255,255,255,0.1)'
-                }}>
-                    0x71C...92A4 (BeOne Chain)
-                </div>
-
                 {/* Scan Line Effect */}
                 <div style={{
                     position: 'absolute', top: 0, left: 0, width: '100%', height: '2px',
@@ -119,13 +140,15 @@ const ProfileModal = ({ onClose, currentMode, onToggleMode }) => {
                 <style>{`
                     @keyframes scanCard {
                         0% { top: 0; opacity: 0; }
-                        10% { opacity: 1; }
-                        90% { opacity: 1; }
+                        50% { opacity: 1; }
                         100% { top: 100%; opacity: 0; }
                     }
                     @keyframes fadeIn {
                         from { opacity: 0; transform: scale(0.95); }
                         to { opacity: 1; transform: scale(1); }
+                    }
+                    .avatar-hover-overlay:hover {
+                        opacity: 1 !important;
                     }
                 `}</style>
             </div>

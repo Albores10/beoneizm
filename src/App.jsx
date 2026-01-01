@@ -18,6 +18,7 @@ import ProfileModal from './components/UI/ProfileModal'
 import { ToastProvider } from './components/UI/ToastManager'
 import AIAssistant from './components/UI/AIAssistant'
 import { EmergencyProvider, useEmergency } from './context/EmergencyContext'
+import { UserProvider } from './context/UserContext'
 import LoginScreen from './pages/LoginScreen'
 import TutorialOverlay from './components/UI/TutorialOverlay'
 import MenuOverlay from './components/UI/MenuOverlay'
@@ -140,9 +141,11 @@ const AppContent = () => {
 function App() {
   return (
     <EmergencyProvider>
-      <ToastProvider>
-        <AppContent />
-      </ToastProvider>
+      <UserProvider>
+        <ToastProvider>
+          <AppContent />
+        </ToastProvider>
+      </UserProvider>
     </EmergencyProvider>
   )
 }

@@ -1,23 +1,42 @@
+// BottomNav.jsx - High Fidelity Refactor
 import React from 'react';
+import { CyberIcon } from '../UI/CyberIcons';
 
 const NavItem = ({ icon, label, active, onClick }) => (
     <button
         onClick={onClick}
         style={{
-            background: 'transparent',
-            border: 'none',
-            color: active ? 'var(--color-secondary)' : 'var(--color-text-light)',
+            background: active ? 'linear-gradient(180deg, rgba(0, 240, 255, 0.1) 0%, rgba(0,0,0,0) 100%)' : 'transparent',
+            border: active ? '1px solid rgba(0, 240, 255, 0.3)' : '1px solid transparent',
+            color: active ? '#00F0FF' : 'rgba(255,255,255,0.5)',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            gap: '4px',
+            justifyContent: 'center',
+            gap: '6px',
             cursor: 'pointer',
-            opacity: active ? 1 : 0.6,
-            transition: 'all 0.3s ease'
+            padding: '8px 12px',
+            borderRadius: '12px',
+            transition: 'all 0.3s ease',
+            minWidth: '60px',
+            position: 'relative',
+            overflow: 'hidden'
         }}
     >
-        {icon}
-        <span style={{ fontSize: '10px', fontWeight: 600 }}>{label}</span>
+        {/* Glow effect for active state */}
+        {active && (
+            <div style={{
+                position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
+                background: 'radial-gradient(circle at center, rgba(0,240,255,0.2) 0%, transparent 70%)',
+                zIndex: 0
+            }}></div>
+        )}
+
+        <div style={{ position: 'relative', zIndex: 1 }}>{icon}</div>
+        <span style={{ fontSize: '10px', fontWeight: 600, letterSpacing: '0.5px', position: 'relative', zIndex: 1 }}>{label}</span>
+
+        {/* Active Indicator Dot */}
+        {active && <div style={{ position: 'absolute', bottom: '4px', width: '4px', height: '4px', background: '#00F0FF', borderRadius: '50%', boxShadow: '0 0 5px #00F0FF' }}></div>}
     </button>
 );
 
@@ -28,84 +47,76 @@ const BottomNav = ({ activeTab, onTabChange }) => {
             bottom: '20px',
             left: '20px',
             right: '20px',
-            height: '70px',
+            height: '80px', // Slightly taller for better touch targets
             display: 'flex',
-            justifyContent: 'space-around',
+            justifyContent: 'space-between',
             alignItems: 'center',
             zIndex: 1000,
-            padding: '0 10px'
+            padding: '0 16px',
+            borderRadius: '24px', // More modern rounding
+            background: 'rgba(10, 25, 47, 0.85)', // Darker Navy
+            backdropFilter: 'blur(12px)',
+            border: '1px solid rgba(0, 240, 255, 0.15)',
+            boxShadow: '0 10px 30px rgba(0,0,0,0.5)'
         }}>
             <NavItem
                 label="Şehir"
                 active={activeTab === 'map'}
                 onClick={() => onTabChange('map')}
-                icon={
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                    </svg>
-                }
+                icon={<CyberIcon name="map" size={20} />}
             />
             <NavItem
                 label="Cüzdan"
                 active={activeTab === 'wallet'}
                 onClick={() => onTabChange('wallet')}
-                icon={
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-                        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
-                    </svg>
-                }
+                icon={<CyberIcon name="wallet" size={20} />}
             />
+
+            {/* CENTRAL COMMAND BUTTON */}
             <div
-                onClick={() => onTabChange('dashboard')} // Changed from quick_action to dashboard
+                onClick={() => onTabChange('dashboard')}
                 style={{
-                    width: '64px',
-                    height: '64px',
-                    borderRadius: '50%',
-                    background: 'var(--color-bg-dark)', // Dark background for contrast
-                    marginTop: '-30px',
-                    boxShadow: '0 0 20px rgba(0, 240, 255, 0.5)', // Cyan Glow
+                    width: '72px',
+                    height: '72px',
+                    borderRadius: '20px', // Squircle
+                    background: 'linear-gradient(135deg, #0a192f 0%, #112240 100%)',
+                    marginTop: '-40px',
+                    boxShadow: activeTab === 'dashboard'
+                        ? '0 0 25px rgba(0, 240, 255, 0.6), inset 0 0 10px rgba(0, 240, 255, 0.3)'
+                        : '0 0 15px rgba(0, 0, 0, 0.5)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     border: '2px solid var(--color-primary)', // Cyber border
                     cursor: 'pointer',
-                    transition: 'transform 0.2s',
+                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                     zIndex: 1002,
-                    position: 'relative'
+                    position: 'relative',
+                    transform: activeTab === 'dashboard' ? 'scale(1.1) translateY(-5px)' : 'scale(1)'
                 }}>
-                {/* Hexagon Shape inside for Command Center feel */}
+                {/* Inner Hexagon */}
                 <div style={{
-                    width: '32px', height: '32px',
+                    width: '40px', height: '40px',
                     background: 'var(--color-primary)',
                     clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center'
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    animation: activeTab === 'dashboard' ? 'pulse 2s infinite' : 'none'
                 }}>
-                    <div style={{ width: '12px', height: '12px', background: 'black', borderRadius: '50%' }}></div>
+                    <div style={{ width: '14px', height: '14px', background: '#0a192f', borderRadius: '50%' }}></div>
                 </div>
             </div>
+
             <NavItem
                 label="Market"
                 active={activeTab === 'market'}
                 onClick={() => onTabChange('market')}
-                icon={
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"></path>
-                    </svg>
-                }
+                icon={<CyberIcon name="market" size={20} />}
             />
             <NavItem
                 label="Menü"
                 active={activeTab === 'menu'}
                 onClick={() => onTabChange('menu')}
-                icon={
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <line x1="3" y1="12" x2="21" y2="12"></line>
-                        <line x1="3" y1="6" x2="21" y2="6"></line>
-                        <line x1="3" y1="18" x2="21" y2="18"></line>
-                    </svg>
-                }
+                icon={<CyberIcon name="guide" size={20} />}
             />
         </div>
     );

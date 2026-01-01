@@ -37,7 +37,10 @@ const AppContent = () => {
 
   const handleLogin = () => {
     setUserAuthenticated(true);
-    setTimeout(() => setShowTutorial(true), 1000);
+    const tutorialComplete = localStorage.getItem('tutorial_completed');
+    if (!tutorialComplete) {
+      setTimeout(() => setShowTutorial(true), 1000);
+    }
   };
 
   useEffect(() => {
@@ -84,7 +87,10 @@ const AppContent = () => {
     <>
       <div style={{ flex: 1, position: 'relative', height: '100vh', overflow: 'hidden' }}>
 
-        {showTutorial && <TutorialOverlay onComplete={() => setShowTutorial(false)} />}
+        {showTutorial && <TutorialOverlay onComplete={(dontShow) => {
+          if (dontShow) localStorage.setItem('tutorial_completed', 'true');
+          setShowTutorial(false);
+        }} />}
 
         <CityOSFrame mode={mode}>
           <ModeSelector currentMode={mode} onToggle={toggleMode} />

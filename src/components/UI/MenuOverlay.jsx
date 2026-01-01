@@ -19,7 +19,7 @@ const MenuOverlay = ({ onClose, onNavigate }) => {
         } else {
             onNavigate(id);
         }
-        onClose();
+        // onClose(); // REMOVED: onNavigate changes activeTab, which unmounts this component. Calling onClose resets tab to dashboard!
     };
 
     return (

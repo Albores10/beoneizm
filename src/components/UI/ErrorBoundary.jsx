@@ -10,7 +10,24 @@ class ErrorBoundary extends React.Component {
         return { hasError: true };
     }
 
+    componentDidMount() {
+        // If we successfully mounted, it means no crash happened immediately.
+        // We can safely clear the retry flag so future crashes will trigger a reload again.
+        sessionStorage.removeItem('retry-lazy-load');
+    }
+
     componentDidCatch(error, errorInfo) {
+        // Check for chunk load error
+        if (error.toString().includes("Failed to fetch dynamically imported module") || error.toString().includes("Importing a module script failed")) {
+            // Check if we already tried reloading to avoid infinite loop
+            const hasReloaded = sessionStorage.getItem('retry-lazy-load');
+            if (!hasReloaded) {
+                sessionStorage.setItem('retry-lazy-load', 'true');
+                window.location.reload();
+                return;
+            }
+        }
+
         this.setState({
             error: error,
             errorInfo: errorInfo

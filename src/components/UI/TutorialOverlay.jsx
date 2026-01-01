@@ -107,8 +107,19 @@ const TutorialOverlay = ({ onComplete }) => {
                 <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '14px', lineHeight: '1.6', marginBottom: '24px' }}>
                     {currentStep.text}
                 </p>
+                <div style={{ marginBottom: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                    <input type="checkbox" id="dontShow" style={{ accentColor: '#00F0FF' }} />
+                    <label htmlFor="dontShow" style={{ color: 'rgba(255,255,255,0.7)', fontSize: '12px' }}>Bir daha gösterme</label>
+                </div>
                 <button
-                    onClick={handleNext}
+                    onClick={() => {
+                        const dontShow = document.getElementById('dontShow')?.checked;
+                        if (step === steps.length - 1) {
+                            onComplete(dontShow);
+                        } else {
+                            handleNext();
+                        }
+                    }}
                     style={{
                         background: '#00F0FF',
                         color: 'black',

@@ -87,7 +87,7 @@ const BeOneSector = ({ letter, title, subItems, items, color, icon, onNavigate }
                     ))}
 
                     {/* Description Text if present */}
-                    {subItems.length === 0 && (
+                    {!hasItems && (
                         <div style={{ gridColumn: 'span 2', fontSize: '12px', color: 'rgba(255,255,255,0.5)', textAlign: 'center', padding: '10px' }}>
                             Sistem verileri yükleniyor...
                         </div>

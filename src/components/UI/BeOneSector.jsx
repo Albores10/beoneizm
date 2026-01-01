@@ -1,93 +1,68 @@
 import React, { useState } from 'react';
 import { CyberIcon } from './CyberIcons';
 
-const BeOneSector = ({ letter, title, subItems = [], color, icon, onNavigate }) => {
-    const [expanded, setExpanded] = useState(false);
+const BeOneSector = ({ letter, title, subItems = [], items = [], color, icon, onNavigate }) => {
+    const [isActive, setIsActive] = useState(false);
+
+    // Unified list handling: Support both 'subItems' (legacy) and 'items' (new)
+    const displayItems = subItems || items || [];
+    const hasItems = displayItems.length > 0;
 
     return (
-        <div style={{
-            background: expanded ? 'rgba(0, 20, 40, 0.9)' : 'rgba(255, 255, 255, 0.03)',
-            border: `1px solid ${expanded ? color : 'rgba(255,255,255,0.1)'}`,
-            borderRadius: '12px',
-            marginBottom: '12px',
-            overflow: 'hidden',
-            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-            boxShadow: expanded ? `0 0 20px -5px ${color}` : 'none',
-            position: 'relative'
+        <div className="glass-panel" style={{
+            padding: 0,
+            marginBottom: '10px',
+            borderLeft: `4px solid ${color}`,
+            background: isActive ? 'linear-gradient(90deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0) 100%)' : 'rgba(0,0,0,0.2)',
+            transition: 'all 0.3s ease'
         }}>
-            {/* Header / Clickable Area */}
+            {/* Sector Header */}
             <div
-                onClick={() => setExpanded(!expanded)}
+                onClick={() => setIsActive(!isActive)}
                 style={{
                     padding: '16px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    cursor: 'pointer',
-                    background: expanded ? `linear-gradient(90deg, ${color}20 0%, transparent 100%)` : 'transparent'
+                    cursor: 'pointer'
                 }}
             >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                    {/* Big Letter */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                     <div style={{
-                        fontSize: '32px',
-                        fontWeight: '900',
+                        width: '32px', height: '32px',
+                        borderRadius: '8px',
+                        background: `${color}20`,
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
                         color: color,
-                        fontFamily: 'rubik, sans-serif',
-                        textShadow: `0 0 10px ${color}`,
-                        width: '40px',
-                        textAlign: 'center'
+                        fontSize: '18px', fontWeight: 'bold', fontFamily: 'monospace'
                     }}>
-                        {letter}
+                        {icon ? <CyberIcon name={icon} size={18} color={color} /> : letter}
                     </div>
-
-                    {/* Title Info */}
                     <div>
-                        <div style={{
-                            fontSize: '16px',
-                            fontWeight: 'bold',
-                            color: 'white',
-                            letterSpacing: '1px',
-                            textTransform: 'uppercase'
-                        }}>
-                            {title}
+                        <div style={{ fontSize: '14px', fontWeight: 'bold', letterSpacing: '1px' }}>{title}</div>
+                        <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.5)' }}>
+                            {hasItems ? `${displayItems.length} ALT SİSTEM` : 'Sistem verileri yükleniyor...'}
                         </div>
-                        {!expanded && (
-                            <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.5)', marginTop: '2px' }}>
-                                {subItems.length} ALT SİSTEM
-                            </div>
-                        )}
                     </div>
                 </div>
-
-                {/* Right Icon / Arrow */}
-                <div style={{
-                    transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
-                    transition: 'transform 0.3s ease',
-                    color: color
-                }}>
+                <div style={{ transform: isActive ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.3s' }}>
                     ▼
                 </div>
             </div>
 
             {/* Expanded Content */}
-            <div style={{
-                height: expanded ? 'auto' : '0',
-                opacity: expanded ? 1 : 0,
-                transition: 'all 0.3s ease',
-                borderTop: expanded ? `1px solid ${color}40` : 'none'
-            }}>
-                <div style={{ padding: '16px', display: 'grid', gap: '12px', gridTemplateColumns: '1fr 1fr' }}>
-                    {subItems.map((item, index) => (
+            {isActive && (
+                <div style={{ padding: '0 16px 16px 16px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', animation: 'slideDown 0.3s' }}>
+                    {displayItems.map((item, idx) => (
                         <div
-                            key={index}
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                if (onNavigate && item.link) onNavigate(item.link);
+                            key={idx}
+                            onClick={() => {
+                                if (item.action) item.action();
+                                else if (item.link) onNavigate(item.link);
                             }}
                             style={{
                                 background: 'rgba(255,255,255,0.05)',
-                                padding: '12px',
+                                padding: '10px',
                                 borderRadius: '8px',
                                 border: '1px solid rgba(255,255,255,0.1)',
                                 cursor: 'pointer',
@@ -119,16 +94,18 @@ const BeOneSector = ({ letter, title, subItems = [], color, icon, onNavigate }) 
                 </div>
             </div>
 
-            {/* Decorative Corner */}
-            {expanded && (
-                <div style={{
-                    position: 'absolute', bottom: 0, right: 0,
-                    width: '10px', height: '10px',
-                    borderBottom: `2px solid ${color}`,
-                    borderRight: `2px solid ${color}`
-                }}></div>
-            )}
-        </div>
+            {/* Decorative Corner */ }
+    {
+        expanded && (
+            <div style={{
+                position: 'absolute', bottom: 0, right: 0,
+                width: '10px', height: '10px',
+                borderBottom: `2px solid ${color}`,
+                borderRight: `2px solid ${color}`
+            }}></div>
+        )
+    }
+        </div >
     );
 };
 

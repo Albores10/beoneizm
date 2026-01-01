@@ -75,6 +75,7 @@ const AppContent = () => {
           {activeTab === 'wallet' && <Wallet />}
           {activeTab === 'governance' && <Governance />}
           {activeTab === 'market' && <Operation />}
+          {activeTab === 'operation' && <Operation />}
           {activeTab === 'logistics' && <Logistics />}
           {activeTab === 'transparency' && <Transparency />}
         </Suspense>

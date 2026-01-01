@@ -52,7 +52,7 @@ const ProfileModal = ({ onClose }) => {
                 {/* Stats Grid - Updated Terminology */}
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '24px' }}>
                     <StatBox label="İZMİR DENEYİM PUANI" value="9,450 / 10K" color="#FFD700" />
-                    <StatBox label="IZM TOKEN" value="SINIRSIZ" color="#00F0FF" />
+                    <StatBox label="IZM TOKEN" value="1,240" color="#00F0FF" />
                     <StatBox label="ÇEVRECİLİK PUANI" value="840 / 1000" color="#4ade80" />
                     <StatBox label="PROAKTİFLİK PUANI" value="920 / 1000" color="#a855f7" />
                 </div>

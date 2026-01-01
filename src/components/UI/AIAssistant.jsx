@@ -10,6 +10,13 @@ const AIAssistant = ({ isOpen: externalIsOpen, onClose }) => {
         }
     }, [externalIsOpen]);
 
+    // Listen for custom event from CityOSFrame header
+    useEffect(() => {
+        const handleToggle = () => setInternalIsOpen(prev => !prev);
+        window.addEventListener('toggle-ai-assistant', handleToggle);
+        return () => window.removeEventListener('toggle-ai-assistant', handleToggle);
+    }, []);
+
     const handleClose = () => {
         setInternalIsOpen(false);
         if (onClose) onClose();
@@ -51,39 +58,16 @@ const AIAssistant = ({ isOpen: externalIsOpen, onClose }) => {
 
     return (
         <>
-            {/* Holographic Orb Button */}
-            {!isOpen && (
-                <button
-                    onClick={() => setInternalIsOpen(true)}
-                    style={{
-                        position: 'fixed',
-                        bottom: '120px', // Raised to clear BottomNav
-                        right: '25px',
-                        width: '60px',
-                        height: '60px',
-                        borderRadius: '50%',
-                        background: 'radial-gradient(circle at 30% 30%, #00F0FF, #007AFF)',
-                        border: '2px solid rgba(255,255,255,0.5)',
-                        boxShadow: '0 0 30px rgba(0, 240, 255, 0.6)',
-                        color: 'white',
-                        fontSize: '28px',
-                        cursor: 'pointer',
-                        zIndex: 1000,
-                        animation: 'orbFloat 3s ease-in-out infinite'
-                    }}
-                >
-                    🤖
-                </button>
-            )}
+            {/* FLOATING BUTTON REMOVED - Controlled by Header */}
 
             {/* Cyber Chat Interface */}
             {isOpen && (
                 <div style={{
                     position: 'fixed',
-                    bottom: '120px', // Raised to clear BottomNav
+                    top: '60px', // Positioned relative to Top Header now
                     right: '20px',
-                    width: '340px',
-                    height: '500px',
+                    width: '320px',
+                    height: '400px',
                     background: 'rgba(2, 6, 23, 0.95)', // Deep Navy
                     borderRadius: '16px',
                     border: '1px solid var(--color-primary)',
@@ -96,7 +80,7 @@ const AIAssistant = ({ isOpen: externalIsOpen, onClose }) => {
                 }}>
                     {/* Tech Header */}
                     <div style={{
-                        padding: '16px',
+                        padding: '12px',
                         background: 'rgba(0, 240, 255, 0.1)',
                         borderBottom: '1px solid var(--color-primary)',
                         display: 'flex',
@@ -105,9 +89,9 @@ const AIAssistant = ({ isOpen: externalIsOpen, onClose }) => {
                     }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                             <div style={{ width: '8px', height: '8px', background: 'var(--color-primary)', borderRadius: '50%', boxShadow: '0 0 10px var(--color-primary)' }}></div>
-                            <span style={{ fontFamily: 'monospace', fontWeight: 'bold', letterSpacing: '2px', color: 'var(--color-primary)' }}>AI_LINK_V2.0</span>
+                            <span style={{ fontFamily: 'monospace', fontWeight: 'bold', letterSpacing: '2px', color: 'var(--color-primary)', fontSize: '12px' }}>AI_LINK_V2.0</span>
                         </div>
-                        <button onClick={handleClose} style={{ background: 'none', border: 'none', color: 'var(--color-primary)', fontSize: '24px', cursor: 'pointer' }}>×</button>
+                        <button onClick={handleClose} style={{ background: 'none', border: 'none', color: 'var(--color-primary)', fontSize: '20px', cursor: 'pointer' }}>×</button>
                     </div>
 
                     {/* Messages */}

@@ -58,26 +58,32 @@ const BottomNav = ({ activeTab, onTabChange }) => {
                 }
             />
             <div
-                onClick={() => onTabChange('quick_action')}
+                onClick={() => onTabChange('dashboard')} // Changed from quick_action to dashboard
                 style={{
-                    width: '56px',
-                    height: '56px',
+                    width: '64px',
+                    height: '64px',
                     borderRadius: '50%',
-                    background: 'linear-gradient(135deg, var(--color-primary), #00C6FF)',
+                    background: 'var(--color-bg-dark)', // Dark background for contrast
                     marginTop: '-30px',
-                    boxShadow: '0 4px 15px rgba(0, 122, 255, 0.4)',
+                    boxShadow: '0 0 20px rgba(0, 240, 255, 0.5)', // Cyan Glow
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    border: '3px solid rgba(255,255,255,0.2)',
+                    border: '2px solid var(--color-primary)', // Cyber border
                     cursor: 'pointer',
                     transition: 'transform 0.2s',
-                    zIndex: 1002
+                    zIndex: 1002,
+                    position: 'relative'
                 }}>
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="12" y1="5" x2="12" y2="19"></line>
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                </svg>
+                {/* Hexagon Shape inside for Command Center feel */}
+                <div style={{
+                    width: '32px', height: '32px',
+                    background: 'var(--color-primary)',
+                    clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center'
+                }}>
+                    <div style={{ width: '12px', height: '12px', background: 'black', borderRadius: '50%' }}></div>
+                </div>
             </div>
             <NavItem
                 label="Meclis"

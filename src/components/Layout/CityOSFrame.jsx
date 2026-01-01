@@ -70,7 +70,23 @@ const CityOSFrame = ({ children, mode }) => {
                 </div>
 
                 {/* Right: Environment & SOS */}
-                <div style={{ display: 'flex', items: 'center', gap: '16px' }}>
+                <div style={{ display: 'flex', items: 'center', gap: '8px' }}>
+                    <button
+                        onClick={() => window.dispatchEvent(new CustomEvent('toggle-ai-assistant'))}
+                        style={{
+                            background: 'rgba(0, 240, 255, 0.1)',
+                            color: '#00F0FF',
+                            border: '1px solid #00F0FF',
+                            padding: '4px 8px',
+                            borderRadius: '4px',
+                            fontWeight: 'bold',
+                            fontSize: '10px',
+                            cursor: 'pointer',
+                            display: 'flex', alignItems: 'center', gap: '4px'
+                        }}
+                    >
+                        🤖 AI
+                    </button>
                     <button
                         onClick={toggleEmergency}
                         style={{

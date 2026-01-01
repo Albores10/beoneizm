@@ -125,16 +125,32 @@ const Operation = () => {
 
                         {/* Action Area */}
                         <div style={{ background: 'rgba(0,0,0,0.3)', borderRadius: '12px', padding: '16px', marginBottom: '16px' }}>
-                            {activeService === 'water' && (
-                                <>
-                                    <div style={{ fontSize: '12px', marginBottom: '8px', color: 'rgba(255,255,255,0.7)' }}>SU KALİTESİ: <span style={{ color: 'white' }}>PH 7.4</span></div>
-                                    <div style={{ fontSize: '12px', marginBottom: '0', color: 'rgba(255,255,255,0.7)' }}>FİLTRE DURUMU: <span style={{ color: '#4ade80' }}>%98</span></div>
-                                </>
-                            )}
                             {activeService === 'food' && (
                                 <>
-                                    <div style={{ fontSize: '12px', marginBottom: '8px', color: 'rgba(255,255,255,0.7)' }}>STOK: <span style={{ color: 'white' }}>YETERLİ</span></div>
-                                    <div style={{ fontSize: '12px', marginBottom: '0', color: 'rgba(255,255,255,0.7)' }}>TAZELİK: <span style={{ color: '#4ade80' }}>%100</span></div>
+                                    <div style={{ display: 'flex', gap: '8px', marginBottom: '12px' }}>
+                                        <PriceTag label="TARLA" value="5.00 ₺" color="rgba(255,255,255,0.5)" />
+                                        <div style={{ alignSelf: 'center', color: 'rgba(255,255,255,0.3)' }}>➔</div>
+                                        <PriceTag label="MARKET" value="18.50 ₺" color="#f87171" struck />
+                                        <div style={{ alignSelf: 'center', color: 'rgba(255,255,255,0.3)' }}>➔</div>
+                                        <PriceTag label="BEONE" value="6.00 ₺" color="#4ade80" />
+                                    </div>
+                                    <div style={{ fontSize: '10px', color: '#4ade80', background: 'rgba(74, 222, 128, 0.1)', padding: '6px', borderRadius: '4px' }}>
+                                        ✅ Aracısız, komisyonsuz, doğrudan üreticiden.
+                                    </div>
+                                </>
+                            )}
+                            {activeService === 'water' && (
+                                <>
+                                    <div style={{ display: 'flex', gap: '8px', marginBottom: '12px' }}>
+                                        <PriceTag label="MALİYET" value="1.50 ₺" color="rgba(255,255,255,0.5)" />
+                                        <div style={{ alignSelf: 'center', color: 'rgba(255,255,255,0.3)' }}>➔</div>
+                                        <PriceTag label="ŞİŞE SU" value="10.00 ₺" color="#f87171" struck />
+                                        <div style={{ alignSelf: 'center', color: 'rgba(255,255,255,0.3)' }}>➔</div>
+                                        <PriceTag label="BEONE" value="2.00 ₺" color="#4ade80" />
+                                    </div>
+                                    <div style={{ fontSize: '10px', color: '#4ade80', background: 'rgba(74, 222, 128, 0.1)', padding: '6px', borderRadius: '4px' }}>
+                                        ✅ Plastik atık yok, saf su.
+                                    </div>
                                 </>
                             )}
                             {activeService === 'clothing' && (
@@ -212,6 +228,13 @@ const ServiceCard = ({ icon, title, status, distance, color }) => (
             </div>
         </div>
         <div style={{ fontSize: '12px', fontWeight: 'bold', color: color }}>{distance}</div>
+    </div>
+);
+
+const PriceTag = ({ label, value, color, struck }) => (
+    <div style={{ flex: 1, textAlign: 'center', background: 'rgba(0,0,0,0.2)', padding: '6px', borderRadius: '6px' }}>
+        <div style={{ fontSize: '9px', color: color, marginBottom: '2px' }}>{label}</div>
+        <div style={{ fontSize: '12px', fontWeight: 'bold', color: 'white', textDecoration: struck ? 'line-through' : 'none', opacity: struck ? 0.6 : 1 }}>{value}</div>
     </div>
 );
 

@@ -29,10 +29,10 @@ const Housing = () => {
         setTimeout(() => {
             setMyHome(prev => ({
                 ...prev,
-                equity: prev.equity + 3000, // 10% of 30k rent goes to equity
-                progress: prev.progress + 0.1
+                equity: prev.equity + 6000, // 20% of 30k rent goes to equity
+                progress: prev.progress + 0.2
             }));
-            addToast("Başarılı: +3000 ₺ Hisse Geri Alındı!", "success");
+            addToast("Müthiş: 6.000 ₺ (Kiranın %20'si) Kumbarana Eklendi!", "success");
         }, 1500);
     };
 
@@ -45,7 +45,7 @@ const Housing = () => {
                         BARINMA <span style={{ color: '#FACC15' }}>AĞI</span>
                     </h1>
                     <div style={{ fontSize: '11px', color: 'var(--color-text-dim)', letterSpacing: '1px' }}>
-                        RENT-TO-OWN MODELİ
+                        KİRA KUMBARASI SİSTEMİ
                     </div>
                 </div>
                 <div style={{ display: 'flex', gap: '8px' }}>
@@ -83,8 +83,8 @@ const Housing = () => {
                                 <div style={{ width: `${myHome.progress}%`, height: '100%', background: '#FACC15', boxShadow: '0 0 10px #FACC15' }}></div>
                             </div>
                             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10px', color: 'rgba(255,255,255,0.5)' }}>
-                                <span>KİRACI PAYI ({myHome.equity.toLocaleString()} ₺)</span>
-                                <span>SİSTEM PAYI</span>
+                                <span>KİRA KUMBARASI: {myHome.equity.toLocaleString()} ₺</span>
+                                <span>HEDEF: %100</span>
                             </div>
 
                             <div style={{ marginTop: '24px', display: 'flex', gap: '16px', alignItems: 'center' }}>
@@ -103,8 +103,8 @@ const Housing = () => {
                                         <span style={{ fontSize: '12px', fontWeight: 'normal' }}>({myHome.rent.toLocaleString()} ₺)</span>
                                     </button>
                                 </div>
-                                <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', maxWidth: '120px', lineHeight: '1.2' }}>
-                                    Bu ödemenin <span style={{ color: '#4ade80', fontWeight: 'bold' }}>%10</span>'u ile otomatik hisse geri alımı yapılır.
+                                <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.8)', maxWidth: '140px', lineHeight: '1.3', background: 'rgba(250, 204, 21, 0.1)', padding: '8px', borderRadius: '8px', border: '1px solid rgba(250, 204, 21, 0.3)' }}>
+                                    Her ödemenin <span style={{ color: '#FACC15', fontWeight: 'bold' }}>%20'si</span> doğrudan kumbarana döner ve ev sahibi olmanı sağlar.
                                 </div>
                             </div>
                         </div>

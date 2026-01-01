@@ -78,6 +78,18 @@ const Governance = () => {
                         <VotingPower percentage={75} />
                     </div>
 
+                    {/* Voting Rules (Slide Vision) */}
+                    <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
+                        <div style={{ flex: 1, background: 'rgba(56, 189, 248, 0.1)', border: '1px solid rgba(56, 189, 248, 0.3)', padding: '10px', borderRadius: '8px' }}>
+                            <div style={{ fontSize: '10px', color: '#38bdf8', fontWeight: 'bold', marginBottom: '4px' }}>🛡️ BALİNA KORUMASI</div>
+                            <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.7)', lineHeight: '1.2' }}>Maksimum Oy Gücü <span style={{ color: 'white' }}>50 Puan</span> ile sınırlandırılmıştır. Para gücü domine edemez.</div>
+                        </div>
+                        <div style={{ flex: 1, background: 'rgba(250, 204, 21, 0.1)', border: '1px solid rgba(250, 204, 21, 0.3)', padding: '10px', borderRadius: '8px' }}>
+                            <div style={{ fontSize: '10px', color: '#FACC15', fontWeight: 'bold', marginBottom: '4px' }}>📍 YEREL GÜÇ</div>
+                            <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.7)', lineHeight: '1.2' }}>Proje senin mahallende olduğu için oyun <span style={{ color: 'white', fontWeight: 'bold' }}>3 KAT (3x)</span> değerlidir.</div>
+                        </div>
+                    </div>
+
                     {/* Active Proposal */}
                     <h2 style={{ fontSize: '18px', marginBottom: '16px' }}>Gündemdeki Oylama</h2>
                     <div className="glass-panel" style={{ padding: '0', overflow: 'hidden', marginBottom: '24px' }}>

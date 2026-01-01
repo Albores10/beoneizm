@@ -1,132 +1,157 @@
 import React, { useState, useEffect } from 'react';
+import SystemModule from '../components/UI/SystemModule';
 import { useToast } from '../components/UI/ToastManager';
 
-const TxItem = ({ title, amount, date, icon, isIncome }) => (
-    <div style={{ padding: '16px', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', gap: '16px' }}>
-        <div style={{ fontSize: '20px' }}>{icon}</div>
-        <div style={{ flex: 1 }}>
-            <div style={{ fontWeight: 'bold', fontSize: '14px' }}>{title}</div>
-            <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)' }}>{date}</div>
-        </div>
-        <div style={{ fontWeight: 'bold', color: isIncome ? '#4ade80' : 'white' }}>{amount}</div>
-    </div>
-);
+const txHistory = [
+    { id: 1, title: 'Kira Ödemesi', desc: 'BeOne Konut #145', amount: '-4,250 ₺', type: 'out', date: 'Bugün, 09:42' },
+    { id: 2, title: 'Meclis Katılımı', desc: 'Oylama Ödülü', amount: '+250 IZM', type: 'in', date: 'Dün, 14:15' },
+    { id: 3, title: 'Ulaşım', desc: 'İzmir Metro', amount: '-15.50 ₺', type: 'out', date: 'Dün, 08:30' },
+];
 
 const Wallet = () => {
     const { addToast } = useToast();
-    const [balance, setBalance] = useState(14500);
+    const [balance, setBalance] = useState(14250.50);
     const [showSendModal, setShowSendModal] = useState(false);
-    const [sendAmount, setSendAmount] = useState('');
 
-    useEffect(() => {
-        console.log("Wallet Component Mounted");
-    }, []);
-
-    const handleSend = () => {
-        const val = parseInt(sendAmount);
-        if (!val || val <= 0) {
-            addToast("Geçersiz miktar", "error");
+    // Mock Send Logic
+    const handleSend = (e) => {
+        e.preventDefault();
+        const amount = parseFloat(e.target.amount.value);
+        if (amount > balance) {
+            addToast('Yetersiz bakiye!', 'error');
             return;
         }
-        if (val > balance) {
-            addToast("Yetersiz Bakiye", "error");
-            return;
-        }
-
-        setBalance(prev => prev - val);
+        setBalance(prev => prev - amount);
         setShowSendModal(false);
-        setSendAmount('');
-        addToast(`${val} IZM Gönderildi!`, "success");
+        addToast(`Başarıyla gönderildi: ₺${amount}`, 'success');
     };
 
     return (
-        <div style={{ padding: '0 20px', paddingBottom: '100px' }}>
-            <h1 style={{ fontSize: '24px', marginBottom: '16px' }}>Cüzdan</h1>
+        <div style={{ padding: '20px', paddingBottom: '120px' }}>
 
-            {/* Card Visual */}
-            <div style={{
-                background: 'linear-gradient(135deg, #007AFF, #00C6FF)',
-                borderRadius: '20px',
+            {/* Header / Card */}
+            <div className="glass-panel" style={{
                 padding: '24px',
+                background: 'linear-gradient(135deg, rgba(2,6,23,0.9), rgba(15,23,42,0.9))',
+                border: '1px solid var(--color-primary)',
+                boxShadow: '0 0 20px rgba(0, 240, 255, 0.15)',
                 marginBottom: '24px',
-                boxShadow: '0 10px 30px rgba(0, 122, 255, 0.4)',
                 position: 'relative',
                 overflow: 'hidden'
             }}>
-                <div style={{ position: 'relative', zIndex: 1 }}>
-                    <div style={{ fontSize: '14px', color: 'rgba(255,255,255,0.8)', marginBottom: '4px' }}>TOPLAM VARLIK</div>
-                    <div style={{ fontSize: '32px', fontWeight: 'bold', marginBottom: '24px' }}>₺ {balance.toLocaleString()}</div>
+                <div style={{ position: 'absolute', top: '-10px', right: '-10px', width: '100px', height: '100px', background: 'var(--color-primary)', opacity: '0.1', borderRadius: '50%', filter: 'blur(40px)' }}></div>
 
-                    <div style={{ display: 'flex', gap: '16px' }}>
-                        <button
-                            onClick={() => setShowSendModal(true)}
-                            style={{ flex: 1, padding: '10px', background: 'rgba(255,255,255,0.2)', border: 'none', borderRadius: '12px', color: 'white', fontWeight: 'bold', cursor: 'pointer' }}
-                        >
-                            ↑ Gönder
-                        </button>
-                        <button onClick={() => addToast("Yükleme özelliği yakında!", "info")} style={{ flex: 1, padding: '10px', background: 'rgba(255,255,255,0.2)', border: 'none', borderRadius: '12px', color: 'white', fontWeight: 'bold', cursor: 'pointer' }}>
-                            ↓ Yükle
-                        </button>
-                    </div>
-                </div>
-                {/* Decoration */}
-                <div style={{ position: 'absolute', top: '-20px', right: '-20px', width: '150px', height: '150px', background: 'rgba(255,255,255,0.1)', borderRadius: '50%' }}></div>
-            </div>
-
-            {/* Simple Coin Stats */}
-            <div style={{ display: 'flex', gap: '12px', marginBottom: '24px' }}>
-                <div className="glass-panel" style={{ flex: 1, padding: '16px', display: 'flex', alignItems: 'center', gap: '12px' }}>
-                    <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: '#FFD700', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'black', fontWeight: 'bold' }}>I</div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '24px' }}>
                     <div>
-                        <div style={{ fontWeight: 'bold' }}>IZM Coin</div>
-                        <div style={{ fontSize: '12px', color: '#4ade80' }}>$1.24 (+5%)</div>
+                        <div style={{ fontSize: '12px', color: 'var(--color-primary)', fontFamily: 'monospace', letterSpacing: '2px' }}>IZM CÜZDAN</div>
+                        <div style={{ fontSize: '36px', fontWeight: 'bold', color: 'white', marginTop: '8px' }}>
+                            ₺ {balance.toLocaleString('tr-TR', { minimumFractionDigits: 2 })}
+                        </div>
+                        <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)' }}>≈ 412.50 USD</div>
+                    </div>
+                    <div style={{ padding: '8px 12px', background: 'rgba(74, 222, 128, 0.2)', color: '#4ade80', borderRadius: '8px', fontSize: '12px', fontWeight: 'bold' }}>
+                        +5.4%
                     </div>
                 </div>
-                {/* More tokens... */}
+
+                <div style={{ display: 'flex', gap: '12px' }}>
+                    <button onClick={() => setShowSendModal(true)} style={{ flex: 1, padding: '12px', background: 'var(--color-primary)', border: 'none', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', color: '#000' }}>
+                        GÖNDER ↗
+                    </button>
+                    <button style={{ flex: 1, padding: '12px', background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', color: 'white' }}>
+                        İLAŞ AL +
+                    </button>
+                </div>
             </div>
 
-            {/* Transaction History */}
-            <h3 style={{ fontSize: '18px', marginBottom: '12px' }}>Son İşlemler</h3>
-            <div className="glass-panel" style={{ padding: '0' }}>
-                <TxItem title="Market Alışverişi" amount="- 345 ₺" date="Bugün" icon="🛒" />
-                <TxItem title="Kira Geliri (Ege Apt)" amount="+ 12,500 ₺" date="Dün" icon="🏠" isIncome />
-                <TxItem title="BeOne Meclis Ödülü" amount="+ 50 IZM" date="2 gün önce" icon="🎁" isIncome />
-                <TxItem title="Ulaşım (Metro)" amount="- 15 ₺" date="2 gün önce" icon="🚇" />
-            </div>
+            {/* Simulated Graph Concept */}
+            <SystemModule title="VARLIK ANALİZİ" status="UPDATE" accentColor="var(--color-secondary)">
+                <div style={{ height: '150px', display: 'flex', alignItems: 'end', gap: '4px', paddingBottom: '10px' }}>
+                    {/* SVG Graph Placeholder */}
+                    <svg viewBox="0 0 300 100" style={{ width: '100%', height: '100%', overflow: 'visible' }}>
+                        <defs>
+                            <linearGradient id="grad1" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style={{ stopColor: 'var(--color-secondary)', stopOpacity: 0.5 }} />
+                                <stop offset="100%" style={{ stopColor: 'var(--color-secondary)', stopOpacity: 0 }} />
+                            </linearGradient>
+                        </defs>
+                        <path d="M0,80 Q20,60 40,70 T80,50 T120,40 T160,60 T200,20 T240,30 T280,10 V100 H0 Z" fill="url(#grad1)" />
+                        <path d="M0,80 Q20,60 40,70 T80,50 T120,40 T160,60 T200,20 T240,30 T280,10" fill="none" stroke="var(--color-secondary)" strokeWidth="2" />
 
-            {/* Send Modal Overlay */}
+                        {/* Data Points */}
+                        <circle cx="200" cy="20" r="3" fill="white" />
+                        <circle cx="280" cy="10" r="3" fill="white" />
+                    </svg>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10px', color: 'var(--color-text-dim)', fontFamily: 'monospace' }}>
+                    <span>09:00</span>
+                    <span>12:00</span>
+                    <span>15:00</span>
+                    <span>ŞİMDİ</span>
+                </div>
+            </SystemModule>
+
+            {/* Transactions */}
+            <h3 style={{ fontSize: '14px', color: 'rgba(255,255,255,0.7)', marginBottom: '16px', marginLeft: '4px' }}>SON İŞLEMLER</h3>
+            {txHistory.map(tx => (
+                <TxItem key={tx.id} tx={tx} />
+            ))}
+
+            {/* Send Modal */}
             {showSendModal && (
                 <div style={{
-                    position: 'fixed',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    height: '100%',
-                    background: 'rgba(0,0,0,0.8)',
-                    zIndex: 2000,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    padding: '20px'
+                    position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(10px)',
+                    zIndex: 2000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px'
                 }}>
-                    <div className="glass-panel" style={{ width: '100%', maxWidth: '320px', padding: '24px', background: '#0a192f' }}>
-                        <h2 style={{ marginTop: 0 }}>Para Gönder</h2>
-                        <input
-                            type="number"
-                            placeholder="Miktar (IZM)"
-                            value={sendAmount}
-                            onChange={(e) => setSendAmount(e.target.value)}
-                            style={{ width: '100%', padding: '12px', marginBottom: '16px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.3)', background: 'transparent', color: 'white' }}
-                        />
-                        <div style={{ display: 'flex', gap: '12px' }}>
-                            <button onClick={() => setShowSendModal(false)} style={{ flex: 1, padding: '12px', background: 'transparent', border: '1px solid #666', color: '#ccc', borderRadius: '8px', cursor: 'pointer' }}>İptal</button>
-                            <button onClick={handleSend} style={{ flex: 1, padding: '12px', background: '#007AFF', border: 'none', color: 'white', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold' }}>Gönder</button>
-                        </div>
+                    <div className="glass-panel" style={{ width: '100%', maxWidth: '350px', padding: '24px', border: '1px solid var(--color-primary)' }}>
+                        <h2 style={{ fontSize: '20px', marginBottom: '20px', color: 'var(--color-primary)' }}>PARA GÖNDER</h2>
+                        <form onSubmit={handleSend}>
+                            <input type="text" placeholder="IBAN / Cüzdan Adresi" style={{
+                                width: '100%', padding: '12px', marginBottom: '12px', background: 'rgba(255,255,255,0.05)',
+                                border: '1px solid rgba(255,255,255,0.1)', color: 'white', borderRadius: '8px'
+                            }} />
+                            <input name="amount" type="number" placeholder="Tutar (₺)" style={{
+                                width: '100%', padding: '12px', marginBottom: '20px', background: 'rgba(255,255,255,0.05)',
+                                border: '1px solid rgba(255,255,255,0.1)', color: 'white', borderRadius: '8px'
+                            }} />
+                            <div style={{ display: 'flex', gap: '10px' }}>
+                                <button type="button" onClick={() => setShowSendModal(false)} style={{ flex: 1, padding: '12px', background: 'transparent', border: '1px solid rgba(255,255,255,0.2)', color: 'white', borderRadius: '8px', cursor: 'pointer' }}>İPTAL</button>
+                                <button type="submit" style={{ flex: 1, padding: '12px', background: 'var(--color-primary)', border: 'none', color: 'black', fontWeight: 'bold', borderRadius: '8px', cursor: 'pointer' }}>GÖNDER</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             )}
+
         </div>
     );
 };
+
+const TxItem = ({ tx }) => (
+    <div style={{
+        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+        padding: '16px', background: 'var(--color-bg-card)', borderRadius: '12px',
+        marginBottom: '12px', borderLeft: `3px solid ${tx.type === 'in' ? 'var(--color-success)' : 'var(--color-text-dim)'}`
+    }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <div style={{
+                width: '32px', height: '32px', borderRadius: '8px',
+                background: tx.type === 'in' ? 'rgba(74, 222, 128, 0.1)' : 'rgba(255,255,255,0.05)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: '16px'
+            }}>
+                {tx.type === 'in' ? '↓' : '↑'}
+            </div>
+            <div>
+                <div style={{ fontWeight: 'bold', fontSize: '14px' }}>{tx.title}</div>
+                <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.5)' }}>{tx.desc}</div>
+            </div>
+        </div>
+        <div style={{ textAlign: 'right' }}>
+            <div style={{ fontWeight: 'bold', color: tx.type === 'in' ? 'var(--color-success)' : 'white' }}>{tx.amount}</div>
+            <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.4)' }}>{tx.date}</div>
+        </div>
+    </div>
+);
 
 export default Wallet;

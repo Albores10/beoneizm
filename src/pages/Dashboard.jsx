@@ -1,89 +1,149 @@
 import React from 'react';
+import SystemModule from '../components/UI/SystemModule';
 
 const Dashboard = ({ onNavigate, onAssetClick, onProfileClick }) => {
     return (
-        <div style={{ padding: '20px', paddingBottom: '100px' }}>
+        <div style={{ padding: '16px', paddingBottom: '120px' }}>
 
-            {/* Header */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+            {/* HUD Header */}
+            <div style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'end',
+                marginBottom: '24px',
+                borderBottom: '1px solid rgba(0, 240, 255, 0.2)',
+                paddingBottom: '12px'
+            }}>
                 <div>
-                    <div style={{ fontSize: '14px', color: 'rgba(255,255,255,0.7)' }}>SİSTEM ÇEVRİMİÇİ</div>
-                    <h1 style={{ margin: 0, fontSize: '24px' }}>Hoşgeldin, <span onClick={onProfileClick} style={{ color: '#00F0FF', cursor: 'pointer', textDecoration: 'underline' }}>Şafak</span></h1>
-                </div>
-                <div onClick={onProfileClick} style={{
-                    width: '48px', height: '48px', borderRadius: '12px',
-                    background: 'url(https://placehold.co/100) center/cover',
-                    border: '2px solid #00F0FF',
-                    cursor: 'pointer',
-                    boxShadow: '0 0 15px rgba(0, 240, 255, 0.3)'
-                }}></div>
-            </div>
-
-            {/* Live Status Widgets */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', marginBottom: '24px' }}>
-                <LiveWidget icon="❤️" label="SAĞLIK" value="%98" color="#f87171" />
-                <LiveWidget icon="⚡" label="ENERJİ" value="%84" color="#FFD700" />
-                <LiveWidget icon="🛡️" label="GÜVENLİK" value="A+" color="#4ade80" />
-            </div>
-
-            {/* Main Feature Cards */}
-            <h2 style={{ fontSize: '18px', marginBottom: '16px' }}>Hızlı Erişim</h2>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '24px' }}>
-                <BigCard title="Cüzdan" value="₺ 14,250" icon="💳" color="#007AFF" onClick={() => onNavigate('wallet')} />
-                <BigCard title="Yönetim" value="3 Oylama" icon="⚖️" color="#a855f7" onClick={() => onNavigate('governance')} />
-                <BigCard title="Harita" value="Keşfet" icon="🗺️" color="#39FF14" onClick={() => onNavigate('map')} />
-                <BigCard title="Konut" value="Yatırım" icon="🏠" color="#FACC15" onClick={() => onNavigate('housing')} />
-            </div>
-
-            {/* Dynamic City Feed */}
-            <h2 style={{ fontSize: '18px', marginBottom: '16px' }}>Şehir Özeti</h2>
-            <div className="glass-panel" style={{ padding: '16px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
-                    <div style={{ fontSize: '24px' }}>☀️</div>
-                    <div>
-                        <div style={{ fontWeight: 'bold' }}>İzmir - Alsancak</div>
-                        <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>32°C • UV İndeksi: Yüksek</div>
+                    <div style={{
+                        fontFamily: 'monospace',
+                        fontSize: '10px',
+                        color: 'var(--color-primary)',
+                        letterSpacing: '2px',
+                        marginBottom: '4px'
+                    }}>
+                        :: PILOT OTURUMU AKTİF
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        <div onClick={onProfileClick} style={{
+                            width: '48px', height: '48px',
+                            background: 'url(https://placehold.co/100) center/cover',
+                            clipPath: 'polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%)',
+                            border: '1px solid var(--color-primary)',
+                            cursor: 'pointer',
+                            position: 'relative'
+                        }}>
+                            <div style={{ position: 'absolute', bottom: 0, right: 0, width: '12px', height: '12px', background: 'var(--color-success)' }}></div>
+                        </div>
+                        <div>
+                            <h1 style={{ margin: 0, fontSize: '20px', lineHeight: '1', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                                ŞAFAK <span style={{ color: 'var(--color-text-dim)' }}>BİROL</span>
+                            </h1>
+                            <div style={{ fontSize: '12px', color: 'var(--color-secondary)', marginTop: '4px' }}>
+                                ★ KIDEMLİ VATANDAŞ
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div style={{ height: '1px', background: 'rgba(255,255,255,0.1)', marginBottom: '16px' }}></div>
-                <div style={{ fontSize: '14px', lineHeight: '1.5' }}>
-                    <p>📢 <b>Belediye Duyurusu:</b> Metro hatlarında gece seferleri 02:00'ye kadar uzatıldı.</p>
-                    <p style={{ marginTop: '8px' }}>🚀 <b>Proje:</b> "Yeşil Körfez" temizlik dronları göreve başladı.</p>
+
+                {/* Mini Status Grid */}
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                    <StatusBadge label="NET" value="ONLINE" color="var(--color-success)" />
+                    <StatusBadge label="SYNC" value="%100" color="var(--color-primary)" />
                 </div>
             </div>
 
+            {/* Main Modules Grid */}
+            <div style={{ display: 'grid', gap: '16px' }}>
+
+                {/* 1. Wallet Module (Wide) */}
+                <SystemModule title="CÜZDAN BAKİYESİ" status="SECURE" accentColor="var(--color-secondary)">
+                    <div onClick={() => onNavigate('wallet')} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer' }}>
+                        <div>
+                            <div style={{ fontSize: '10px', color: 'var(--color-text-dim)', marginBottom: '4px' }}>TOPLAM VARLIKLAR</div>
+                            <div style={{ fontSize: '32px', fontWeight: 'bold', fontFamily: 'monospace', color: 'var(--color-text-main)', letterSpacing: '-1px' }}>
+                                ₺ 14,250<span style={{ fontSize: '20px', color: 'var(--color-text-dim)' }}>.00</span>
+                            </div>
+                        </div>
+                        <div style={{
+                            width: '40px', height: '40px',
+                            border: '1px solid var(--color-secondary)',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            color: 'var(--color-secondary)',
+                            borderRadius: '8px'
+                        }}>
+                            ↗
+                        </div>
+                    </div>
+                </SystemModule>
+
+                {/* 2. Quick Actions Grid */}
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                    <SystemModule title="ŞEHİR YÖNETİMİ" status="DAO" accentColor="var(--color-accent)">
+                        <div onClick={() => onNavigate('governance')} style={{ textAlign: 'center', cursor: 'pointer', padding: '10px 0' }}>
+                            <div style={{ fontSize: '24px', marginBottom: '8px' }}>⚖️</div>
+                            <div style={{ fontWeight: 'bold' }}>3 OYLAMA</div>
+                            <div style={{ fontSize: '10px', color: 'var(--color-text-dim)' }}>BEKLİYOR</div>
+                        </div>
+                    </SystemModule>
+
+                    <SystemModule title="OPERASYON" status="LIVE" accentColor="var(--color-primary)">
+                        <div onClick={() => onNavigate('map')} style={{ textAlign: 'center', cursor: 'pointer', padding: '10px 0' }}>
+                            <div style={{ fontSize: '24px', marginBottom: '8px' }}>🗺️</div>
+                            <div style={{ fontWeight: 'bold' }}>HARİTA</div>
+                            <div style={{ fontSize: '10px', color: 'var(--color-text-dim)' }}>KEŞFET</div>
+                        </div>
+                    </SystemModule>
+                </div>
+
+                {/* 3. Housing / Logistics Split */}
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                    <QuickBtn label="KONUT" icon="🏠" color="#FACC15" onClick={() => onNavigate('housing')} />
+                    <QuickBtn label="LOJİSTİK" icon="🚚" color="#39FF14" onClick={() => onNavigate('logistics')} />
+                </div>
+
+                {/* 4. Live City Feed (Text Scroll) */}
+                <SystemModule title="SİSTEM GÜNLÜĞÜ" status="FEED" accentColor="var(--color-text-dim)">
+                    <div style={{ fontFamily: 'monospace', fontSize: '10px', color: 'var(--color-text-dim)', lineHeight: '1.6' }}>
+                        <div>[16:42] Dron #42 göreve başladı.</div>
+                        <div>[15:30] Metro hattı bakım tamamlandı.</div>
+                        <div style={{ color: 'var(--color-primary)' }}>[14:15] Yeni oylama başlatıldı: Park Projesi</div>
+                    </div>
+                </SystemModule>
+
+            </div>
         </div>
     );
 };
 
-const LiveWidget = ({ icon, label, value, color }) => (
-    <div className="glass-panel" style={{ padding: '12px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ fontSize: '20px', marginBottom: '4px' }}>{icon}</div>
-        <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.6)' }}>{label}</div>
-        <div style={{ fontSize: '16px', fontWeight: 'bold', color: color }}>{value}</div>
-        {/* Pulse Dot */}
-        <div style={{
-            position: 'absolute', top: '8px', right: '8px', width: '6px', height: '6px',
-            background: color, borderRadius: '50%',
-            boxShadow: `0 0 8px ${color}`,
-            animation: 'pulse 2s infinite'
-        }}></div>
+// Helper Components
+const StatusBadge = ({ label, value, color }) => (
+    <div style={{
+        background: 'rgba(0,0,0,0.3)',
+        border: '1px solid rgba(255,255,255,0.1)',
+        padding: '4px 8px',
+        borderRadius: '4px',
+        textAlign: 'center'
+    }}>
+        <div style={{ fontSize: '8px', color: 'var(--color-text-dim)' }}>{label}</div>
+        <div style={{ fontSize: '10px', color: color, fontWeight: 'bold' }}>{value}</div>
     </div>
 );
 
-const BigCard = ({ title, value, icon, color, onClick }) => (
-    <div onClick={onClick} className="glass-panel" style={{
-        padding: '20px', cursor: 'pointer', transition: 'transform 0.2s',
-        display: 'flex', flexDirection: 'column', gap: '8px'
+const QuickBtn = ({ label, icon, color, onClick }) => (
+    <div onClick={onClick} style={{
+        background: 'var(--color-bg-card)',
+        border: `1px solid ${color}`,
+        borderRadius: '12px',
+        padding: '16px',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '12px',
+        cursor: 'pointer',
+        boxShadow: `0 4px 10px -5px ${color}`
     }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
-            <div style={{ fontSize: '24px', background: 'rgba(255,255,255,0.1)', width: '40px', height: '40px', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{icon}</div>
-            <div style={{ fontSize: '20px', color: 'rgba(255,255,255,0.2)' }}>↗</div>
-        </div>
-        <div>
-            <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>{title}</div>
-            <div style={{ fontSize: '18px', fontWeight: 'bold', color: color }}>{value}</div>
-        </div>
+        <div style={{ fontSize: '20px' }}>{icon}</div>
+        <div style={{ fontWeight: 'bold', fontSize: '12px', color: 'white' }}>{label}</div>
     </div>
 );
 

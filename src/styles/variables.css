@@ -1,32 +1,35 @@
 :root {
-  /* Colors */
-  --color-primary: #007AFF; /* Safe Blue */
-  --color-secondary: #FFD700; /* IZM Gold */
-  --color-dark-bg: #0a192f; /* Neon Sky */
-  --color-glass-bg: rgba(255, 255, 255, 0.1);
-  --color-glass-border: rgba(255, 255, 255, 0.2);
-  --color-text-light: #ffffff;
-  --color-text-dark: #1a1a1a;
-  --color-success: #4ade80;
+  /* Project Gemini - Core Palette */
+  --color-bg-dark: #020617;
+  /* Deepest Space Navy */
+  --color-bg-card: #0f172a;
+  /* Slate Module Background */
+  --color-primary: #00F0FF;
+  /* Cyber Cyan (System Status) */
+  --color-secondary: #FFD700;
+  /* IZM Gold (Value/Currency) */
+  --color-accent: #a855f7;
+  /* Purple (Data/Magic) */
   --color-danger: #ef4444;
+  /* Alert Red */
+  --color-success: #4ade80;
+  /* Safe Green */
 
-  /* Fonts */
-  --font-family-sans: 'Inter', sans-serif;
-  
-  /* Glassmorphism */
-  --glass-blur: blur(12px);
-  --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-  --glass-border: 1px solid var(--color-glass-border);
+  /* Text */
+  --color-text-main: #f8fafc;
+  --color-text-dim: #94a3b8;
+  --color-text-light: #ffffff;
+  /* Legacy compatibility */
 
-  /* Spacing */
-  --spacing-xs: 4px;
-  --spacing-sm: 8px;
-  --spacing-md: 16px;
-  --spacing-lg: 24px;
-  --spacing-xl: 32px;
+  /* Glassmorphism Refined */
+  --glass-bg: rgba(15, 23, 42, 0.7);
+  --glass-border: 1px solid rgba(148, 163, 184, 0.1);
+  --glass-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
 
-  /* Radius */
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
+  /* Layout */
+  --header-height: 60px;
+  --nav-height: 80px;
+
+  /* Legacy Vars Mapped */
+  --color-dark-bg: var(--color-bg-dark);
 }

@@ -58,7 +58,7 @@ const Wallet = () => {
                     <button onClick={() => setShowSendModal(true)} style={{ flex: 1, padding: '12px', background: 'var(--color-primary)', border: 'none', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', color: '#000' }}>
                         GÖNDER ↗
                     </button>
-                    <button style={{ flex: 1, padding: '12px', background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', color: 'white' }}>
+                    <button onClick={() => addToast('Satın Alma Ekranı Yakında!', 'info')} style={{ flex: 1, padding: '12px', background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', color: 'white' }}>
                         IZM TOKEN AL +
                     </button>
                 </div>

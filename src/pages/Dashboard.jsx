@@ -116,8 +116,7 @@ const Dashboard = ({ onNavigate, onAssetClick, onProfileClick }) => {
                     subItems={[
                         { label: 'Varlıklarım', link: 'wallet', emoji: '💳', status: 'Güvenli' },
                         { label: 'Meclis', link: 'governance', emoji: '🗳️', status: '3 Aktif' },
-                        { label: 'Raporlar', link: 'resources', emoji: '📊', status: 'Aylık' },
-                        { label: 'Ayarlar', link: 'profile', emoji: '⚙️', status: 'Sistem' }
+                        { label: 'Raporlar', link: 'resources', emoji: '📊', status: 'Aylık' }
                     ]}
                 />
 

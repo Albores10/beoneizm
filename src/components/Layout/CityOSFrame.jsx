@@ -43,7 +43,7 @@ const CityOSFrame = ({ children, mode }) => {
                 transition: 'all 0.3s ease'
             }}>
                 {/* Left: System Status */}
-                <div style={{ display: 'flex', gap: '16px', fontSize: '12px', fontWeight: 'bold', color: textColor, opacity: 0.8 }}>
+                <div style={{ display: 'flex', gap: '16px', fontSize: '12px', fontWeight: 'bold', color: isClassic ? '#000' : textColor, opacity: 0.8 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                         <span style={{
                             width: '8px',
@@ -64,7 +64,10 @@ const CityOSFrame = ({ children, mode }) => {
                     letterSpacing: '2px',
                     fontWeight: 'bold',
                     color: isEmergency ? '#ef4444' : (isClassic ? '#333' : 'white'),
-                    textShadow: isEmergency ? '0 0 10px red' : (isClassic ? 'none' : '0 0 10px rgba(255,255,255,0.5)')
+                    textShadow: isEmergency ? '0 0 10px red' : (isClassic ? 'none' : '0 0 10px rgba(255,255,255,0.5)'),
+                    background: isClassic ? 'rgba(255,255,255,0.9)' : 'transparent', // Added background for readability
+                    padding: isClassic ? '2px 8px' : '0',
+                    borderRadius: '4px'
                 }}>
                     BEONE CITY OS <span style={{ fontSize: '10px', opacity: 0.7 }}>v2.0</span>
                 </div>
@@ -103,7 +106,7 @@ const CityOSFrame = ({ children, mode }) => {
                     >
                         {isEmergency ? 'DE-ESCALATE' : 'SOS'}
                     </button>
-                    <div style={{ display: 'flex', gap: '16px', fontSize: '12px', fontWeight: 'bold', color: textColor, opacity: 0.8, alignItems: 'center' }}>
+                    <div style={{ display: 'flex', gap: '16px', fontSize: '12px', fontWeight: 'bold', color: isClassic ? '#000' : textColor, opacity: 0.8, alignItems: 'center' }}>
                         <div>{isEmergency ? '🔥 45°C' : '☀️ 24°C'}</div>
                         <div>{formatTime(time)}</div>
                     </div>
@@ -112,7 +115,7 @@ const CityOSFrame = ({ children, mode }) => {
 
             {/* System Notification Ticker */}
             <div style={{
-                background: isEmergency ? '#7f1d1d' : (isClassic ? '#f0f0f0' : 'rgba(0, 240, 255, 0.1)'),
+                background: isEmergency ? '#7f1d1d' : (isClassic ? '#e5e7eb' : 'rgba(0, 240, 255, 0.1)'), // Darker gray for light mode bg
                 borderBottom: isEmergency ? '1px solid #ef4444' : (isClassic ? '1px solid #ddd' : '1px solid rgba(0, 240, 255, 0.2)'),
                 height: '24px',
                 display: 'flex',
@@ -126,7 +129,7 @@ const CityOSFrame = ({ children, mode }) => {
                     animation: 'ticker 20s linear infinite',
                     fontSize: '10px',
                     fontWeight: isEmergency ? 'bold' : 'normal',
-                    color: isEmergency ? 'white' : (isClassic ? '#555' : '#00F0FF'),
+                    color: isEmergency ? 'white' : (isClassic ? '#000' : '#00F0FF'),
                     paddingLeft: '100%'
                 }}>
                     {isEmergency

@@ -109,23 +109,36 @@ const ProfileModal = ({ onClose, currentMode, onToggleMode }) => {
                     </div>
                 </div>
 
-                {/* System Settings: Visual Mode */}
+                {/* System Settings Area */}
                 <div style={{ marginTop: '16px', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '16px' }}>
-                    <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>GÖRSEL MOD</div>
+                    <h3 style={{ fontSize: '14px', color: 'white', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <CyberIcon name="settings" size={16} color="var(--color-primary)" />
+                        SİSTEM AYARLARI
+                    </h3>
+
+                    {/* KIMLIK DISPLAY (Explicit Request) */}
+                    <div style={{ marginBottom: '16px', background: 'rgba(255,255,255,0.05)', padding: '10px', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>BEONE KİMLİK ID</div>
+                        <div style={{ fontFamily: 'monospace', color: '#00F0FF', fontWeight: 'bold' }}>{user.citizenId}</div>
+                    </div>
+
+                    <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>ARAYÜZ TEMASI</div>
                     <div style={{ display: 'flex', background: 'rgba(0,0,0,0.3)', borderRadius: '8px', padding: '4px' }}>
                         <button onClick={() => onToggleMode('anime')} style={{
                             flex: 1, padding: '8px', border: 'none', borderRadius: '6px', cursor: 'pointer',
                             background: currentMode === 'anime' ? 'var(--color-primary)' : 'transparent',
-                            color: currentMode === 'anime' ? 'black' : 'rgba(255,255,255,0.6)', fontWeight: 'bold', fontSize: '12px', transition: 'all 0.2s'
+                            color: currentMode === 'anime' ? 'black' : 'rgba(255,255,255,0.6)', fontWeight: 'bold', fontSize: '12px', transition: 'all 0.2s',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px'
                         }}>
-                            ✨ ANIME
+                            🌙 KARANLIK
                         </button>
                         <button onClick={() => onToggleMode('classic')} style={{
                             flex: 1, padding: '8px', border: 'none', borderRadius: '6px', cursor: 'pointer',
                             background: currentMode === 'classic' ? 'white' : 'transparent',
-                            color: currentMode === 'classic' ? 'black' : 'rgba(255,255,255,0.6)', fontWeight: 'bold', fontSize: '12px', transition: 'all 0.2s'
+                            color: currentMode === 'classic' ? 'black' : 'rgba(255,255,255,0.6)', fontWeight: 'bold', fontSize: '12px', transition: 'all 0.2s',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px'
                         }}>
-                            👓 FOCUS
+                            ☀️ AYDINLIK
                         </button>
                     </div>
                 </div>

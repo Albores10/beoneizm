@@ -61,7 +61,7 @@ const Dashboard = ({ onNavigate, onAssetClick, onProfileClick }) => {
                         { label: 'Konut Ağı', link: 'housing', emoji: '🏠', status: '%85 Dolu' },
                         { label: 'Yapı Stoğu', link: 'housing', emoji: '🏗️', status: 'Stabil' },
                         { label: 'Akıllı Ev', link: 'housing', emoji: '🔌', status: 'Online' },
-                        { label: 'Emlak', link: 'market', emoji: '🔑', status: 'Pazar' }
+                        { label: 'Emlak', link: 'housing', emoji: '🔑', status: 'Pazar' }
                     ]}
                 />
 
@@ -86,9 +86,9 @@ const Dashboard = ({ onNavigate, onAssetClick, onProfileClick }) => {
                     color="#FF0055"
                     onNavigate={onNavigate}
                     subItems={[
-                        { label: 'Gıda', link: 'resources', emoji: '🍎', status: 'Yeterli' },
-                        { label: 'Su', link: 'resources', emoji: '💧', status: 'Kritik' },
-                        { label: 'Giyim', link: 'market', emoji: '👕', status: 'Stokta' },
+                        { label: 'Gıda', link: 'operation', emoji: '🍎', status: 'Yeterli' },
+                        { label: 'Su', link: 'operation', emoji: '💧', status: 'Kritik' },
+                        { label: 'Giyim', link: 'operation', emoji: '👕', status: 'Stokta' },
                         { label: 'Güvenlik', emoji: '🛡️', status: 'Yüksek' }
                     ]}
                 />

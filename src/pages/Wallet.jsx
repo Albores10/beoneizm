@@ -59,7 +59,7 @@ const Wallet = () => {
                         GÖNDER ↗
                     </button>
                     <button style={{ flex: 1, padding: '12px', background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', color: 'white' }}>
-                        İLAŞ AL +
+                        IZM TOKEN AL +
                     </button>
                 </div>
             </div>

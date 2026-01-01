@@ -65,7 +65,7 @@ const ProfileModal = ({ onClose }) => {
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '12px' }}>
                         <span style={{ color: 'rgba(255,255,255,0.6)' }}>İkamet</span>
-                        <span style={{ fontWeight: 'bold', color: 'white' }}>Alsancak / Konak</span>
+                        <span style={{ fontWeight: 'bold', color: 'white', textAlign: 'right', maxWidth: '60%' }}>Apt. No: 12, Kültür Mah., Konak, İzmir</span>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
                         <span style={{ color: 'rgba(255,255,255,0.6)' }}>Rol</span>

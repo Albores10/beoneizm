@@ -1,5 +1,6 @@
 import React from 'react';
 import SystemModule from '../components/UI/SystemModule';
+import BeOneSector from '../components/UI/BeOneSector';
 import { CyberIcon } from '../components/UI/CyberIcons';
 
 const Dashboard = ({ onNavigate, onAssetClick, onProfileClick }) => {
@@ -44,106 +45,97 @@ const Dashboard = ({ onNavigate, onAssetClick, onProfileClick }) => {
                 </div>
             </div>
 
-            {/* MAIN GRID */}
-            <div style={{ display: 'grid', gap: '20px' }}>
+            {/* BEONE SYSTEM CORE */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
 
-                {/* 1. WALLET WEALTH VISUALIZER */}
-                <SystemModule title="VARLIK YÖNETİMİ" status="SECURE" accentColor="var(--color-secondary)">
-                    <div onClick={() => onNavigate('wallet')} style={{ cursor: 'pointer', position: 'relative', overflow: 'hidden' }}>
-                        {/* Simulated Graph Background */}
-                        <svg width="100%" height="80" style={{ position: 'absolute', bottom: 0, right: 0, opacity: 0.2 }}>
-                            <path d="M0,80 Q20,60 40,70 T80,50 T120,60 T160,30 T200,50 T240,20 T280,40 V80 H0 Z" fill="var(--color-secondary)" />
-                        </svg>
+                {/* B - BARINMA */}
+                <BeOneSector
+                    letter="B"
+                    title="BARINMA"
+                    color="#FACC15"
+                    onNavigate={onNavigate}
+                    subItems={[
+                        { label: 'Konut Ağı', link: 'housing', emoji: '🏠', status: '%85 Dolu' },
+                        { label: 'Yapı Stoğu', link: 'housing', emoji: '🏗️', status: 'Stabil' },
+                        { label: 'Akıllı Ev', link: 'housing', emoji: '🔌', status: 'Online' },
+                        { label: 'Emlak', link: 'market', emoji: '🔑', status: 'Pazar' }
+                    ]}
+                />
 
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', position: 'relative', zIndex: 1 }}>
-                            <div>
-                                <div style={{ fontSize: '11px', color: 'var(--color-text-dim)', letterSpacing: '1px' }}>TOPLAM BAKİYE</div>
-                                <div style={{ fontSize: '42px', fontWeight: 'bold', fontFamily: 'monospace', color: 'white', letterSpacing: '-2px', textShadow: '0 0 20px rgba(255, 215, 0, 0.3)' }}>
-                                    ₺ 14,250<span style={{ fontSize: '24px', color: 'rgba(255,255,255,0.5)' }}>.00</span>
-                                </div>
-                            </div>
-                            <CyberIcon name="wallet" size={40} color="var(--color-secondary)" />
-                        </div>
+                {/* E - ENERJİ */}
+                <BeOneSector
+                    letter="E"
+                    title="ENERJİ"
+                    color="#00F0FF"
+                    onNavigate={onNavigate}
+                    subItems={[
+                        { label: 'Şebeke', emoji: '⚡', status: 'Normal' },
+                        { label: 'Güneş', emoji: '☀️', status: '%112 Verim' },
+                        { label: 'Rüzgar', emoji: '💨', status: 'Aktif' },
+                        { label: 'Tüketim', emoji: '📉', status: 'Düşük' }
+                    ]}
+                />
 
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginTop: '16px', position: 'relative', zIndex: 1 }}>
-                            <MiniStat label="IZM COIN" value="1,240" percent="+4.2%" color="#00F0FF" />
-                            <MiniStat label="GOLD" value="3.5g" percent="+1.1%" color="#FFD700" />
-                        </div>
-                    </div>
-                </SystemModule>
+                {/* O - OPERASYON */}
+                <BeOneSector
+                    letter="O"
+                    title="OPERASYON"
+                    color="#FF0055"
+                    onNavigate={onNavigate}
+                    subItems={[
+                        { label: 'Gıda', link: 'resources', emoji: '🍎', status: 'Yeterli' },
+                        { label: 'Su', link: 'resources', emoji: '💧', status: 'Kritik' },
+                        { label: 'Giyim', link: 'market', emoji: '👕', status: 'Stokta' },
+                        { label: 'Güvenlik', emoji: '🛡️', status: 'Yüksek' }
+                    ]}
+                />
 
-                {/* 2. CORE SYSTEMS (Housing & Logistics) */}
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-                    <TechCard
-                        title="KONUT AĞI"
-                        value="85%"
-                        sub="DOLULUK"
-                        icon="housing"
-                        color="#FACC15"
-                        onClick={() => onNavigate('housing')}
-                    />
-                    <TechCard
-                        title="LOJİSTİK"
-                        value="12"
-                        sub="AKTİF DRONE"
-                        icon="logistics"
-                        color="#39FF14"
-                        onClick={() => onNavigate('logistics')}
-                    />
-                </div>
+                {/* N - NAKLİYAT */}
+                <BeOneSector
+                    letter="N"
+                    title="NAKLİYAT"
+                    color="#a855f7"
+                    onNavigate={onNavigate}
+                    subItems={[
+                        { label: 'Lojistik', link: 'logistics', emoji: '🚚', status: '12 Araç' },
+                        { label: 'Rota', link: 'map', emoji: '🗺️', status: 'Op.' },
+                        { label: 'Kargo', link: 'logistics', emoji: '📦', status: 'Dağıtımda' },
+                        { label: 'Drone', link: 'logistics', emoji: '🚁', status: 'Havada' }
+                    ]}
+                />
 
-                {/* 3. CITY MANAGEMENT (Governance & Operation) */}
-                <SystemModule title="ŞEHİR KONTROL" status="LIVE" accentColor="var(--color-accent)">
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-                        <div onClick={() => onNavigate('governance')} style={{
-                            background: 'rgba(255,255,255,0.03)',
-                            border: '1px solid rgba(255,255,255,0.05)',
-                            padding: '16px', borderRadius: '8px', cursor: 'pointer',
-                            display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px'
-                        }}>
-                            <CyberIcon name="governance" size={32} />
-                            <div style={{ fontWeight: 'bold', fontSize: '14px' }}>MECLİS</div>
-                            <div style={{ fontSize: '10px', color: '#a855f7' }}>● 3 OYLAMA AKTİF</div>
-                        </div>
-                        <div onClick={() => onNavigate('map')} style={{
-                            background: 'rgba(255,255,255,0.03)',
-                            border: '1px solid rgba(255,255,255,0.05)',
-                            padding: '16px', borderRadius: '8px', cursor: 'pointer',
-                            display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px'
-                        }}>
-                            <CyberIcon name="map" size={32} />
-                            <div style={{ fontWeight: 'bold', fontSize: '14px' }}>HARİTA</div>
-                            <div style={{ fontSize: '10px', color: '#00F0FF' }}>● 2 ETKİNLİK</div>
-                        </div>
-                    </div>
-                </SystemModule>
+                {/* E - EKOSİSTEM */}
+                <BeOneSector
+                    letter="E"
+                    title="EKOSİSTEM"
+                    color="#39FF14"
+                    onNavigate={onNavigate}
+                    subItems={[
+                        { label: 'Parklar', link: 'map', emoji: '🌳', status: 'Bakımda' },
+                        { label: 'Hava', emoji: '🍃', status: 'Temiz' },
+                        { label: 'Atık', emoji: '♻️', status: 'İşleniyor' },
+                        { label: 'Tarım', emoji: '🌱', status: 'Mevsimsel' }
+                    ]}
+                />
 
-                {/* 4. TERMINAL FEED */}
-                <div style={{
-                    background: 'black',
-                    border: '1px solid #333',
-                    borderRadius: '8px',
-                    padding: '12px',
-                    fontFamily: 'monospace',
-                    fontSize: '11px',
-                    color: '#00ff00',
-                    height: '100px',
-                    overflow: 'hidden',
-                    position: 'relative'
+            </div>
+
+            {/* SECONDARY MODULES (Wallet & Governance) */}
+            <div style={{ marginTop: '24px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <div onClick={() => onNavigate('wallet')} style={{
+                    background: 'rgba(255,255,255,0.05)', borderRadius: '12px', padding: '16px',
+                    display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', cursor: 'pointer', border: '1px solid rgba(255,255,255,0.1)'
                 }}>
-                    <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '2px', background: 'rgba(0,255,0,0.3)', boxShadow: '0 0 10px #00ff00' }}></div>
-                    <div style={{ opacity: 0.7 }}>
-                        <div>user@cityos:~$ systemctl status grid</div>
-                        <div>● Grid Energy: OPTIMAL (98%)</div>
-                        <div>user@cityos:~$ active_alert --check</div>
-                        <div style={{ color: 'white' }}>Scanning sectors... Done.</div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                            <span style={{ color: '#00F0FF' }}>➜</span> No critical anomalies found.
-                            <span style={{ animation: 'blink 1s infinite' }}>_</span>
-                        </div>
-                    </div>
+                    <CyberIcon name="wallet" size={24} color="#00F0FF" />
+                    <div style={{ fontSize: '12px', color: 'white' }}>VARLIKLARIM</div>
                 </div>
-
+                <div onClick={() => onNavigate('governance')} style={{
+                    background: 'rgba(255,255,255,0.05)', borderRadius: '12px', padding: '16px',
+                    display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', cursor: 'pointer', border: '1px solid rgba(255,255,255,0.1)'
+                }}>
+                    <CyberIcon name="governance" size={24} color="#a855f7" />
+                    <div style={{ fontSize: '12px', color: 'white' }}>MECLİS</div>
+                </div>
             </div>
 
             <style>{`

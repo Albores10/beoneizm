@@ -57,7 +57,7 @@ const Dashboard = ({ onNavigate, onAssetClick, onProfileClick }) => {
                     title="BARINMA"
                     color="#FACC15"
                     onNavigate={onNavigate}
-                    subItems={[
+                    items={[
                         { label: 'Konut Ağı', link: 'housing', emoji: '🏠', status: '%85 Dolu' },
                         { label: 'Yapı Stoğu', link: 'housing', emoji: '🏗️', status: 'Stabil' },
                         { label: 'Akıllı Ev', link: 'housing', emoji: '🔌', status: 'Online' },
@@ -71,7 +71,7 @@ const Dashboard = ({ onNavigate, onAssetClick, onProfileClick }) => {
                     title="ENERJİ"
                     color="#00F0FF"
                     onNavigate={onNavigate}
-                    subItems={[
+                    items={[
                         { label: 'Şebeke', emoji: '⚡', status: 'Normal' },
                         { label: 'Güneş', emoji: '☀️', status: '%112 Verim' },
                         { label: 'Rüzgar', emoji: '💨', status: 'Aktif' },
@@ -85,7 +85,7 @@ const Dashboard = ({ onNavigate, onAssetClick, onProfileClick }) => {
                     title="OPERASYON"
                     color="#FF0055"
                     onNavigate={onNavigate}
-                    subItems={[
+                    items={[
                         { label: 'Gıda', link: 'operation', emoji: '🍎', status: 'Yeterli' },
                         { label: 'Su', link: 'operation', emoji: '💧', status: 'Kritik' },
                         { label: 'Giyim', link: 'operation', emoji: '👕', status: 'Stokta' },
@@ -99,7 +99,7 @@ const Dashboard = ({ onNavigate, onAssetClick, onProfileClick }) => {
                     title="NAKLİYAT"
                     color="#a855f7"
                     onNavigate={onNavigate}
-                    subItems={[
+                    items={[
                         { label: 'Lojistik', link: 'logistics', emoji: '🚚', status: '12 Araç' },
                         { label: 'Rota', link: 'map', emoji: '🗺️', status: 'Op.' },
                         { label: 'Kargo', link: 'logistics', emoji: '📦', status: 'Dağıtımda' },

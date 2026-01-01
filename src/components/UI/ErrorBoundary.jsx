@@ -33,7 +33,8 @@ class ErrorBoundary extends React.Component {
                     <p style={{ color: 'white', marginBottom: '20px' }}>
                         Bir hata oluştu ve bileşen yüklenemedi. Lütfen sayfayı yenileyin.
                     </p>
-                    <details style={{ whiteSpace: 'pre-wrap', background: 'rgba(0,0,0,0.5)', padding: '10px', borderRadius: '8px' }}>
+                    <details open style={{ whiteSpace: 'pre-wrap', background: 'rgba(0,0,0,0.5)', padding: '10px', borderRadius: '8px' }}>
+                        <summary style={{ marginBottom: '10px', cursor: 'pointer' }}>Hata Ayrıntıları (Tıkla)</summary>
                         {this.state.error && this.state.error.toString()}
                         <br />
                         {this.state.errorInfo && this.state.errorInfo.componentStack}

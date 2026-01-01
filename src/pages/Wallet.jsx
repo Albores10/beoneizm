@@ -1,11 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useToast } from '../components/UI/ToastManager';
+
+const TxItem = ({ title, amount, date, icon, isIncome }) => (
+    <div style={{ padding: '16px', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', gap: '16px' }}>
+        <div style={{ fontSize: '20px' }}>{icon}</div>
+        <div style={{ flex: 1 }}>
+            <div style={{ fontWeight: 'bold', fontSize: '14px' }}>{title}</div>
+            <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)' }}>{date}</div>
+        </div>
+        <div style={{ fontWeight: 'bold', color: isIncome ? '#4ade80' : 'white' }}>{amount}</div>
+    </div>
+);
 
 const Wallet = () => {
     const { addToast } = useToast();
     const [balance, setBalance] = useState(14500);
     const [showSendModal, setShowSendModal] = useState(false);
     const [sendAmount, setSendAmount] = useState('');
+
+    useEffect(() => {
+        console.log("Wallet Component Mounted");
+    }, []);
 
     const handleSend = () => {
         const val = parseInt(sendAmount);
@@ -113,16 +128,5 @@ const Wallet = () => {
         </div>
     );
 };
-
-const TxItem = ({ title, amount, date, icon, isIncome }) => (
-    <div style={{ padding: '16px', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', gap: '16px' }}>
-        <div style={{ fontSize: '20px' }}>{icon}</div>
-        <div style={{ flex: 1 }}>
-            <div style={{ fontWeight: 'bold', fontSize: '14px' }}>{title}</div>
-            <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)' }}>{date}</div>
-        </div>
-        <div style={{ fontWeight: 'bold', color: isIncome ? '#4ade80' : 'white' }}>{amount}</div>
-    </div>
-);
 
 export default Wallet;

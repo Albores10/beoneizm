@@ -21,6 +21,7 @@ import { EmergencyProvider, useEmergency } from './context/EmergencyContext'
 import LoginScreen from './pages/LoginScreen'
 import TutorialOverlay from './components/UI/TutorialOverlay'
 import MenuOverlay from './components/UI/MenuOverlay'
+import ResourcesModal from './components/UI/ResourcesModal'
 
 import ErrorBoundary from './components/UI/ErrorBoundary'
 
@@ -31,6 +32,7 @@ const AppContent = () => {
   const [mode, setMode] = useState('anime');
   const [selectedAsset, setSelectedAsset] = useState(null);
   const [showProfile, setShowProfile] = useState(false);
+  const [showResources, setShowResources] = useState(false);
 
   // Hook for Emergency Context
   const { isEmergency } = useEmergency();
@@ -108,6 +110,7 @@ const AppContent = () => {
 
         {selectedAsset && <AssetDetail assetId={selectedAsset.id} onClose={() => setSelectedAsset(null)} />}
         {showProfile && <ProfileModal onClose={() => setShowProfile(false)} />}
+        {showResources && <ResourcesModal onClose={() => setShowResources(false)} />}
 
         <AIAssistant isOpen={activeTab === 'quick_action'} onClose={() => setActiveTab('dashboard')} />
 
@@ -117,7 +120,10 @@ const AppContent = () => {
             onNavigate={(page) => {
               if (page === 'profile') {
                 setShowProfile(true);
-                setActiveTab('dashboard'); // Return to background view
+                setActiveTab('dashboard');
+              } else if (page === 'resources') {
+                setShowResources(true);
+                setActiveTab('dashboard');
               } else {
                 setActiveTab(page);
               }

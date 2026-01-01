@@ -1,25 +1,32 @@
-import React from 'react';
+import { CyberIcon } from './CyberIcons';
 
 const MenuOverlay = ({ onClose, onNavigate }) => {
     const menuItems = [
-        { id: 'dashboard', label: 'KOMUTA MERKEZİ', icon: '🏠' },
-        { id: 'profile', label: 'KİMLİK KARTI', icon: '🆔' },
-        { id: 'wallet', label: 'CÜZDAN & VARLIK', icon: '💳' },
-        { id: 'map', label: 'CANLI HARİTA', icon: '🗺️' },
-        { id: 'housing', label: 'KONUT PROJELERİ', icon: '🏙️' },
-        { id: 'governance', label: 'MECLİS & OYLAMA', icon: '⚖️' },
-        { id: 'logistics', label: 'LOJİSTİK AĞI', icon: '🚁' },
-        { id: 'market', label: 'PAZAR YERİ', icon: '🛍️' },
-        { id: 'transparency', label: 'ŞEFFAFLIK RAPORU', icon: '📊' },
+        { id: 'dashboard', label: 'KOMUTA MERKEZİ', icon: <CyberIcon name="dashboard" size={32} /> },
+        { id: 'profile', label: 'KİMLİK KARTI', icon: <CyberIcon name="profile" size={32} /> },
+        { id: 'wallet', label: 'CÜZDAN & VARLIK', icon: <CyberIcon name="wallet" size={32} /> },
+        { id: 'map', label: 'CANLI HARİTA', icon: <CyberIcon name="map" size={32} /> },
+        { id: 'housing', label: 'KONUT PROJELERİ', icon: <CyberIcon name="housing" size={32} /> },
+        { id: 'governance', label: 'MECLİS & OYLAMA', icon: <CyberIcon name="governance" size={32} /> },
+        { id: 'logistics', label: 'LOJİSTİK AĞI', icon: <CyberIcon name="logistics" size={32} /> },
+        { id: 'market', label: 'PAZAR YERİ', icon: <CyberIcon name="market" size={32} /> },
+        { id: 'transparency', label: 'ŞEFFAFLIK RAPORU', icon: <CyberIcon name="transparency" size={32} /> },
+        { id: 'resources', label: 'REHBER & DÖKÜMAN', icon: <CyberIcon name="guide" size={32} /> }, // New Item
     ];
 
     const handleItemClick = (id) => {
         if (id === 'profile') {
-            onNavigate('profile'); // Special case for profile modal
+            onNavigate('profile');
+        } else if (id === 'resources') {
+            onNavigate('resources'); // New Case
         } else {
             onNavigate(id);
         }
-        // onClose(); // REMOVED: onNavigate changes activeTab, which unmounts this component. Calling onClose resets tab to dashboard!
+        // onClose removed for normal nav, but for overlay navs (profile/resources) we stay or close?
+        // App.jsx controls this. If onNavigate sets activeTab != menu, this unmounts.
+        // For 'resources' or 'profile', we might want to CLOSE the menu too. 
+        // IF 'profile' or 'resources' are MODALS, we need to close menu to see them?
+        // Yes, App.jsx handles this by switching activeTab to 'dashboard' usually for modals.
     };
 
     return (
@@ -47,9 +54,17 @@ const MenuOverlay = ({ onClose, onNavigate }) => {
                         display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px',
                         cursor: 'pointer',
                         transition: 'all 0.2s',
-                        ':hover': { borderColor: 'var(--color-primary)', background: 'rgba(0, 240, 255, 0.05)' }
-                    }}>
-                        <div style={{ fontSize: '32px' }}>{item.icon}</div>
+                    }}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.borderColor = 'var(--color-primary)';
+                            e.currentTarget.style.background = 'rgba(0, 240, 255, 0.05)';
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)';
+                            e.currentTarget.style.background = 'rgba(255,255,255,0.03)';
+                        }}
+                    >
+                        <div style={{ color: 'var(--color-secondary)' }}>{item.icon}</div>
                         <div style={{ fontSize: '10px', textAlign: 'center', fontWeight: 'bold', color: 'white' }}>{item.label}</div>
                     </div>
                 ))}

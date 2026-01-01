@@ -97,7 +97,7 @@ const BeOneSector = ({ letter, title, subItems, items, color, icon, onNavigate }
 
             {/* Decorative Corner */ }
     {
-        expanded && (
+        isActive && (
             <div style={{
                 position: 'absolute', bottom: 0, right: 0,
                 width: '10px', height: '10px',

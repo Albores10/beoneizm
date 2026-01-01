@@ -20,6 +20,7 @@ import AIAssistant from './components/UI/AIAssistant'
 import { EmergencyProvider, useEmergency } from './context/EmergencyContext'
 import LoginScreen from './pages/LoginScreen'
 import TutorialOverlay from './components/UI/TutorialOverlay'
+import MenuOverlay from './components/UI/MenuOverlay'
 
 import ErrorBoundary from './components/UI/ErrorBoundary'
 
@@ -103,6 +104,20 @@ const AppContent = () => {
         {showProfile && <ProfileModal onClose={() => setShowProfile(false)} />}
 
         <AIAssistant isOpen={activeTab === 'quick_action'} onClose={() => setActiveTab('dashboard')} />
+
+        {activeTab === 'menu' && (
+          <MenuOverlay
+            onClose={() => setActiveTab('dashboard')}
+            onNavigate={(page) => {
+              if (page === 'profile') {
+                setShowProfile(true);
+                setActiveTab('dashboard'); // Return to background view
+              } else {
+                setActiveTab(page);
+              }
+            }}
+          />
+        )}
       </div>
 
       <BottomNav activeTab={activeTab} onTabChange={setActiveTab} />

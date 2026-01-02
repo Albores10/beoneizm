@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useChat } from 'ai/react';
+import { useChat } from '@ai-sdk/react';
 
 const AIAssistant = ({ isOpen: externalIsOpen, onClose }) => {
     const [internalIsOpen, setInternalIsOpen] = useState(false);

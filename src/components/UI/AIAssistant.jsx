@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useChat } from 'ai/react';
 
 const AIAssistant = ({ isOpen: externalIsOpen, onClose }) => {
     const [internalIsOpen, setInternalIsOpen] = useState(false);
@@ -23,10 +24,19 @@ const AIAssistant = ({ isOpen: externalIsOpen, onClose }) => {
     };
 
     const isOpen = internalIsOpen;
-    const [messages, setMessages] = useState([
-        { id: 1, text: "SİSTEM HAZIR. PİLOT, NASIL YARDIMCI OLABİLİRİM?", sender: 'bot' }
-    ]);
-    const [inputValue, setInputValue] = useState("");
+
+    // Vercel AI SDK Check
+    const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat({
+        api: '/api/chat',
+        initialMessages: [
+            { id: 'welcome', role: 'system', content: 'SİSTEM HAZIR. PİLOT, NASIL YARDIMCI OLABİLİRİM?' }
+        ],
+        onError: (err) => {
+            console.error("AI Chat Error:", err);
+            // Fallback for demo if API fails
+        }
+    });
+
     const messagesEndRef = useRef(null);
 
     const scrollToBottom = () => {
@@ -37,25 +47,6 @@ const AIAssistant = ({ isOpen: externalIsOpen, onClose }) => {
         scrollToBottom();
     }, [messages, isOpen]);
 
-    const handleSend = () => {
-        if (!inputValue.trim()) return;
-
-        // User Message
-        const userMsg = { id: Date.now(), text: inputValue, sender: 'user' };
-        setMessages(prev => [...prev, userMsg]);
-        setInputValue("");
-
-        // Simulated AI Response
-        setTimeout(() => {
-            let botText = "KOMUT ALGILANDI. İŞLENİYOR...";
-            if (inputValue.toLowerCase().includes("hava")) botText = "SENSOR RAPORU: İZMİR LOKASYONU 24°C. GÖRÜŞ AÇIK.";
-            if (inputValue.toLowerCase().includes("su")) botText = "BARAJ SEVİYESİ KRİTİK (%45). SU TASARRUFU MODU AKTİF.";
-            if (inputValue.toLowerCase().includes("oy")) botText = "MECLİS GÜNDEMİ: 3 BEKLEYEN OYLAMA MEVCUT.";
-
-            setMessages(prev => [...prev, { id: Date.now() + 1, text: botText, sender: 'bot' }]);
-        }, 1000);
-    };
-
     return (
         <>
             {/* FLOATING BUTTON REMOVED - Controlled by Header */}
@@ -64,11 +55,11 @@ const AIAssistant = ({ isOpen: externalIsOpen, onClose }) => {
             {isOpen && (
                 <div style={{
                     position: 'fixed',
-                    top: '60px', // Positioned relative to Top Header now
+                    top: '60px',
                     right: '20px',
                     width: '320px',
                     height: '400px',
-                    background: 'rgba(2, 6, 23, 0.95)', // Deep Navy
+                    background: 'rgba(2, 6, 23, 0.95)',
                     borderRadius: '16px',
                     border: '1px solid var(--color-primary)',
                     boxShadow: '0 20px 50px rgba(0,0,0,0.8)',
@@ -96,52 +87,55 @@ const AIAssistant = ({ isOpen: externalIsOpen, onClose }) => {
 
                     {/* Messages */}
                     <div style={{ flex: 1, padding: '16px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                        {messages.map(msg => (
-                            <div key={msg.id} style={{
-                                alignSelf: msg.sender === 'user' ? 'flex-end' : 'flex-start',
+                        {messages.map(m => (
+                            <div key={m.id} style={{
+                                alignSelf: m.role === 'user' ? 'flex-end' : 'flex-start',
                                 maxWidth: '85%',
                             }}>
-                                <div style={{ fontSize: '10px', color: 'var(--color-text-dim)', marginBottom: '4px', textAlign: msg.sender === 'user' ? 'right' : 'left' }}>
-                                    {msg.sender === 'user' ? 'PİLOT' : 'SİSTEM'}
+                                <div style={{ fontSize: '10px', color: 'var(--color-text-dim)', marginBottom: '4px', textAlign: m.role === 'user' ? 'right' : 'left' }}>
+                                    {m.role === 'user' ? 'PİLOT' : 'SİSTEM'}
                                 </div>
                                 <div style={{
                                     padding: '12px',
                                     borderRadius: '8px',
-                                    background: msg.sender === 'user' ? 'var(--color-primary)' : 'rgba(255,255,255,0.05)',
-                                    color: msg.sender === 'user' ? 'black' : 'var(--color-primary)',
-                                    border: msg.sender === 'user' ? 'none' : '1px solid rgba(0, 240, 255, 0.2)',
+                                    background: m.role === 'user' ? 'var(--color-primary)' : 'rgba(255,255,255,0.05)',
+                                    color: m.role === 'user' ? 'black' : 'var(--color-primary)',
+                                    border: m.role === 'user' ? 'none' : '1px solid rgba(0, 240, 255, 0.2)',
                                     fontFamily: 'monospace',
                                     fontSize: '12px',
                                     lineHeight: '1.4'
                                 }}>
-                                    {msg.sender === 'bot' && <span style={{ marginRight: '8px' }}>▶</span>}
-                                    {msg.text}
+                                    {m.role !== 'user' && <span style={{ marginRight: '8px' }}>▶</span>}
+                                    {m.content}
                                 </div>
                             </div>
                         ))}
+                        {isLoading && (
+                            <div style={{ alignSelf: 'flex-start', color: 'var(--color-primary)', fontSize: '10px', animation: 'blink 1s infinite' }}>
+                                VERİ İŞLENİYOR...
+                            </div>
+                        )}
                         <div ref={messagesEndRef} />
                     </div>
 
                     {/* Input */}
-                    <div style={{ padding: '16px', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+                    <form onSubmit={handleSubmit} style={{ padding: '16px', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
                         <div style={{ display: 'flex', gap: '8px', background: 'rgba(0,0,0,0.3)', padding: '8px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)' }}>
                             <span style={{ color: 'var(--color-primary)', paddingTop: '10px' }}>{'>'}</span>
                             <input
-                                type="text"
-                                value={inputValue}
-                                onChange={(e) => setInputValue(e.target.value)}
-                                onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+                                value={input}
+                                onChange={handleInputChange}
                                 placeholder="Komut giriniz..."
                                 style={{
                                     flex: 1, background: 'transparent', border: 'none', color: 'white',
                                     fontFamily: 'monospace', outline: 'none', fontSize: '14px'
                                 }}
                             />
-                            <button onClick={handleSend} style={{ background: 'var(--color-primary)', border: 'none', borderRadius: '4px', padding: '0 12px', fontWeight: 'bold', cursor: 'pointer' }}>
+                            <button type="submit" disabled={isLoading} style={{ background: 'var(--color-primary)', border: 'none', borderRadius: '4px', padding: '0 12px', fontWeight: 'bold', cursor: 'pointer', opacity: isLoading ? 0.5 : 1 }}>
                                 SEND
                             </button>
                         </div>
-                    </div>
+                    </form>
                 </div>
             )}
             <style>{`

@@ -1,8 +1,10 @@
 import { useState, useEffect, Suspense, lazy } from 'react'
 import BottomNav from './components/Layout/BottomNav'
 
+// Static Load for Main Page (Performance)
+import Dashboard from './pages/Dashboard';
+
 // Lazy Load Pages
-const Dashboard = lazy(() => import('./pages/Dashboard'));
 const Map = lazy(() => import('./pages/Map'));
 const Housing = lazy(() => import('./pages/Housing'));
 const Governance = lazy(() => import('./pages/Governance'));
